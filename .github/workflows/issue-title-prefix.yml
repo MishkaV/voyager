@@ -24,7 +24,7 @@ jobs:
               return;
             }
             const issueNumber = issue.number; // автоинкрементный номер GitHub issue
-            const newTitle = `VOYAGER-${issueNumber}/ ${originalTitle}`;
+            const newTitle = `VOYAGER-${issueNumber}: ${originalTitle}`;
             await github.rest.issues.update({
               owner: context.repo.owner,
               repo: context.repo.repo,

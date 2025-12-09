@@ -1,0 +1,33 @@
+name: Add VOYAGER prefix to issue titles
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  add-prefix:
+    runs-on: ubuntu-latest
+
+    permissions:
+      issues: write
+
+    steps:
+      - name: Check and update issue title
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const issue = context.payload.issue;
+            const originalTitle = issue.title;
+            // Skip, if already have prefix
+            if (originalTitle.startsWith("VOYAGER-")) {
+              return;
+            }
+            const issueNumber = issue.number; // автоинкрементный номер GitHub issue
+            const newTitle = `VOYAGER-${issueNumber}/ ${originalTitle}`;
+            await github.rest.issues.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issue.number,
+              title: newTitle,
+            });

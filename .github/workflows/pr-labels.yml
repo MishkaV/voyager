@@ -2,12 +2,18 @@ name: Check labels from linked issues
 
 on:
   pull_request:
-    types: [opened]
+    # TODO
+#    types: [ opened ]
 
 jobs:
   copy-labels:
     runs-on: ubuntu-latest
     name: Copy labels from linked issues
+
+    permissions:
+      issues: read
+      pull-requests: write
+
     steps:
       - name: copy-labels
         uses: michalvankodev/copy-issue-labels@v1.3.0

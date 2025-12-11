@@ -13,7 +13,7 @@ plugins {
 
 tasks.register<Copy>("installGitHooks") {
     val gitHooksFileNames = listOf(
-        "pre-push.sh",
+        "pre-push",
     )
 
     group = "build setup"

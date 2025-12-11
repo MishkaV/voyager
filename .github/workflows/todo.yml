@@ -1,0 +1,27 @@
+name: Check TODO in project
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  check_todo:
+    name: Check TODO in project
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+      issues: write
+
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: TODO to Issue
+        uses: alstr/todo-to-issue-action@v5
+        with:
+          CLOSE_ISSUES: true
+          IDENTIFIERS: '[{"name": "TODO", "labels": ["tech-debt"]}]'

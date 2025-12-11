@@ -1,0 +1,71 @@
+name: Auto-assign latest milestone to new issues
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  assign-milestone:
+    runs-on: ubuntu-latest
+
+    permissions:
+      issues: write
+
+    steps:
+      - name: Assign latest milestone to new issue
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const issue = context.payload.issue;
+
+            // Skip if issue already has a milestone
+            if (issue.milestone) {
+              console.log(`Issue #${issue.number} already has milestone: ${issue.milestone.title}`);
+              return;
+            }
+
+            try {
+              // Get all milestones for the repository
+              const { data: milestones } = await github.rest.issues.listMilestones({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                state: 'open',
+                sort: 'due_on',
+                direction: 'desc'
+              });
+
+              if (milestones.length === 0) {
+                console.log('No open milestones found in the repository');
+                return;
+              }
+
+              // Find the latest milestone (most recent due date, or most recently created)
+              const latestMilestone = milestones.reduce((latest, current) => {
+                // If both have due dates, compare them
+                if (latest.due_on && current.due_on) {
+                  return new Date(current.due_on) > new Date(latest.due_on) ? current : latest;
+                }
+                // If only one has due date, prefer it
+                if (current.due_on && !latest.due_on) return current;
+                if (latest.due_on && !current.due_on) return latest;
+                // If neither has due date, compare creation dates
+                return new Date(current.created_at) > new Date(latest.created_at) ? current : latest;
+              });
+
+              console.log(`Assigning milestone "${latestMilestone.title}" to issue #${issue.number}`);
+
+              // Assign the latest milestone to the issue
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issue.number,
+                milestone: latestMilestone.number
+              });
+
+              console.log(`Successfully assigned milestone "${latestMilestone.title}" to issue #${issue.number}`);
+
+            } catch (error) {
+              console.error('Error assigning milestone:', error.message);
+              // Don't fail the workflow if milestone assignment fails
+            }

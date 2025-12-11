@@ -1,0 +1,48 @@
+name: Add related issue to PR description
+
+on:
+  pull_request:
+    types: [opened]
+
+jobs:
+  add-related-issue-to-pr-description:
+    name: Add related issue to PR description
+    runs-on: ubuntu-latest
+
+    permissions:
+      pull-requests: write
+
+    env:
+      PREFIX: 'VOYAGER'
+
+    steps:
+      - name: Extract issue number from branch and update PR description
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const pr = context.payload.pull_request;
+            const branch = pr.head.ref;
+            const prefix = "${{ env.PREFIX }}";
+            // Match pattern: <prefix>-<number>/<rest>
+            // Escape prefix for regex
+            const escPrefix = prefix.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            const regex = new RegExp(`^${escPrefix}-(\\d+)\\/.*`);
+            const match = branch.match(regex);
+            if (match) {
+              const issueNumber = match[1];
+              const relatedLine = `Resolve #${issueNumber}`;
+              let body = pr.body || '';
+              // Only add if not already present
+              if (!body.includes(relatedLine)) {
+                if (body.length > 0 && !body.endsWith('\n')) {
+                  body += '\n';
+                }
+                body += `${relatedLine}\n`;
+                await github.rest.pulls.update({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  pull_number: pr.number,
+                  body: body
+                });
+              }
+            }

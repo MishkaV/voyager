@@ -1,61 +1,38 @@
 import com.android.build.api.dsl.ApkSigningConfig
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.io.FileInputStream
 import java.util.Properties
 
 plugins {
-    alias(libs.plugins.kotlinMultiplatform)
-    alias(libs.plugins.androidApplication)
-    alias(libs.plugins.composeMultiplatform)
-    alias(libs.plugins.composeCompiler)
-    alias(libs.plugins.composeHotReload)
+    alias(libs.plugins.voyager.application.multiplatform)
+    alias(libs.plugins.voyager.coil)
+    alias(libs.plugins.voyager.secrets)
+    alias(libs.plugins.jetbrains.compose)
+    alias(libs.plugins.jetbrains.compose.compiler)
+    alias(libs.plugins.jetbrains.compose.hotreload)
 }
 
 kotlin {
-    androidTarget {
-        compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_11)
-        }
-    }
-    
-    jvm()
-    
     sourceSets {
         androidMain.dependencies {
-            implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
         }
         commonMain.dependencies {
-            implementation(compose.runtime)
-            implementation(compose.foundation)
             implementation(compose.material3)
-            implementation(compose.ui)
-            implementation(compose.components.resources)
-            implementation(compose.components.uiToolingPreview)
-            implementation(libs.androidx.lifecycle.viewmodelCompose)
-            implementation(libs.androidx.lifecycle.runtimeCompose)
-        }
-        commonTest.dependencies {
-            implementation(libs.kotlin.test)
         }
         jvmMain.dependencies {
             implementation(compose.desktop.currentOs)
-            implementation(libs.kotlinx.coroutinesSwing)
+            implementation(libs.kotlinx.coroutines.swing)
         }
     }
 }
 
 android {
     namespace = "io.mishka.voyager"
-    compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {
         applicationId = "io.mishka.voyager"
-        minSdk = libs.versions.android.minSdk.get().toInt()
-        targetSdk = libs.versions.android.targetSdk.get().toInt()
-        versionCode = 1
-        versionName = "1.0"
+        androidResources.localeFilters += "en"
     }
     packaging {
         resources {
@@ -64,13 +41,25 @@ android {
     }
     buildTypes {
         signingConfigs {
-            newSignConfig("debug_sign")
-            newSignConfig("release_sign")
+            newSignConfig("sign")
         }
     }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+    buildTypes {
+        debug {
+            isDebuggable = true
+            isMinifyEnabled = false
+            isShrinkResources = false
+            signingConfig = signingConfigs.getByName("sign")
+        }
+        release {
+            isDebuggable = false
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+            )
+            signingConfig = signingConfigs.getByName("sign")
+        }
     }
 }
 

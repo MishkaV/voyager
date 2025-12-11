@@ -2,8 +2,7 @@ name: Check labels from linked issues
 
 on:
   pull_request:
-    # TODO
-#    types: [ opened ]
+    types: [ opened ]
 
 jobs:
   copy-labels:

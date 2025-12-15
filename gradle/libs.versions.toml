@@ -26,6 +26,8 @@ kermit = "2.0.8"
 ktor = "3.3.3"
 ksp = "2.3.3"
 
+metro = "0.8.2"
+
 room = "2.8.4"
 
 sqlite = "2.6.2"
@@ -57,7 +59,6 @@ gradlePlugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", ve
 gradlePlugin-ksp = { module = "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
 gradlePlugin-room = { module = "androidx.room:room-gradle-plugin", version.ref = "room" }
 
-
 jetbrains-viewmodel = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "jetbrains-viewmodel" }
 
 ktor-engine-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
@@ -67,6 +68,9 @@ kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutine
 kotlinx-coroutines-swing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-swing", version.ref = "kotlinx-coroutines" }
 kotlinx-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
 kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
+
+metro-android = { module = "dev.zacsweers.metro:metrox-android", version.ref = "metro" }
+metro-viewmodel-compose = { module = "dev.zacsweers.metro:metrox-viewmodel-compose", version.ref = "metro" }
 
 sqlite-bundled = { module = "androidx.sqlite:sqlite-bundled", version.ref = "sqlite" }
 settings = { module = "com.russhwolf:multiplatform-settings", version.ref = "settings" }
@@ -85,6 +89,8 @@ detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 jetbrains-compose = { id = "org.jetbrains.compose", version.ref = "jetbrains-compose" }
 jetbrains-compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 jetbrains-compose-hotreload = { id = "org.jetbrains.compose.hot-reload", version.ref = "jetbrains-compose-hotreload" }
+
+metro = { id = "dev.zacsweers.metro", version.ref = "metro" }
 
 room = { id = "androidx.room", version.ref = "room" }
 

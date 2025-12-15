@@ -10,15 +10,18 @@ plugins {
     alias(libs.plugins.jetbrains.compose)
     alias(libs.plugins.jetbrains.compose.compiler)
     alias(libs.plugins.jetbrains.compose.hotreload)
+    alias(libs.plugins.metro)
 }
 
 kotlin {
     sourceSets {
         androidMain.dependencies {
             implementation(libs.androidx.activity.compose)
+            implementation(libs.metro.android)
         }
         commonMain.dependencies {
             implementation(compose.material3)
+            implementation(libs.metro.viewmodel.compose)
         }
         jvmMain.dependencies {
             implementation(compose.desktop.currentOs)

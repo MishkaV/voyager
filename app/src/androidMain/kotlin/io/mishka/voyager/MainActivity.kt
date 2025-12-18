@@ -5,26 +5,36 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import com.arkivanov.decompose.defaultComponentContext
+import com.arkivanov.essenty.backhandler.BackHandler
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesIntoMap
 import dev.zacsweers.metro.Inject
 import dev.zacsweers.metro.binding
 import dev.zacsweers.metrox.android.ActivityKey
-import dev.zacsweers.metrox.viewmodel.MetroViewModelFactory
+import io.mishkav.voyager.features.navigation.api.RootComponent
+import io.mishkav.voyager.features.navigation.impl.ui.RootComposePoint
 
 @ContributesIntoMap(AppScope::class, binding<Activity>())
 @ActivityKey(MainActivity::class)
 @Inject
 class MainActivity(
-    private val metroVmf: MetroViewModelFactory
+    private val rootComponentFactory: RootComponent.Factory
 ) : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
 
+        val root = rootComponentFactory.create(
+            componentContext = defaultComponentContext(),
+            backHandler = BackHandler(onBackPressedDispatcher),
+        )
+
         setContent {
-            App()
+            RootComposePoint(
+                root = root,
+            )
         }
     }
 }

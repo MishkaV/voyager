@@ -18,9 +18,6 @@ class CoilConventionPlugin : Plugin<Project> {
                     implementation(libs.findLibrary("coil.compose").get())
                     implementation(libs.findLibrary("coil.network.ktor3").get())
                 }
-                sourceSets.nativeMain.dependencies {
-                    implementation(libs.findLibrary("ktor.engine.darwin").get())
-                }
             }
         }
     }

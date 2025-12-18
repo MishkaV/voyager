@@ -33,4 +33,20 @@ plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
 }
 
-include(":app")
+
+include(
+    // Entry
+    ":app",
+
+    // Core
+    ":core:ui:decompose",
+    ":core:ui:lifecycle",
+    ":core:ui:theme",
+    ":core:ui:uikit",
+
+    // Features
+    ":features:navigation:api",
+    ":features:navigation:impl",
+)
+include(":intro")
+project(":intro").projectDir = settingsDir.resolve("features/intro")

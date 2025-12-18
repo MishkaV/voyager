@@ -1,0 +1,80 @@
+requiredParams:
+  name: Feature Module
+  description: Creates API + IMPL modules for a feature with Decompose, Metro DI, ViewModel, and Factory pattern
+
+predefinedFeatures:
+  - enableModuleCreationParams:
+      defaultPackageNamePrefix: io.mishka.voyager
+
+widgets:
+  - booleanParameter:
+      id: isMultiScreenNavigation
+      name: Use multi screen navigation?
+      help: Enable if this feature needs internal navigation between multiple screens
+      default: false
+  - booleanParameter:
+      id: needTest
+      name: Add Test Dependencies
+      help: Include testing dependencies and sample test files
+      default: true
+
+recipe:
+  - mkDirs:
+    - api:
+        - src:
+            - commonMain:
+                - kotlin:
+                    - io:
+                        - mishka:
+                            - voyager:
+                                - ${__moduleName}:
+                                    - api
+    - impl:
+        - src:
+            - commonMain:
+                - kotlin:
+                    - io:
+                        - mishka:
+                            - voyager:
+                                - ${__moduleName}:
+                                    - impl:
+                                        - api
+
+  - instantiate:
+      from: root/api/build.gradle.kts.ftl
+      to: api/build.gradle.kts
+
+  - instantiate:
+      from: root/api/.gitignore.ftl
+      to: api/.gitignore
+
+  - instantiate:
+      from: root/api/src/app_package/Component.kt.ftl
+      to: api/src/commonMain/kotlin/io/mishka/voyager/${__moduleName}/api/${__formattedModuleName}Component.kt
+
+  - instantiate:
+      from: root/impl/build.gradle.kts.ftl
+      to: impl/build.gradle.kts
+
+  - instantiate:
+      from: root/impl/.gitignore.ftl
+      to: impl/.gitignore
+
+  - instantiate:
+      from: root/impl/src/app_package/api/ComponentImpl.kt.ftl
+      to: impl/src/commonMain/kotlin/io/mishka/voyager/${__moduleName}/impl/api/${__formattedModuleName}ComponentImpl.kt
+
+  - instantiate:
+      from: root/impl/src/app_package/FeatureViewModel.kt.ftl
+      to: impl/src/commonMain/kotlin/io/mishka/voyager/${__moduleName}/impl/${__formattedModuleName}ViewModel.kt
+
+  - instantiate:
+      from: root/impl/src/app_package/FeatureScreen.kt.ftl
+      to: impl/src/commonMain/kotlin/io/mishka/voyager/${__moduleName}/impl/${__formattedModuleName}Screen.kt
+
+  - predicate:
+      validIf: ${isMultiScreenNavigation}
+      commands:
+        - instantiate:
+            from: root/api/src/app_package/model/Config.kt.ftl
+            to: api/src/commonMain/kotlin/io/mishka/voyager/${__moduleName}/api/model/${__formattedModuleName}Config.kt

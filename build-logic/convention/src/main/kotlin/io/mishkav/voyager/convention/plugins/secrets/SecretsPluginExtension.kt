@@ -3,7 +3,7 @@ package io.mishkav.voyager.convention.plugins.secrets
 open class SecretsPluginExtension {
     var propertiesFileName: String = defaultPropertiesFile
 
-    var useAndroidNameSpaceAsPackage: Boolean = true
+    var useNameSpaceAsPackage: Boolean = true
 
     companion object {
         const val defaultPropertiesFile = "secrets.properties"

@@ -1,9 +1,9 @@
-import io.mishkav.voyager.convention.extensions.androidProject
 import io.mishkav.voyager.convention.extensions.defaultConfigInject
 import io.mishkav.voyager.convention.extensions.loadPropertiesFile
 import io.mishkav.voyager.convention.plugins.secrets.SecretsPluginExtension
 import com.codingfeline.buildkonfig.gradle.BuildKonfigExtension
-import com.google.devtools.ksp.gradle.KspAATask
+import io.mishkav.voyager.convention.extensions.androidProject
+import io.mishkav.voyager.convention.extensions.kmpAndroidLibraryProject
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
@@ -28,16 +28,14 @@ class SecretsConventionPlugin : Plugin<Project> {
                 generateConfigKey(
                     project = target,
                     extension = this,
-                    defaultProperties = defaultProperties
+                    defaultProperties = defaultProperties,
                 )
             }
 
-            if (extension.useAndroidNameSpaceAsPackage) {
+            if (extension.useNameSpaceAsPackage) {
                 project.afterEvaluate {
                     extensions.configure<BuildKonfigExtension> {
-                        androidProject()?.let { androidProject ->
-                            packageName = androidProject.namespace
-                        }
+                        packageName = kmpAndroidLibraryProject()?.namespace ?: androidProject()?.namespace
                     }
                 }
             }

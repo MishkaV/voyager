@@ -1,0 +1,65 @@
+requiredParams:
+  name: Simple Api Impl Module
+  description: Creates API + IMPL modules for a simple component
+
+predefinedFeatures:
+  - enableModuleCreationParams:
+      defaultPackageNamePrefix: io.mishka.voyager
+
+widgets:
+  - booleanParameter:
+      id: needDI
+      name: Add Metro DI
+      help: Include Metro DI annotations
+      default: true
+
+  - booleanParameter:
+      id: needTest
+      name: Add Test Dependencies
+      help: Include testing dependencies
+      default: true
+
+recipe:
+  - mkDirs:
+    - api:
+        - src:
+            - commonMain:
+                - kotlin:
+                    - io:
+                        - mishka:
+                            - voyager:
+                                - ${__moduleName}:
+                                    - api
+    - impl:
+        - src:
+            - commonMain:
+                - kotlin:
+                    - io:
+                        - mishka:
+                            - voyager:
+                                - ${__moduleName}:
+                                    - impl
+
+  - instantiate:
+      from: root/api/build.gradle.kts.ftl
+      to: api/build.gradle.kts
+
+  - instantiate:
+      from: root/api/.gitignore.ftl
+      to: api/.gitignore
+
+  - instantiate:
+      from: root/api/src/app_package/Api.kt.ftl
+      to: api/src/commonMain/kotlin/io/mishka/voyager/${__moduleName}/api/I${__formattedModuleName}.kt
+
+  - instantiate:
+      from: root/impl/build.gradle.kts.ftl
+      to: impl/build.gradle.kts
+
+  - instantiate:
+      from: root/impl/.gitignore.ftl
+      to: impl/.gitignore
+
+  - instantiate:
+      from: root/impl/src/app_package/Impl.kt.ftl
+      to: impl/src/commonMain/kotlin/io/mishka/voyager/${__moduleName}/impl/${__formattedModuleName}.kt

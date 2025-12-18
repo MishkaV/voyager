@@ -2,7 +2,9 @@ package io.mishka.voyager.di
 
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.DependencyGraph
-import dev.zacsweers.metrox.viewmodel.ViewModelGraph
+import io.mishkav.voyager.features.navigation.api.RootComponent
 
 @DependencyGraph(AppScope::class)
-interface VoyagerGraph : ViewModelGraph
+interface VoyagerGraph {
+    val rootComponentFactory: RootComponent.Factory
+}

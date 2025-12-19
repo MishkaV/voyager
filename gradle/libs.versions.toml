@@ -10,7 +10,7 @@ compose-placeholder = "1.0.12"
 declarative-snackbar = "0.2.0"
 detekt = "1.23.8"
 detekt-ruleset-compiler = "0.0.4"
-detekt-ruleset-compose = "0.5.1"
+detekt-ruleset-compose = "0.5.3"
 detekt-ruleset-decompose = "1.0.1"
 
 gradle-plugin-android = "8.13.2"

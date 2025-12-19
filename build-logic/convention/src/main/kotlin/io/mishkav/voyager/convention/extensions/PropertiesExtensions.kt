@@ -1,11 +1,13 @@
 package io.mishkav.voyager.convention.extensions
 
+import com.android.build.api.dsl.KotlinMultiplatformAndroidLibraryTarget
 import com.android.build.gradle.AppExtension
 import com.android.build.gradle.BaseExtension
 import com.android.build.gradle.LibraryExtension
 import com.codingfeline.buildkonfig.compiler.FieldSpec
 import com.codingfeline.buildkonfig.gradle.BuildKonfigExtension
 import org.gradle.api.Project
+import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import java.io.FileNotFoundException
 import java.util.Properties
 
@@ -68,6 +70,9 @@ fun Project.androidApplicationProject(): AppExtension? =
 
 fun Project.androidLibraryProject(): LibraryExtension? =
     extensions.findByType(LibraryExtension::class.java)
+
+fun Project.kmpAndroidLibraryProject(): KotlinMultiplatformAndroidLibraryTarget? =
+    extensions.findByType(KotlinMultiplatformAndroidLibraryTarget::class.java)
 
 fun Project.androidProject(): BaseExtension? =
     androidApplicationProject() ?: androidLibraryProject()

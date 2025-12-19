@@ -94,6 +94,8 @@ fun Project.configureDetekt() {
             exclude(
                 "**/resources/**",
                 "**/build/**",
+                // Icons
+                "**/io/mishkav/voyager/core/ui/theme/icons/**",
             )
 
             reportMerge.configure {

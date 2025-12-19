@@ -33,4 +33,21 @@ plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
 }
 
-include(":app")
+
+include(
+    // Entry
+    ":app",
+
+    // Core
+    ":core:debug",
+    ":core:ui:decompose",
+    ":core:ui:lifecycle",
+    ":core:ui:theme",
+    ":core:ui:uikit",
+
+    // Features
+    ":features:intro:api",
+    ":features:intro:impl",
+    ":features:navigation:api",
+    ":features:navigation:impl",
+)

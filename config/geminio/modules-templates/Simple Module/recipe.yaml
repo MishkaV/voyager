@@ -1,0 +1,42 @@
+requiredParams:
+  name: Simple Module
+  description: Creates a single module with optional DI support
+
+predefinedFeatures:
+  - enableModuleCreationParams:
+      defaultPackageNamePrefix: io.mishka.voyager
+
+widgets:
+  - booleanParameter:
+      id: needDI
+      name: Add Metro DI
+      help: Include Metro DI annotations
+      default: false
+
+  - booleanParameter:
+      id: needTest
+      name: Add Test Dependencies
+      help: Include testing dependencies
+      default: true
+
+recipe:
+  - mkDirs:
+    - src:
+        - commonMain:
+            - kotlin:
+                - io:
+                    - mishka:
+                        - voyager:
+                            - ${__moduleName}
+
+  - instantiate:
+      from: root/build.gradle.kts.ftl
+      to: build.gradle.kts
+
+  - instantiate:
+      from: root/.gitignore.ftl
+      to: .gitignore
+
+  - instantiate:
+      from: root/src/app_package/Main.kt.ftl
+      to: src/commonMain/kotlin/io/mishka/voyager/${__moduleName}/${__formattedModuleName}.kt

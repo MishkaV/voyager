@@ -17,20 +17,10 @@ private val hierarchyTemplate = KotlinHierarchyTemplate {
     common {
         withCompilations { true }
 
-        groupNonAndroid()
         groupJvmCommon()
-        groupNative()
-        groupNonNative()
-        groupMobile()
     }
 }
 
-private fun KotlinHierarchyBuilder.groupNonAndroid() {
-    group("nonAndroid") {
-        withJvm()
-        groupNative()
-    }
-}
 
 private fun KotlinHierarchyBuilder.groupJvmCommon() {
     group("jvmCommon") {
@@ -39,38 +29,6 @@ private fun KotlinHierarchyBuilder.groupJvmCommon() {
     }
 }
 
-private fun KotlinHierarchyBuilder.groupNative() {
-    group("native") {
-        withNative()
-
-        group("apple") {
-            withApple()
-
-            group("ios") {
-                withIos()
-            }
-
-            group("macos") {
-                withMacos()
-            }
-        }
-    }
-}
-
-private fun KotlinHierarchyBuilder.groupNonNative() {
-    group("nonNative") {
-        withJvm()
-        withAndroidTarget()
-    }
-}
-
-private fun KotlinHierarchyBuilder.groupMobile() {
-    group("mobile") {
-        withAndroidTarget()
-        groupNative()
-    }
-}
-
-fun KotlinMultiplatformExtension.applyAiutaHierarchyTemplate() {
+fun KotlinMultiplatformExtension.applyVoyagerHierarchyTemplate() {
     applyHierarchyTemplate(hierarchyTemplate)
 }

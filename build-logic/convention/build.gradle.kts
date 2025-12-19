@@ -28,6 +28,7 @@ dependencies {
     compileOnly(libs.gradlePlugin.detekt)
     compileOnly(libs.gradlePlugin.kotlin)
     compileOnly(libs.gradlePlugin.ksp)
+    compileOnly(libs.gradlePlugin.metro)
     compileOnly(libs.gradlePlugin.room)
 }
 
@@ -79,6 +80,14 @@ gradlePlugin {
         register("voyagerSecrets") {
             id = "voyager.secrets"
             implementationClass = "SecretsConventionPlugin"
+        }
+        register("voyagerDecompose") {
+            id = "voyager.decompose"
+            implementationClass = "DecomposeConventionPlugin"
+        }
+        register("voyagerFeatureImpl") {
+            id = "voyager.feature.impl"
+            implementationClass = "FeatureImplConventionPlugin"
         }
     }
 }

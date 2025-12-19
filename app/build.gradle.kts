@@ -6,19 +6,28 @@ import java.util.Properties
 plugins {
     alias(libs.plugins.voyager.application.multiplatform)
     alias(libs.plugins.voyager.coil)
+    alias(libs.plugins.voyager.decompose)
     alias(libs.plugins.voyager.secrets)
     alias(libs.plugins.jetbrains.compose)
     alias(libs.plugins.jetbrains.compose.compiler)
     alias(libs.plugins.jetbrains.compose.hotreload)
+    alias(libs.plugins.metro)
 }
 
 kotlin {
     sourceSets {
         androidMain.dependencies {
             implementation(libs.androidx.activity.compose)
+            implementation(libs.metro.android)
         }
         commonMain.dependencies {
             implementation(compose.material3)
+
+            implementation(libs.kermit)
+
+            implementation(projects.core.debug)
+            implementation(projects.features.intro.impl)
+            implementation(projects.features.navigation.impl)
         }
         jvmMain.dependencies {
             implementation(compose.desktop.currentOs)
@@ -28,10 +37,10 @@ kotlin {
 }
 
 android {
-    namespace = "io.mishka.voyager"
+    namespace = "io.mishkav.voyager"
 
     defaultConfig {
-        applicationId = "io.mishka.voyager"
+        applicationId = "io.mishkav.voyager"
         androidResources.localeFilters += "en"
     }
     packaging {
@@ -84,11 +93,11 @@ dependencies {
 
 compose.desktop {
     application {
-        mainClass = "io.mishka.voyager.MainKt"
+        mainClass = "io.mishkav.voyager.MainKt"
 
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "io.mishka.voyager"
+            packageName = "io.mishkav.voyager"
             packageVersion = "1.0.0"
         }
     }

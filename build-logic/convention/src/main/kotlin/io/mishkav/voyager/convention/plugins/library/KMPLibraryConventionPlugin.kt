@@ -1,9 +1,7 @@
-import io.mishkav.voyager.convention.extensions.addLibraryMultiplatformTargets
-import io.mishkav.voyager.convention.extensions.configureKotlinMultiplatform
-import com.android.build.gradle.LibraryExtension
+import io.mishkav.voyager.convention.extensions.configureKmp
+import io.mishkav.voyager.convention.extensions.configureKotlin
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.kotlin.dsl.configure
 
 class KMPLibraryConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
@@ -13,10 +11,7 @@ class KMPLibraryConventionPlugin : Plugin<Project> {
                 apply("kotlin-multiplatform")
             }
 
-            extensions.configure<LibraryExtension> {
-                configureKotlinMultiplatform<LibraryExtension>()
-                addLibraryMultiplatformTargets()
-            }
+            configureKmp()
         }
     }
 }

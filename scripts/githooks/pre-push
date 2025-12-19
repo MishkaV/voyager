@@ -38,7 +38,7 @@ fi
 ########################################
 
 # Run Detekt check
-./gradlew :detekt --continue --warn
+./gradlew detekt --continue --warn
 DetektStatus=$?
 
 # Verify if all checks passed

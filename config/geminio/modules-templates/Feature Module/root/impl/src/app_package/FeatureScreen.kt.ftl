@@ -1,4 +1,4 @@
-package io.mishka.voyager.${__moduleName}.impl
+package io.mishka.voyager.${__moduleName}.impl.ui
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier

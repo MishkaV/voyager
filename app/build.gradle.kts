@@ -26,6 +26,7 @@ kotlin {
             implementation(libs.kermit)
 
             implementation(projects.core.debug)
+            implementation(projects.features.intro.impl)
             implementation(projects.features.navigation.impl)
         }
         jvmMain.dependencies {

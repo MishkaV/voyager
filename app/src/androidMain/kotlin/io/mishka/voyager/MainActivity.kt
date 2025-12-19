@@ -18,9 +18,10 @@ import io.mishkav.voyager.features.navigation.impl.ui.RootComposePoint
 @ContributesIntoMap(AppScope::class, binding<Activity>())
 @ActivityKey(MainActivity::class)
 @Inject
-class MainActivity(
-    private val rootComponentFactory: RootComponent.Factory
-) : ComponentActivity() {
+class MainActivity : ComponentActivity() {
+
+    @Inject
+    private lateinit var rootComponentFactory: RootComponent.Factory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()

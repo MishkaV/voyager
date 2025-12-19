@@ -84,17 +84,16 @@ class ${__formattedModuleName}ComponentImpl(
     @Assisted componentContext: ComponentContext,
     @Assisted externalBackHandler: BackHandler?,
     private val ${__formattedModuleName?uncap_first}ViewModelProvider: Provider<${__formattedModuleName}ViewModel>,
-) : ${__formattedModuleName}Component, ComponentContext by componentContext, BackHandlerOwner {
+) : ${__formattedModuleName}Component(componentContext), ComponentContext by componentContext, BackHandlerOwner {
 
     @Composable
-    override fun Render(modifier: Modifier) {
+    override fun Render() {
         val viewModel = viewModelWithFactory {
-            ${__formattedModuleName?uncap_first}ViewModelProvider.get()
+            ${__formattedModuleName?uncap_first}ViewModelProvider()
         }
 
         ${__formattedModuleName}Screen(
             viewModel = viewModel,
-            modifier = modifier,
         )
     }
 

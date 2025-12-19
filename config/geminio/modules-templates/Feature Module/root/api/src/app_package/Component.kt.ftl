@@ -18,20 +18,13 @@ abstract class ${__formattedModuleName}Component<C : Any> : CompositeDecomposeCo
 }
 
 <#else>
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.essenty.backhandler.BackHandler
-import io.mishkav.voyager.core.ui.decompose.DecomposeComponent
+import io.mishkav.voyager.core.ui.decompose.ScreenDecomposeComponent
 
-/**
- * Component interface for ${__formattedModuleName} feature.
- */
-interface ${__formattedModuleName}Component : DecomposeComponent {
-
-    @Composable
-    override fun Render(modifier: Modifier)
-
+abstract class ${__formattedModuleName}Component(
+    componentContext: ComponentContext
+) : ScreenDecomposeComponent(componentContext) {
     interface Factory {
         fun create(
             componentContext: ComponentContext,

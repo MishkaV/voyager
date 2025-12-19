@@ -25,6 +25,7 @@ import dev.zacsweers.metro.AssistedFactory
 import dev.zacsweers.metro.AssistedInject
 import dev.zacsweers.metro.ContributesBinding
 import dev.zacsweers.metro.binding
+import io.mishka.voyager.intro.api.IntroComponent
 import io.mishkav.voyager.core.ui.decompose.DecomposeComponent
 import io.mishkav.voyager.core.ui.decompose.back.backAnimation
 import io.mishkav.voyager.core.ui.uikit.transition.LocalNavAnimatedVisibilityScope
@@ -36,6 +37,7 @@ import io.mishkav.voyager.features.navigation.api.model.RootConfig
 class RootComponentImpl(
     @Assisted componentContext: ComponentContext,
     @Assisted externalBackHandler: BackHandler?,
+    private val introComponentFactory: IntroComponent.Factory,
 ) : RootComponent, ComponentContext by componentContext, BackHandlerOwner {
 
     override val backHandler: BackHandler = externalBackHandler ?: BackDispatcher()
@@ -45,7 +47,7 @@ class RootComponentImpl(
     private val stack: Value<ChildStack<RootConfig, DecomposeComponent>> = childStack(
         source = navigation,
         serializer = RootConfig.serializer(),
-        initialConfiguration = RootConfig.Main,
+        initialConfiguration = RootConfig.Intro,
         handleBackButton = true,
         childFactory = ::child,
     )
@@ -58,8 +60,10 @@ class RootComponentImpl(
         is RootConfig.Auth -> TODO("Add screen implementation")
         is RootConfig.CountryDetails -> TODO("Add screen implementation")
         is RootConfig.Onboarding -> TODO("Add screen implementation")
-        is RootConfig.Intro -> TODO()
-        is RootConfig.Location -> TODO()
+        is RootConfig.Intro -> introComponentFactory.create(
+            componentContext = componentContext,
+        )
+        is RootConfig.Location -> TODO("Add screen implementation")
     }
 
     @OptIn(ExperimentalDecomposeApi::class, ExperimentalSharedTransitionApi::class)

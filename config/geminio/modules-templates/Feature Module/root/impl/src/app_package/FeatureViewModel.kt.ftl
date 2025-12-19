@@ -1,7 +1,7 @@
-package io.mishka.voyager.${__moduleName}.impl
+package io.mishka.voyager.${__moduleName}.impl.ui
 
 import dev.zacsweers.metro.Inject
-import dev.zacsweers.metrox.viewmodel.DecomposeViewModel
+import io.mishkav.voyager.core.ui.lifecycle.DecomposeViewModel
 
 @Inject
 class ${__formattedModuleName}ViewModel : DecomposeViewModel() {

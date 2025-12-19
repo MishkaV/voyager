@@ -46,8 +46,8 @@ include(
     ":core:ui:uikit",
 
     // Features
+    ":features:intro:api",
+    ":features:intro:impl",
     ":features:navigation:api",
     ":features:navigation:impl",
 )
-include(":intro")
-project(":intro").projectDir = settingsDir.resolve("features/intro")

@@ -13,7 +13,7 @@ android {
 kotlin {
     sourceSets {
         commonMain.dependencies {
-            // TODO Add deps
+            api(projects.core.ui.decompose)
         }
 <#if needTest>
         commonTest.dependencies {

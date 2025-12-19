@@ -39,6 +39,7 @@ recipe:
                                 - ${__moduleName}:
                                     - impl:
                                         - api
+                                        - ui
 
   - instantiate:
       from: root/api/build.gradle.kts.ftl
@@ -66,11 +67,11 @@ recipe:
 
   - instantiate:
       from: root/impl/src/app_package/FeatureViewModel.kt.ftl
-      to: impl/src/commonMain/kotlin/io/mishka/voyager/${__moduleName}/impl/${__formattedModuleName}ViewModel.kt
+      to: impl/src/commonMain/kotlin/io/mishka/voyager/${__moduleName}/impl/ui/${__formattedModuleName}ViewModel.kt
 
   - instantiate:
       from: root/impl/src/app_package/FeatureScreen.kt.ftl
-      to: impl/src/commonMain/kotlin/io/mishka/voyager/${__moduleName}/impl/${__formattedModuleName}Screen.kt
+      to: impl/src/commonMain/kotlin/io/mishka/voyager/${__moduleName}/impl/ui/${__formattedModuleName}Screen.kt
 
   - predicate:
       validIf: ${isMultiScreenNavigation}

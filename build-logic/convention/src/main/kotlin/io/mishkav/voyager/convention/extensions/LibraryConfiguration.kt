@@ -41,7 +41,7 @@ fun Project.configureKmp() {
         extensions.configure<KotlinMultiplatformExtension> {
             applyVoyagerHierarchyTemplate()
 
-            jvmToolchain(projectJavaVersion.ordinal)
+            jvmToolchain(projectJavaVersion.majorVersion.toInt())
 
             androidTarget()
 

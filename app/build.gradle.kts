@@ -23,6 +23,9 @@ kotlin {
         commonMain.dependencies {
             implementation(compose.material3)
 
+            implementation(libs.kermit)
+
+            implementation(projects.core.debug)
             implementation(projects.features.navigation.impl)
         }
         jvmMain.dependencies {

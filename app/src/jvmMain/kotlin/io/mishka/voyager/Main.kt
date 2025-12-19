@@ -7,9 +7,12 @@ import com.arkivanov.essenty.backhandler.BackDispatcher
 import com.arkivanov.essenty.lifecycle.LifecycleRegistry
 import dev.zacsweers.metro.createGraph
 import io.mishka.voyager.di.VoyagerGraph
+import io.mishka.voyager.setup.setupInstruments
 import io.mishkav.voyager.features.navigation.impl.ui.RootComposePoint
 
 fun main() {
+    setupInstruments()
+
     val appGraph = createGraph<VoyagerGraph>()
     val backDispatcher = BackDispatcher()
     val lifecycle = LifecycleRegistry()

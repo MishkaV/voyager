@@ -39,6 +39,7 @@ include(
     ":app",
 
     // Core
+    ":core:debug",
     ":core:ui:decompose",
     ":core:ui:lifecycle",
     ":core:ui:theme",

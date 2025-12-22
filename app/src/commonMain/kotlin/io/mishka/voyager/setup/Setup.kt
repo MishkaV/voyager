@@ -13,6 +13,9 @@ internal fun setupCoil() {
     SingletonImageLoader.setSafe { context ->
         ImageLoader.Builder(context)
             .crossfade(true)
+            .components {
+                addCoilGifFactory()
+            }
             .build()
     }
 }

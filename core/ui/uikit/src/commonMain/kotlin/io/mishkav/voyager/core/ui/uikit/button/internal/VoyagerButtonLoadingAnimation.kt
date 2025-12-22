@@ -60,11 +60,12 @@ internal fun VoyagerButtonLoadingAnimation(
         }
     }
 
-    val circleValues = remember(circles) {
+    val circleValuesState = remember(circles) {
         derivedStateOf {
             circles.map { it.value }
         }
     }
+    val circleValues = circleValuesState.value
     val distance = with(LocalDensity.current) { travelDistance.toPx() }
 
     Row(

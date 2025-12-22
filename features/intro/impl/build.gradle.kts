@@ -8,8 +8,14 @@ android {
 
 kotlin {
     sourceSets {
+        androidMain.dependencies {
+            implementation(libs.coil.gif)
+        }
         commonMain.dependencies {
             api(projects.features.intro.api)
+
+            implementation(compose.components.resources)
+            implementation(projects.features.navigation.api)
         }
     }
 }

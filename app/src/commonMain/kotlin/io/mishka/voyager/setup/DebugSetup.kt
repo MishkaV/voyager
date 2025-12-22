@@ -9,6 +9,8 @@ internal fun setupDebugInstruments() {
 }
 
 internal fun setupLogger() {
+    Logger.setTag("Voyager")
+
     if (isDebuggable()) {
         Logger.setLogWriters(platformLogWriter())
     } else {

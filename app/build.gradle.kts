@@ -22,7 +22,6 @@ kotlin {
             implementation(libs.metro.android)
         }
         commonMain.dependencies {
-            implementation(compose.runtime)
             implementation(compose.material3)
 
             implementation(libs.kermit)

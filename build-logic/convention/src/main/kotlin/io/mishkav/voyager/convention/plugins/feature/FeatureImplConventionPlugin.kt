@@ -10,6 +10,7 @@ class FeatureImplConventionPlugin : Plugin<Project> {
         with(target) {
             with(pluginManager) {
                 apply("voyager.library.multiplatform.compose")
+                apply("voyager.coil")
                 apply("voyager.decompose")
                 apply("dev.zacsweers.metro")
             }

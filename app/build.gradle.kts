@@ -18,6 +18,7 @@ kotlin {
     sourceSets {
         androidMain.dependencies {
             implementation(libs.androidx.activity.compose)
+            implementation(libs.coil.gif)
             implementation(libs.metro.android)
         }
         commonMain.dependencies {

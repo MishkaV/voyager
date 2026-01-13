@@ -19,7 +19,7 @@ essenty = "2.5.0"
 
 gradle-plugin-android = "8.13.2"
 
-jetbrains-compose = "1.9.3"
+jetbrains-compose = "1.10.0"
 jetbrains-compose-hotreload = "1.0.0"
 jetbrains-viewmodel = "2.9.6"
 

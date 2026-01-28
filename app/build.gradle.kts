@@ -15,6 +15,10 @@ plugins {
 }
 
 kotlin {
+    androidLibrary {
+        namespace = "io.mishkav.voyager"
+    }
+
     sourceSets {
         androidMain.dependencies {
             implementation(libs.androidx.activity.compose)
@@ -38,41 +42,42 @@ kotlin {
     }
 }
 
-android {
-    namespace = "io.mishkav.voyager"
-
-    defaultConfig {
-        applicationId = "io.mishkav.voyager"
-        androidResources.localeFilters += "en"
-    }
-    packaging {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
-    }
-    buildTypes {
-        signingConfigs {
-            newSignConfig("sign")
-        }
-    }
-    buildTypes {
-        debug {
-            isDebuggable = true
-            isMinifyEnabled = false
-            isShrinkResources = false
-            signingConfig = signingConfigs.getByName("sign")
-        }
-        release {
-            isDebuggable = false
-            isMinifyEnabled = true
-            isShrinkResources = true
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-            )
-            signingConfig = signingConfigs.getByName("sign")
-        }
-    }
-}
+// TODO Migrate to separate app
+// android {
+//    namespace = "io.mishkav.voyager"
+//
+//    defaultConfig {
+//        applicationId = "io.mishkav.voyager"
+//        androidResources.localeFilters += "en"
+//    }
+//    packaging {
+//        resources {
+//            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+//        }
+//    }
+//    buildTypes {
+//        signingConfigs {
+//            newSignConfig("sign")
+//        }
+//    }
+//    buildTypes {
+//        debug {
+//            isDebuggable = true
+//            isMinifyEnabled = false
+//            isShrinkResources = false
+//            signingConfig = signingConfigs.getByName("sign")
+//        }
+//        release {
+//            isDebuggable = false
+//            isMinifyEnabled = true
+//            isShrinkResources = true
+//            proguardFiles(
+//                getDefaultProguardFile("proguard-android-optimize.txt"),
+//            )
+//            signingConfig = signingConfigs.getByName("sign")
+//        }
+//    }
+// }
 
 fun NamedDomainObjectContainer<out ApkSigningConfig>.newSignConfig(
     name: String,
@@ -87,10 +92,6 @@ fun NamedDomainObjectContainer<out ApkSigningConfig>.newSignConfig(
         storeFile = file(keystoreProperties["storeFile"] as String)
         storePassword = keystoreProperties["storePassword"] as String
     }
-}
-
-dependencies {
-    debugImplementation(compose.uiTooling)
 }
 
 compose.desktop {

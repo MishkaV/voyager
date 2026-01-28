@@ -114,7 +114,6 @@ ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 voyager-lint = { id = "voyager.lint", version = "unspecified" }
 voyager-room = { id = "voyager.room", version = "unspecified" }
 voyager-kotlin-serialization = { id = "voyager.kotlin.serialization", version = "unspecified" }
-voyager-library = { id = "voyager.library", version = "unspecified" }
 voyager-library-multiplatform = { id = "voyager.library.multiplatform", version = "unspecified" }
 voyager-library-multiplatform-compose = { id = "voyager.library.multiplatform.compose", version = "unspecified" }
 voyager-coil = { id = "voyager.coil", version = "unspecified" }

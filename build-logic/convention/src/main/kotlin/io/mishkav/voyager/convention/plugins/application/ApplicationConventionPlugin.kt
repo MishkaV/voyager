@@ -1,7 +1,6 @@
 import io.mishkav.voyager.convention.extensions.configureAndroidVersions
 import io.mishkav.voyager.convention.extensions.configureKotlin
 import com.android.build.api.dsl.ApplicationExtension
-import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
@@ -15,7 +14,7 @@ class ApplicationConventionPlugin : Plugin<Project> {
             }
 
             extensions.configure<ApplicationExtension> {
-                configureAndroidVersions<BaseAppModuleExtension>()
+                configureAndroidVersions<ApplicationExtension>()
                 configureKotlin()
             }
         }

@@ -3,10 +3,6 @@ plugins {
     alias(libs.plugins.voyager.coil)
 }
 
-android {
-    namespace = "io.mishkav.voyager.core.ui.uikit"
-}
-
 kotlin {
     sourceSets {
         commonMain.dependencies {

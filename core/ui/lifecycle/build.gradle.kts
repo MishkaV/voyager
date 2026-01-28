@@ -3,10 +3,6 @@ plugins {
     alias(libs.plugins.voyager.decompose)
 }
 
-android {
-    namespace = "io.mishkav.voyager.core.ui.lifecycle"
-}
-
 kotlin {
     sourceSets {
         commonMain.dependencies {

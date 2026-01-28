@@ -53,10 +53,6 @@ gradlePlugin {
             id = "voyager.kotlin.serialization"
             implementationClass = "KotlinSerializationConventionPlugin"
         }
-        register("voyagerLibrary") {
-            id = "voyager.library"
-            implementationClass = "LibraryConventionPlugin"
-        }
         register("voyagerLibraryMultiplatform") {
             id = "voyager.library.multiplatform"
             implementationClass = "KMPLibraryConventionPlugin"

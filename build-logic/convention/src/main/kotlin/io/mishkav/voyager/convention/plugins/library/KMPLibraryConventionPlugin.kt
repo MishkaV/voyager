@@ -7,11 +7,13 @@ class KMPLibraryConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             with(pluginManager) {
-                apply("voyager.library")
                 apply("kotlin-multiplatform")
+                apply("com.android.kotlin.multiplatform.library")
+                apply("voyager.lint")
             }
 
             configureKmp()
+            configureKotlin()
         }
     }
 }

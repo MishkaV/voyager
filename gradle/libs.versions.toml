@@ -17,7 +17,7 @@ detekt-ruleset-decompose = "1.0.1"
 
 essenty = "2.5.0"
 
-gradle-plugin-android = "8.13.2"
+gradle-plugin-android = "9.0.0"
 
 jetbrains-compose = "1.10.0"
 jetbrains-compose-hotreload = "1.0.0"

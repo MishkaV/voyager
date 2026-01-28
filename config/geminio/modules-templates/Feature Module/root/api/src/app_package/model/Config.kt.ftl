@@ -2,9 +2,6 @@ package io.mishka.voyager.${__moduleName}.api.model
 
 import kotlinx.serialization.Serializable
 
-/**
- * Configuration for ${__formattedModuleName} feature navigation.
- */
 @Serializable
 sealed class ${__formattedModuleName}Config {
 

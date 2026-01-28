@@ -6,10 +6,6 @@ plugins {
 </#if>
 }
 
-android {
-    namespace = "io.mishka.voyager.${__moduleName}.api"
-}
-
 kotlin {
     sourceSets {
         commonMain.dependencies {

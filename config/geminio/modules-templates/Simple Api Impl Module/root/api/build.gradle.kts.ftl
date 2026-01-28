@@ -2,10 +2,6 @@ plugins {
     alias(libs.plugins.voyager.library.multiplatform)
 }
 
-android {
-    namespace = "io.mishka.voyager.${__moduleName}.api"
-}
-
 kotlin {
     sourceSets {
         commonMain.dependencies {

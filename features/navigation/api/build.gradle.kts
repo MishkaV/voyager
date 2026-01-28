@@ -4,14 +4,10 @@ plugins {
     alias(libs.plugins.voyager.kotlin.serialization)
 }
 
-android {
-    namespace = "io.mishkav.voyager.features.navigation.api"
-}
-
 kotlin {
     sourceSets {
         commonMain.dependencies {
-            api(compose.ui)
+            api(libs.jetbrains.compose.ui)
 
             api(projects.core.ui.decompose)
         }

@@ -17,10 +17,10 @@ detekt-ruleset-decompose = "1.0.1"
 
 essenty = "2.5.0"
 
-gradle-plugin-android = "8.13.2"
+gradle-plugin-android = "9.0.0"
 
 jetbrains-compose = "1.10.0"
-jetbrains-compose-hotreload = "1.0.0"
+jetbrains-compose-material3 = "1.9.0"
 jetbrains-viewmodel = "2.9.6"
 
 kotlin = "2.3.0"
@@ -75,6 +75,13 @@ gradlePlugin-ksp = { module = "com.google.devtools.ksp:com.google.devtools.ksp.g
 gradlePlugin-metro = { module = "dev.zacsweers.metro:dev.zacsweers.metro.gradle.plugin", version.ref = "metro" }
 gradlePlugin-room = { module = "androidx.room:room-gradle-plugin", version.ref = "room" }
 
+jetbrains-compose-animation = { module = "org.jetbrains.compose.animation:animation", version.ref = "jetbrains-compose" }
+jetbrains-compose-components-resources = { module = "org.jetbrains.compose.components:components-resources", version.ref = "jetbrains-compose" }
+jetbrains-compose-foundation = { module = "org.jetbrains.compose.foundation:foundation", version.ref = "jetbrains-compose" }
+jetbrains-compose-material3 = { module = "org.jetbrains.compose.material3:material3", version.ref = "jetbrains-compose-material3" }
+jetbrains-compose-ui = { module = "org.jetbrains.compose.ui:ui", version.ref = "jetbrains-compose" }
+jetbrains-compose-runtime = { module = "org.jetbrains.compose.runtime:runtime", version.ref = "jetbrains-compose" }
+
 ktor-engine-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinx-coroutines" }
@@ -101,7 +108,6 @@ detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 
 jetbrains-compose = { id = "org.jetbrains.compose", version.ref = "jetbrains-compose" }
 jetbrains-compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
-jetbrains-compose-hotreload = { id = "org.jetbrains.compose.hot-reload", version.ref = "jetbrains-compose-hotreload" }
 
 metro = { id = "dev.zacsweers.metro", version.ref = "metro" }
 
@@ -114,7 +120,6 @@ ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 voyager-lint = { id = "voyager.lint", version = "unspecified" }
 voyager-room = { id = "voyager.room", version = "unspecified" }
 voyager-kotlin-serialization = { id = "voyager.kotlin.serialization", version = "unspecified" }
-voyager-library = { id = "voyager.library", version = "unspecified" }
 voyager-library-multiplatform = { id = "voyager.library.multiplatform", version = "unspecified" }
 voyager-library-multiplatform-compose = { id = "voyager.library.multiplatform.compose", version = "unspecified" }
 voyager-coil = { id = "voyager.coil", version = "unspecified" }
@@ -123,3 +128,4 @@ voyager-application-multiplatform = { id = "voyager.application.multiplatform", 
 voyager-secrets = { id = "voyager.secrets", version = "unspecified" }
 voyager-decompose = { id = "voyager.decompose", version = "unspecified" }
 voyager-feature-impl = { id = "voyager.feature.impl", version = "unspecified" }
+voyager-compose-resources = { id = "voyager.compose.resources", version = "unspecified" }

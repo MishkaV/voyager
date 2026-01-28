@@ -1,7 +1,7 @@
 import io.mishkav.voyager.convention.extensions.libs
 import com.android.build.api.dsl.ApplicationExtension
 import com.android.build.api.dsl.Lint
-import com.android.build.gradle.LibraryExtension
+import com.android.build.api.dsl.LibraryExtension
 import io.gitlab.arturbosch.detekt.Detekt
 import io.gitlab.arturbosch.detekt.DetektPlugin
 import io.gitlab.arturbosch.detekt.extensions.DetektExtension

@@ -1,20 +1,15 @@
 plugins {
     alias(libs.plugins.voyager.library.multiplatform.compose)
-}
-
-android {
-    namespace = "io.mishkav.voyager.core.ui.theme"
+    alias(libs.plugins.voyager.compose.resources)
 }
 
 kotlin {
     sourceSets {
         commonMain.dependencies {
-            api(compose.runtime)
-            api(compose.foundation)
-            api(compose.material3)
-            api(compose.ui)
-
-            implementation(compose.components.resources)
+            api(libs.jetbrains.compose.runtime)
+            api(libs.jetbrains.compose.foundation)
+            api(libs.jetbrains.compose.material3)
+            api(libs.jetbrains.compose.ui)
         }
     }
 }

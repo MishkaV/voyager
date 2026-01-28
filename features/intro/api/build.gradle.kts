@@ -3,10 +3,6 @@ plugins {
     alias(libs.plugins.voyager.decompose)
 }
 
-android {
-    namespace = "io.mishka.voyager.intro.api"
-}
-
 kotlin {
     sourceSets {
         commonMain.dependencies {

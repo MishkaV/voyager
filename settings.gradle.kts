@@ -36,7 +36,8 @@ plugins {
 
 include(
     // Entry
-    ":app",
+    ":entry:app",
+    ":entry:app-android",
 
     // Core
     ":core:debug",

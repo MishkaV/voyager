@@ -1,9 +1,9 @@
 package io.mishkav.voyager.convention.extensions
 
+import com.android.build.api.dsl.ApplicationExtension
+import com.android.build.api.dsl.CommonExtension
 import com.android.build.api.dsl.KotlinMultiplatformAndroidLibraryTarget
-import com.android.build.gradle.AppExtension
-import com.android.build.gradle.BaseExtension
-import com.android.build.gradle.LibraryExtension
+import com.android.build.api.dsl.LibraryExtension
 import com.codingfeline.buildkonfig.compiler.FieldSpec
 import com.codingfeline.buildkonfig.gradle.BuildKonfigExtension
 import org.gradle.api.Project
@@ -65,19 +65,21 @@ fun BuildKonfigExtension.defaultConfigInject(
 }
 
 
-fun Project.androidApplicationProject(): AppExtension? =
-    extensions.findByType(AppExtension::class.java)
+fun Project.androidApplicationProject(): ApplicationExtension? =
+    extensions.findByType(ApplicationExtension::class.java)
 
 fun Project.androidLibraryProject(): LibraryExtension? =
     extensions.findByType(LibraryExtension::class.java)
 
-fun Project.kmpAndroidLibraryProject(): KotlinMultiplatformAndroidLibraryTarget? =
-    extensions.findByType(KotlinMultiplatformAndroidLibraryTarget::class.java)
+fun Project.kmpAndroidLibraryProject(): KotlinMultiplatformAndroidLibraryTarget? {
+    val kmpExtension = extensions.findByType(KotlinMultiplatformExtension::class.java) ?: return null
+    return kmpExtension.extensions.findByType(KotlinMultiplatformAndroidLibraryTarget::class.java)
+}
 
-fun Project.androidProject(): BaseExtension? =
+fun Project.androidProject(): CommonExtension? =
     androidApplicationProject() ?: androidLibraryProject()
 
-fun BaseExtension?.manifestInject(
+fun CommonExtension?.manifestInject(
     key: String,
     value: String,
 ) {

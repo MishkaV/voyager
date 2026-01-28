@@ -7,7 +7,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             api(libs.kotlinx.coroutines.core)
-            api(compose.runtime)
+            api(libs.jetbrains.compose.runtime)
 
             implementation(libs.androidx.annotaion)
         }

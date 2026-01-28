@@ -20,6 +20,7 @@ essenty = "2.5.0"
 gradle-plugin-android = "9.0.0"
 
 jetbrains-compose = "1.10.0"
+jetbrains-compose-material3 = "1.9.0"
 jetbrains-viewmodel = "2.9.6"
 
 kotlin = "2.3.0"
@@ -74,7 +75,12 @@ gradlePlugin-ksp = { module = "com.google.devtools.ksp:com.google.devtools.ksp.g
 gradlePlugin-metro = { module = "dev.zacsweers.metro:dev.zacsweers.metro.gradle.plugin", version.ref = "metro" }
 gradlePlugin-room = { module = "androidx.room:room-gradle-plugin", version.ref = "room" }
 
+jetbrains-compose-animation = { module = "org.jetbrains.compose.animation:animation", version.ref = "jetbrains-compose" }
 jetbrains-compose-components-resources = { module = "org.jetbrains.compose.components:components-resources", version.ref = "jetbrains-compose" }
+jetbrains-compose-foundation = { module = "org.jetbrains.compose.foundation:foundation", version.ref = "jetbrains-compose" }
+jetbrains-compose-material3 = { module = "org.jetbrains.compose.material3:material3", version.ref = "jetbrains-compose-material3" }
+jetbrains-compose-ui = { module = "org.jetbrains.compose.ui:ui", version.ref = "jetbrains-compose" }
+jetbrains-compose-runtime = { module = "org.jetbrains.compose.runtime:runtime", version.ref = "jetbrains-compose" }
 
 ktor-engine-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }

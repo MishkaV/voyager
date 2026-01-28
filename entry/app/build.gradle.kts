@@ -19,7 +19,7 @@ kotlin {
             api(projects.features.intro.impl)
             api(projects.features.navigation.impl)
 
-            implementation(compose.material3)
+            implementation(libs.jetbrains.compose.material3)
             implementation(libs.kermit)
         }
         jvmMain.dependencies {

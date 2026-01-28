@@ -7,7 +7,7 @@ plugins {
 kotlin {
     sourceSets {
         commonMain.dependencies {
-            api(compose.ui)
+            api(libs.jetbrains.compose.ui)
 
             api(projects.core.ui.decompose)
         }

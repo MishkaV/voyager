@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.voyager.feature.impl)
+    alias(libs.plugins.voyager.compose.resources)
 }
 
 kotlin {

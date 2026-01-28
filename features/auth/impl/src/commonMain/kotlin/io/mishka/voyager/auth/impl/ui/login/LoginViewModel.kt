@@ -1,9 +1,9 @@
-package io.mishka.voyager.auth.impl.ui
+package io.mishka.voyager.auth.impl.ui.login
 
 import dev.zacsweers.metro.Inject
 import io.mishkav.voyager.core.ui.lifecycle.DecomposeViewModel
 
 @Inject
-class AuthViewModel : DecomposeViewModel() {
+class LoginViewModel : DecomposeViewModel() {
     // TODO: Add your state and logic here
 }

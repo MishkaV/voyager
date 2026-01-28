@@ -23,7 +23,7 @@ fun RootComposePoint(
             root.Render(
                 modifier = modifier
                     .fillMaxSize()
-                    .background(LocalColors.current.white)
+                    .background(LocalColors.current.background)
                     .imePadding()
             )
         }

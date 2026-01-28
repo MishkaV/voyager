@@ -49,7 +49,7 @@ fun Project.configureKmp() {
 
                 if (namespace == null) {
                     // Default namespace
-                    namespace = "io.mishkav.voyager.${project.name.replace("-", ".")}"
+                    namespace = "${project.group.toString().lowercase()}.${project.name.replace("-", ".")}"
                 }
 
                 compilerOptions {

@@ -1,3 +1,4 @@
+import io.mishkav.voyager.convention.extensions.configureCrossPlatformDependencies
 import io.mishkav.voyager.convention.extensions.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -10,10 +11,8 @@ class KotlinSerializationConventionPlugin : Plugin<Project> {
         with(target) {
             pluginManager.apply("org.jetbrains.kotlin.plugin.serialization")
 
-            extensions.configure<KotlinMultiplatformExtension> {
-                sourceSets.commonMain.dependencies {
-                    implementation(libs.findLibrary("kotlinx.serialization").get())
-                }
+            configureCrossPlatformDependencies {
+                commonMain(findLibrary("kotlinx.serialization"))
             }
         }
     }

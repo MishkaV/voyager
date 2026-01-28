@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.voyager.library.multiplatform.compose)
+    alias(libs.plugins.voyager.compose.resources)
 }
 
 kotlin {
@@ -9,8 +10,6 @@ kotlin {
             api(compose.foundation)
             api(compose.material3)
             api(compose.ui)
-
-            implementation(compose.components.resources)
         }
     }
 }

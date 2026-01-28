@@ -85,5 +85,9 @@ gradlePlugin {
             id = "voyager.feature.impl"
             implementationClass = "FeatureImplConventionPlugin"
         }
+        register("voyagerComposeResources") {
+            id = "voyager.compose.resources"
+            implementationClass = "KMPResourcesConventionPlugin"
+        }
     }
 }

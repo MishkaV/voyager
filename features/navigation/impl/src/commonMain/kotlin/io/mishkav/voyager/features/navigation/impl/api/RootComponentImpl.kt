@@ -25,6 +25,7 @@ import dev.zacsweers.metro.AssistedFactory
 import dev.zacsweers.metro.AssistedInject
 import dev.zacsweers.metro.ContributesBinding
 import dev.zacsweers.metro.binding
+import io.mishka.voyager.auth.api.AuthComponent
 import io.mishka.voyager.intro.api.IntroComponent
 import io.mishkav.voyager.core.ui.decompose.DecomposeComponent
 import io.mishkav.voyager.core.ui.decompose.back.backAnimation
@@ -37,6 +38,7 @@ import io.mishkav.voyager.features.navigation.api.model.RootConfig
 class RootComponentImpl(
     @Assisted componentContext: ComponentContext,
     @Assisted externalBackHandler: BackHandler?,
+    private val authComponentFactory: AuthComponent.Factory,
     private val introComponentFactory: IntroComponent.Factory,
 ) : RootComponent, ComponentContext by componentContext, BackHandlerOwner {
 
@@ -57,7 +59,9 @@ class RootComponentImpl(
         componentContext: ComponentContext
     ): DecomposeComponent = when (config) {
         is RootConfig.Main -> TODO("Add screen implementation")
-        is RootConfig.Auth -> TODO("Add screen implementation")
+        is RootConfig.Auth -> authComponentFactory.create(
+            componentContext = componentContext,
+        )
         is RootConfig.CountryDetails -> TODO("Add screen implementation")
         is RootConfig.Onboarding -> TODO("Add screen implementation")
         is RootConfig.Intro -> introComponentFactory.create(

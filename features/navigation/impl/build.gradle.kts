@@ -7,6 +7,7 @@ kotlin {
         commonMain.dependencies {
             api(projects.features.navigation.api)
 
+            implementation(projects.features.auth.api)
             implementation(projects.features.intro.api)
         }
     }

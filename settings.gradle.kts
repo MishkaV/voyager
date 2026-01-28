@@ -47,6 +47,8 @@ include(
     ":core:ui:uikit",
 
     // Features
+    ":features:auth:api",
+    ":features:auth:impl",
     ":features:intro:api",
     ":features:intro:impl",
     ":features:navigation:api",

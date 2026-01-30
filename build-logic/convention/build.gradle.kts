@@ -89,5 +89,9 @@ gradlePlugin {
             id = "voyager.compose.resources"
             implementationClass = "KMPResourcesConventionPlugin"
         }
+        register("voyagerKtor") {
+            id = "voyager.ktor"
+            implementationClass = "KtorConventionPlugin"
+        }
     }
 }

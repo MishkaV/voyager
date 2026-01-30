@@ -2,14 +2,13 @@ import io.mishkav.voyager.convention.extensions.configureCrossPlatformDependenci
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
-class CoilConventionPlugin : Plugin<Project> {
+class KtorConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
-            pluginManager.apply("voyager.ktor")
 
             configureCrossPlatformDependencies {
-                commonMain(findLibrary("coil.compose"))
-                commonMain(findLibrary("coil.network.ktor3"))
+                androidMain(findLibrary("ktor.engine.okhttp"))
+                jvmMain(findLibrary("ktor.engine.okhttp"))
             }
         }
     }

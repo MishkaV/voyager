@@ -41,6 +41,8 @@ include(
 
     // Core
     ":core:debug",
+    ":core:supabase:api",
+    ":core:supabase:impl",
     ":core:ui:decompose",
     ":core:ui:lifecycle",
     ":core:ui:theme",

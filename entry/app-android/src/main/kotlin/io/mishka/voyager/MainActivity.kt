@@ -13,6 +13,8 @@ import dev.zacsweers.metro.ContributesIntoMap
 import dev.zacsweers.metro.Inject
 import dev.zacsweers.metro.binding
 import dev.zacsweers.metrox.android.ActivityKey
+import io.github.jan.supabase.SupabaseClient
+import io.github.jan.supabase.auth.handleDeeplinks
 import io.mishkav.voyager.features.navigation.api.RootComponent
 import io.mishkav.voyager.features.navigation.impl.ui.RootComposePoint
 
@@ -24,10 +26,14 @@ class MainActivity : ComponentActivity() {
     @Inject
     private lateinit var rootComponentFactory: RootComponent.Factory
 
+    @Inject
+    private lateinit var supabase: SupabaseClient
+
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
+        supabase.handleDeeplinks(intent)
 
         val root = rootComponentFactory.create(
             componentContext = defaultComponentContext(),

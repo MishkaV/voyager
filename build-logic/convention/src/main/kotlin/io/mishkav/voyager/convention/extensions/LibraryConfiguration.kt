@@ -12,7 +12,9 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 fun <T : ApplicationExtension> Project.configureAndroidVersions() {
     extensions.configure<T>("android") {
-        compileSdkVersion(project.compileSdk)
+        compileSdk {
+            version = release(project.compileSdk)
+        }
 
         defaultConfig {
             minSdk = project.minSdk

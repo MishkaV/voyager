@@ -5,6 +5,7 @@ import java.util.Properties
 plugins {
     alias(libs.plugins.voyager.application)
     alias(libs.plugins.voyager.decompose)
+    alias(libs.plugins.android.secrets)
     alias(libs.plugins.jetbrains.compose)
     alias(libs.plugins.jetbrains.compose.compiler)
     alias(libs.plugins.metro)
@@ -43,6 +44,7 @@ android {
             isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
+                "./proguard-rules.pro",
             )
             signingConfig = signingConfigs.getByName("sign")
         }
@@ -64,10 +66,18 @@ fun NamedDomainObjectContainer<out ApkSigningConfig>.newSignConfig(
     }
 }
 
+secrets {
+    propertiesFileName = "secrets.properties"
+    defaultPropertiesFileName = "secrets.properties"
+}
+
 dependencies {
+    implementation(platform(libs.supabase.bom))
+
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.splashscreen)
     implementation(libs.metro.android)
+    implementation(libs.supabase.auth)
 
     implementation(projects.entry.app)
 }

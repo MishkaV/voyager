@@ -19,6 +19,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import co.touchlab.kermit.Logger
+import io.github.jan.supabase.compose.auth.composable.NativeSignInResult
+import io.github.jan.supabase.compose.auth.composable.rememberSignInWithGoogle
 import io.mishka.voyager.auth.impl.ui.login.components.TypewriterText
 import io.mishkav.voyager.core.ui.theme.VoyagerTheme
 import io.mishkav.voyager.core.ui.theme.icons.google36
@@ -38,13 +41,32 @@ fun LoginScreen(
     viewModel: LoginViewModel,
     modifier: Modifier = Modifier,
 ) {
+    val googleAction = viewModel.supabaseComposeAuth.rememberSignInWithGoogle(
+        onResult = { result ->
+            when (result) {
+                is NativeSignInResult.Success -> {
+                    Logger.e("Success to login via Google")
+                }
+                is NativeSignInResult.Error -> {
+                    Logger.e("Failed to google login: ${result.message}")
+                }
+                is NativeSignInResult.NetworkError -> {
+                    Logger.e("Failed to google login via network error: ${result.message}")
+                }
+                is NativeSignInResult.ClosedByUser -> Unit
+            }
+        }
+    )
+
     LoginScreenContent(
+        googleSignIn = googleAction::startFlow,
         modifier = modifier,
     )
 }
 
 @Composable
 private fun LoginScreenContent(
+    googleSignIn: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val topSpaceWeight = 0.67f
@@ -89,9 +111,7 @@ private fun LoginScreenContent(
             ),
             text = stringResource(Res.string.login_button_google),
             icon = VoyagerTheme.icons.google36,
-            onClick = {
-                // TODO Google logic
-            }
+            onClick = googleSignIn
         )
 
         Spacer(Modifier.height(10.dp))

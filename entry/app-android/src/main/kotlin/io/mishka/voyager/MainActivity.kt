@@ -6,6 +6,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import co.touchlab.kermit.Logger
 import com.arkivanov.decompose.defaultComponentContext
 import com.arkivanov.essenty.backhandler.BackHandler
 import dev.zacsweers.metro.AppScope
@@ -33,7 +34,16 @@ class MainActivity : ComponentActivity() {
         installSplashScreen()
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
-        supabase.handleDeeplinks(intent)
+        // TODO Add logic of navigation
+        supabase.handleDeeplinks(
+            intent = intent,
+            onSessionSuccess = {
+                Logger.d("MainActivity: Successfully imported session from intent")
+            },
+            onError = { error ->
+                Logger.e("MainActivity: Failed to import session from intent - ${error.message}")
+            }
+        )
 
         val root = rootComponentFactory.create(
             componentContext = defaultComponentContext(),

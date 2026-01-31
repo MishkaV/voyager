@@ -16,7 +16,8 @@ import io.mishkav.voyager.core.ui.lifecycle.viewModelWithFactory
 @AssistedInject
 class LoginDecomposeComponent(
     @Assisted componentContext: ComponentContext,
-    private val loginViewModelProvider: Provider<LoginViewModel>
+    @Assisted private val navigateToAskEmail: () -> Unit,
+    private val loginViewModelProvider: Provider<LoginViewModel>,
 ) : ScreenDecomposeComponent(componentContext) {
 
     @Composable
@@ -28,6 +29,7 @@ class LoginDecomposeComponent(
 
         LoginScreen(
             viewModel = viewModel,
+            navigateToAskEmail = navigateToAskEmail,
             modifier = Modifier.fillMaxSize(),
         )
     }
@@ -35,7 +37,8 @@ class LoginDecomposeComponent(
     @AssistedFactory
     interface Factory {
         fun create(
-            componentContext: ComponentContext
+            componentContext: ComponentContext,
+            navigateToAskEmail: () -> Unit,
         ): LoginDecomposeComponent
     }
 }

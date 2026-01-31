@@ -7,9 +7,6 @@ import dev.zacsweers.metro.SingleIn
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.auth.Auth
 import io.github.jan.supabase.coil.Coil3Integration
-import io.github.jan.supabase.compose.auth.ComposeAuth
-import io.github.jan.supabase.compose.auth.composeAuth
-import io.github.jan.supabase.compose.auth.googleNativeLogin
 import io.github.jan.supabase.createSupabaseClient
 import io.github.jan.supabase.postgrest.Postgrest
 import io.github.jan.supabase.storage.Storage
@@ -27,20 +24,11 @@ interface SupabaseProviders {
         ) {
             install(Auth) {
                 scheme = BuildKonfig.DEEPLINK_SCHEME
-                host = BuildKonfig.DEEPLINK_HOST
+                host = BuildKonfig.DEEPLINK_AUTH_HOST
             }
             install(Postgrest)
             install(Storage)
             install(Coil3Integration)
-            install(ComposeAuth) {
-                googleNativeLogin(BuildKonfig.WEB_GOOGLE_CLIENT_ID)
-            }
         }
-    }
-
-    @SingleIn(AppScope::class)
-    @Provides
-    fun provideComposeAuth(client: SupabaseClient): ComposeAuth {
-        return client.composeAuth
     }
 }

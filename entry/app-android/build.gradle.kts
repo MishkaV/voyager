@@ -76,6 +76,7 @@ dependencies {
 
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.splashscreen)
+    implementation(libs.kermit)
     implementation(libs.metro.android)
     implementation(libs.supabase.auth)
 

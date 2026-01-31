@@ -23,8 +23,8 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data
-                    android:scheme="${DEEPLINK_HOST}"
-                    android:host="${DEEPLINK_SCHEME}" />
+                    android:scheme="${DEEPLINK_SCHEME}"
+                    android:host="${DEEPLINK_AUTH_HOST}" />
             </intent-filter>
         </activity>
     </application>

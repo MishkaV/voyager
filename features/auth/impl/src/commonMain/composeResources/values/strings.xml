@@ -3,6 +3,6 @@
     <string name="login_title_2">Chase new places.\nChase new stories.</string>
     <string name="login_title_3">Count countries.\nCount memories.</string>
 
-    <string name="login_button_google">Sign in with Google</string>
+    <string name="login_button_github">Sign in with Github</string>
     <string name="login_button_email">Sign in with email</string>
 </resources>

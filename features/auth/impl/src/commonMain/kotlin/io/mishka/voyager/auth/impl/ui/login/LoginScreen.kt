@@ -19,12 +19,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import co.touchlab.kermit.Logger
-import io.github.jan.supabase.compose.auth.composable.NativeSignInResult
-import io.github.jan.supabase.compose.auth.composable.rememberSignInWithGoogle
+import io.github.jan.supabase.auth.auth
 import io.mishka.voyager.auth.impl.ui.login.components.TypewriterText
 import io.mishkav.voyager.core.ui.theme.VoyagerTheme
-import io.mishkav.voyager.core.ui.theme.icons.google36
+import io.mishkav.voyager.core.ui.theme.icons.github36
 import io.mishkav.voyager.core.ui.theme.icons.mail36
 import io.mishkav.voyager.core.ui.uikit.button.VoyagerButton
 import io.mishkav.voyager.core.ui.uikit.button.VoyagerDefaultButtonSizes
@@ -34,39 +32,25 @@ import org.jetbrains.compose.resources.stringResource
 import voyager.features.auth.impl.generated.resources.Res
 import voyager.features.auth.impl.generated.resources.ic_logo
 import voyager.features.auth.impl.generated.resources.login_button_email
-import voyager.features.auth.impl.generated.resources.login_button_google
+import voyager.features.auth.impl.generated.resources.login_button_github
 
 @Composable
 fun LoginScreen(
     viewModel: LoginViewModel,
+    navigateToAskEmail: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val googleAction = viewModel.supabaseComposeAuth.rememberSignInWithGoogle(
-        onResult = { result ->
-            when (result) {
-                is NativeSignInResult.Success -> {
-                    Logger.e("Success to login via Google")
-                }
-                is NativeSignInResult.Error -> {
-                    Logger.e("Failed to google login: ${result.message}")
-                }
-                is NativeSignInResult.NetworkError -> {
-                    Logger.e("Failed to google login via network error: ${result.message}")
-                }
-                is NativeSignInResult.ClosedByUser -> Unit
-            }
-        }
-    )
-
     LoginScreenContent(
-        googleSignIn = googleAction::startFlow,
+        githubSignIn = viewModel::startGithubSignIn,
+        navigateToAskEmail = navigateToAskEmail,
         modifier = modifier,
     )
 }
 
 @Composable
 private fun LoginScreenContent(
-    googleSignIn: () -> Unit,
+    githubSignIn: () -> Unit,
+    navigateToAskEmail: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val topSpaceWeight = 0.67f
@@ -109,9 +93,9 @@ private fun LoginScreenContent(
                 verticalPadding = 9.dp,
                 iconSize = 36.dp,
             ),
-            text = stringResource(Res.string.login_button_google),
-            icon = VoyagerTheme.icons.google36,
-            onClick = googleSignIn
+            text = stringResource(Res.string.login_button_github),
+            icon = VoyagerTheme.icons.github36,
+            onClick = githubSignIn
         )
 
         Spacer(Modifier.height(10.dp))
@@ -131,9 +115,7 @@ private fun LoginScreenContent(
             ),
             text = stringResource(Res.string.login_button_email),
             icon = VoyagerTheme.icons.mail36,
-            onClick = {
-                // TODO Email navigation
-            }
+            onClick = navigateToAskEmail
         )
 
         Spacer(Modifier.weight(1 - topSpaceWeight))

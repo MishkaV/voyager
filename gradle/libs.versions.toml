@@ -1,6 +1,8 @@
 [versions]
 androidx-activity = "1.12.2"
 androidx-annotaion = "1.9.1"
+androidx-datastore = "1.2.0"
+androidx-lifecycle-compose = "2.9.4"
 androidx-splashscreen = "1.2.0"
 android-secrets = "2.0.1"
 
@@ -31,7 +33,7 @@ kermit = "2.0.8"
 ktor = "3.4.0"
 ksp = "2.3.4"
 
-metro = "0.10.1"
+metro = "0.10.2"
 
 room = "2.8.4"
 
@@ -42,6 +44,8 @@ supabase = "3.3.0"
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activity" }
 androidx-annotaion = { module = "androidx.annotation:annotation", version.ref = "androidx-annotaion" }
+androidx-datastore = { module = "androidx.datastore:datastore-preferences-core", version.ref = "androidx-datastore" }
+androidx-lifecycle-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "androidx-lifecycle-compose" }
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
@@ -92,6 +96,7 @@ kotlinx-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-
 kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
 
 metro-android = { module = "dev.zacsweers.metro:metrox-android", version.ref = "metro" }
+metro-viewmodel = { module = "dev.zacsweers.metro:metrox-viewmodel", version.ref = "metro" }
 
 sqlite-bundled = { module = "androidx.sqlite:sqlite-bundled", version.ref = "sqlite" }
 settings = { module = "com.russhwolf:multiplatform-settings", version.ref = "settings" }

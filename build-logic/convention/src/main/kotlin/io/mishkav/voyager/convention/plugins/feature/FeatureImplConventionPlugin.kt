@@ -18,6 +18,7 @@ class FeatureImplConventionPlugin : Plugin<Project> {
 
             extensions.configure<KotlinMultiplatformExtension> {
                 sourceSets.commonMain.dependencies {
+                    implementation(libs.findLibrary("androidx.lifecycle.compose").get())
                     implementation(libs.findLibrary("kermit").get())
 
                     implementation(project(":core:ui:lifecycle"))

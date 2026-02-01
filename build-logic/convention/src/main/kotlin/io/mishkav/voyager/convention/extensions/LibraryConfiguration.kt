@@ -51,7 +51,8 @@ fun Project.configureKmp() {
 
                 if (namespace == null) {
                     // Default namespace
-                    namespace = "${project.group.toString().lowercase()}.${project.name.replace("-", ".")}"
+                    namespace =
+                        "${project.group.toString().lowercase()}.${project.name.replace("-", ".")}"
                 }
 
                 compilerOptions {
@@ -69,9 +70,13 @@ fun Project.configureKotlin() {
             // Override by setting warningsAsErrors=true in your ~/.gradle/gradle.properties
             val warningsAsErrors: String? by project
             allWarningsAsErrors.set(warningsAsErrors.toBoolean())
-            freeCompilerArgs.add(
-                // Enable experimental coroutines APIs, including Flow
-                "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
+            freeCompilerArgs.addAll(
+                listOf(
+                    // Enable experimental coroutines APIs, including Flow
+                    "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
+                    // Dismiss expect/actual
+                    "-Xexpect-actual-classes"
+                )
             )
         }
     }

@@ -8,6 +8,7 @@ kotlin {
         commonMain.dependencies {
             api(projects.features.auth.api)
 
+            implementation(projects.core.storage.settings)
             implementation(projects.features.navigation.api)
             implementation(project.dependencies.platform(libs.supabase.bom))
             implementation(libs.supabase.auth)

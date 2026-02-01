@@ -78,6 +78,7 @@ dependencies {
     implementation(libs.androidx.splashscreen)
     implementation(libs.kermit)
     implementation(libs.metro.android)
+    implementation(libs.metro.viewmodel)
     implementation(libs.supabase.auth)
 
     implementation(projects.entry.app)

@@ -33,11 +33,13 @@ import io.mishkav.voyager.core.ui.uikit.transition.LocalNavAnimatedVisibilitySco
 import io.mishkav.voyager.core.ui.uikit.transition.LocalSharedTransitionScope
 import io.mishkav.voyager.features.navigation.api.RootComponent
 import io.mishkav.voyager.features.navigation.api.model.RootConfig
+import io.mishkav.voyager.features.navigation.api.model.VoyagerStartupStatus
 
 @AssistedInject
 class RootComponentImpl(
     @Assisted componentContext: ComponentContext,
     @Assisted externalBackHandler: BackHandler?,
+    @Assisted startupStatus: VoyagerStartupStatus,
     private val authComponentFactory: AuthComponent.Factory,
     private val introComponentFactory: IntroComponent.Factory,
 ) : RootComponent, ComponentContext by componentContext, BackHandlerOwner {
@@ -49,7 +51,11 @@ class RootComponentImpl(
     private val stack: Value<ChildStack<RootConfig, DecomposeComponent>> = childStack(
         source = navigation,
         serializer = RootConfig.serializer(),
-        initialConfiguration = RootConfig.Intro,
+        initialConfiguration = when (startupStatus) {
+            VoyagerStartupStatus.Main -> RootConfig.Main
+            VoyagerStartupStatus.ShouldShowIntro -> RootConfig.Intro
+            VoyagerStartupStatus.Loading -> error("Not supported status")
+        },
         handleBackButton = true,
         childFactory = ::child,
     )
@@ -62,11 +68,13 @@ class RootComponentImpl(
         is RootConfig.Auth -> authComponentFactory.create(
             componentContext = componentContext,
         )
+
         is RootConfig.CountryDetails -> TODO("Add screen implementation")
         is RootConfig.Onboarding -> TODO("Add screen implementation")
         is RootConfig.Intro -> introComponentFactory.create(
             componentContext = componentContext,
         )
+
         is RootConfig.Location -> TODO("Add screen implementation")
     }
 
@@ -110,7 +118,8 @@ class RootComponentImpl(
     interface Factory : RootComponent.Factory {
         override fun create(
             componentContext: ComponentContext,
-            backHandler: BackHandler?
+            backHandler: BackHandler?,
+            startupStatus: VoyagerStartupStatus,
         ): RootComponentImpl
     }
 }

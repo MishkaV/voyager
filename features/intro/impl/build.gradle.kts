@@ -11,6 +11,7 @@ kotlin {
         commonMain.dependencies {
             api(projects.features.intro.api)
 
+            implementation(projects.core.supabase.api)
             implementation(projects.features.navigation.api)
         }
     }

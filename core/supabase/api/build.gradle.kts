@@ -5,7 +5,8 @@ plugins {
 kotlin {
     sourceSets {
         commonMain.dependencies {
-            // Add your dependencies here
+            api(project.dependencies.platform(libs.supabase.bom))
+            api(libs.supabase.auth)
         }
     }
 }

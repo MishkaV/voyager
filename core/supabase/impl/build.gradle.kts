@@ -11,10 +11,10 @@ kotlin {
             api(projects.core.supabase.api)
 
             implementation(project.dependencies.platform(libs.supabase.bom))
-            implementation(libs.supabase.auth)
             implementation(libs.supabase.coil)
             implementation(libs.supabase.postgrest)
             implementation(libs.supabase.storage)
+            implementation(libs.kermit)
         }
     }
 }

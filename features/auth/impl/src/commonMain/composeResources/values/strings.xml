@@ -5,4 +5,13 @@
 
     <string name="login_button_github">Sign in with Github</string>
     <string name="login_button_email">Sign in with email</string>
+
+
+    <string name="email_title">What’s your email?</string>
+    <string name="email_subtitle">We’ll send you a one-time code to sign in</string>
+    <string name="email_textfield_placeholder">voyager@voyager.com</string>
+    <string name="email_textfield_label">Your email</string>
+    <string name="email_button">Sign in with email</string>
+    <string name="email_error_not_right_email">Oops! That email doesn’t look right. Can you double-check the format?</string>
+    <string name="email_error_general">Uh-oh! Looks like something's not right, but we're on it!</string>
 </resources>

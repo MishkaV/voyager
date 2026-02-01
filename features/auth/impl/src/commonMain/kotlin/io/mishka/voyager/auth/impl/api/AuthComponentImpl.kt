@@ -5,6 +5,7 @@ import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.extensions.compose.experimental.stack.ChildStack
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.childStack
+import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.router.stack.pushNew
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.backhandler.BackHandlerOwner
@@ -44,7 +45,10 @@ class AuthComponentImpl(
                 navigation.pushNew(AuthConfig.AskEmail)
             }
         )
-        AuthConfig.AskEmail -> askEmailDecomposeComponent.create(componentContext)
+        AuthConfig.AskEmail -> askEmailDecomposeComponent.create(
+            componentContext = componentContext,
+            navigateBack = navigation::pop
+        )
         AuthConfig.InsertOTP -> insertOTPDecomposeComponent.create(componentContext)
     }
 

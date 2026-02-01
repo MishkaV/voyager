@@ -6,10 +6,13 @@ import dev.zacsweers.metro.Provides
 import dev.zacsweers.metro.SingleIn
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.auth.Auth
+import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.coil.Coil3Integration
 import io.github.jan.supabase.createSupabaseClient
 import io.github.jan.supabase.postgrest.Postgrest
+import io.github.jan.supabase.postgrest.postgrest
 import io.github.jan.supabase.storage.Storage
+import io.github.jan.supabase.storage.storage
 import voyager.core.supabase.impl.BuildKonfig
 
 @ContributesTo(AppScope::class)
@@ -30,5 +33,20 @@ interface SupabaseProviders {
             install(Storage)
             install(Coil3Integration)
         }
+    }
+
+    @Provides
+    fun provideSupabaseAuth(supabase: SupabaseClient): Auth {
+        return supabase.auth
+    }
+
+    @Provides
+    fun provideSupabasePostgrest(supabase: SupabaseClient): Postgrest {
+        return supabase.postgrest
+    }
+
+    @Provides
+    fun provideSupabaseStorage(supabase: SupabaseClient): Storage {
+        return supabase.storage
     }
 }

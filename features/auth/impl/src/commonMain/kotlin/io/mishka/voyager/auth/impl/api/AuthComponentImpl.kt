@@ -45,10 +45,15 @@ class AuthComponentImpl(
                 navigation.pushNew(AuthConfig.AskEmail)
             }
         )
+
         AuthConfig.AskEmail -> askEmailDecomposeComponent.create(
             componentContext = componentContext,
+            navigateToOTP = {
+                navigation.pushNew(AuthConfig.InsertOTP)
+            },
             navigateBack = navigation::pop
         )
+
         AuthConfig.InsertOTP -> insertOTPDecomposeComponent.create(componentContext)
     }
 

@@ -9,7 +9,7 @@ import dev.zacsweers.metro.AssistedFactory
 import dev.zacsweers.metro.AssistedInject
 import dev.zacsweers.metro.Provider
 import io.mishka.voyager.auth.impl.ui.email.AskEmailScreen
-import io.mishka.voyager.auth.impl.ui.login.LoginViewModel
+import io.mishka.voyager.auth.impl.ui.email.AskEmailViewModel
 import io.mishkav.voyager.core.ui.decompose.DecomposeOnBackParameter
 import io.mishkav.voyager.core.ui.decompose.ScreenDecomposeComponent
 import io.mishkav.voyager.core.ui.lifecycle.viewModelWithFactory
@@ -17,8 +17,9 @@ import io.mishkav.voyager.core.ui.lifecycle.viewModelWithFactory
 @AssistedInject
 class AskEmailDecomposeComponent(
     @Assisted componentContext: ComponentContext,
+    @Assisted private val navigateToOTP: () -> Unit,
     @Assisted private val navigateBack: DecomposeOnBackParameter,
-    private val askEmailViewModelProvider: Provider<LoginViewModel>,
+    private val askEmailViewModelProvider: Provider<AskEmailViewModel>,
 ) : ScreenDecomposeComponent(componentContext) {
 
     @Composable
@@ -29,6 +30,7 @@ class AskEmailDecomposeComponent(
         }
 
         AskEmailScreen(
+            navigateToOTP = navigateToOTP,
             navigateBack = navigateBack,
             viewModel = viewModel,
             modifier = Modifier.fillMaxSize(),
@@ -39,6 +41,7 @@ class AskEmailDecomposeComponent(
     interface Factory {
         fun create(
             componentContext: ComponentContext,
+            navigateToOTP: () -> Unit,
             navigateBack: DecomposeOnBackParameter,
         ): AskEmailDecomposeComponent
     }

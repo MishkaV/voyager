@@ -1,0 +1,25 @@
+<resources>
+    <string name="login_title_1">Keep exploring.\nKeep discovering.</string>
+    <string name="login_title_2">Chase new places.\nChase new stories.</string>
+    <string name="login_title_3">Count countries.\nCount memories.</string>
+
+    <string name="login_button_github">Sign in with Github</string>
+    <string name="login_button_email">Sign in with email</string>
+
+    <string name="email_title">What’s your email?</string>
+    <string name="email_subtitle">We’ll send you a one-time code to sign in</string>
+    <string name="email_textfield_placeholder">voyager@voyager.com</string>
+    <string name="email_textfield_label">Your email</string>
+    <string name="email_error_not_right_email">Oops! That email doesn’t look right. Can you double-check the format?</string>
+
+    <string name="otp_title">6-digit code</string>
+    <string name="otp_subtitle">Enter the code sent to %1$s</string>
+    <string name="otp_resend_in">Resend code in %1$s</string>
+    <string name="otp_send_again">Send code again</string>
+    <string name="otp_error_code">Whoops! That OTP code is off.</string>
+    <string name="otp_snackbar_resend_complete">Hey there! Just shot you another OTP code!</string>
+    <string name="otp_snackbar_resend_button_confirm">Superb!</string>
+
+    <string name="general_snackbar_error">Uh-oh! Looks like something's not right, but we're on it!</string>
+    <string name="general_button_continue">Continue</string>
+</resources>

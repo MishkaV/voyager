@@ -41,12 +41,18 @@ include(
 
     // Core
     ":core:debug",
+    ":core:storage:settings",
+    ":core:supabase:api",
+    ":core:supabase:impl",
     ":core:ui:decompose",
     ":core:ui:lifecycle",
     ":core:ui:theme",
     ":core:ui:uikit",
+    ":core:utils:context",
 
     // Features
+    ":features:auth:api",
+    ":features:auth:impl",
     ":features:intro:api",
     ":features:intro:impl",
     ":features:navigation:api",

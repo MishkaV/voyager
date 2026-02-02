@@ -5,9 +5,6 @@ import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.essenty.backhandler.BackHandler
 import io.mishkav.voyager.core.ui.decompose.CompositeDecomposeComponent
 
-/**
- * Component interface for ${__formattedModuleName} feature with multi-screen navigation.
- */
 abstract class ${__formattedModuleName}Component<C : Any> : CompositeDecomposeComponent<C>() {
     interface Factory {
         fun create(

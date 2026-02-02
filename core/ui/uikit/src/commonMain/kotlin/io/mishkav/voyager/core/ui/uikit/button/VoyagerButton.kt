@@ -57,7 +57,7 @@ fun VoyagerButton(
                     icon?.let {
                         Icon(
                             modifier = Modifier.size(size.iconSize),
-                            tint = style.colors.contentColor,
+                            tint = style.iconColor,
                             imageVector = icon,
                             contentDescription = null,
                         )

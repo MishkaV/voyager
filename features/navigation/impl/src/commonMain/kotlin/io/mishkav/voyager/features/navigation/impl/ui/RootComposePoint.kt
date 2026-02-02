@@ -2,7 +2,6 @@ package io.mishkav.voyager.features.navigation.impl.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.imePadding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
@@ -23,8 +22,7 @@ fun RootComposePoint(
             root.Render(
                 modifier = modifier
                     .fillMaxSize()
-                    .background(LocalColors.current.white)
-                    .imePadding()
+                    .background(LocalColors.current.background),
             )
         }
     }

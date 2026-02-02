@@ -1,3 +1,4 @@
+import io.mishkav.voyager.convention.extensions.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
@@ -17,6 +18,9 @@ class FeatureImplConventionPlugin : Plugin<Project> {
 
             extensions.configure<KotlinMultiplatformExtension> {
                 sourceSets.commonMain.dependencies {
+                    implementation(libs.findLibrary("androidx.lifecycle.compose").get())
+                    implementation(libs.findLibrary("kermit").get())
+
                     implementation(project(":core:ui:lifecycle"))
                     implementation(project(":core:ui:uikit"))
                 }

@@ -6,7 +6,9 @@ import kotlinx.serialization.Serializable
 sealed interface RootConfig {
 
     @Serializable
-    data object Auth : RootConfig
+    data class Auth(
+        val nextScreenToNavigate: RootConfig
+    ) : RootConfig
 
     @Serializable
     data object Main : RootConfig

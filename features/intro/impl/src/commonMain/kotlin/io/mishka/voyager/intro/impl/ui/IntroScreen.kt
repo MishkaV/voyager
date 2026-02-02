@@ -15,8 +15,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import io.mishka.voyager.intro.impl.api.IntroState
 import io.mishkav.voyager.core.ui.theme.VoyagerTheme
 import io.mishkav.voyager.core.ui.uikit.button.VoyagerButton
 import io.mishkav.voyager.core.ui.uikit.button.VoyagerDefaultButtonSizes
@@ -30,11 +28,9 @@ import voyager.features.intro.impl.generated.resources.title
 
 @Composable
 fun IntroScreen(
-    viewModel: IntroViewModel,
     modifier: Modifier = Modifier,
 ) {
     val rootNavigation = LocalRootNavigation.current
-    val introState = viewModel.introState.collectAsStateWithLifecycle()
 
     Box(
         modifier = modifier
@@ -67,15 +63,13 @@ fun IntroScreen(
             size = VoyagerDefaultButtonSizes.buttonXL(),
             text = stringResource(Res.string.button_next),
             onClick = {
-                val configToNavigate = when (introState.value) {
-                    IntroState.ShouldShowAuth -> RootConfig.Auth(
-                        nextScreenToNavigate = RootConfig.Onboarding,
+                rootNavigation.push(
+                    config = RootConfig.Auth(
+                        successNavigationConfig = RootConfig.Onboarding(
+                            successNavigationConfig = RootConfig.Location,
+                        ),
                     )
-                    IntroState.ShouldShowOnboarding -> RootConfig.Onboarding
-                    null -> null
-                }
-
-                configToNavigate?.let { rootNavigation.push(configToNavigate) }
+                )
             }
         )
     }

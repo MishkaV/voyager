@@ -22,6 +22,7 @@ kotlin {
             api(projects.features.auth.impl)
             api(projects.features.intro.impl)
             api(projects.features.navigation.impl)
+            api(projects.features.onboarding.impl)
 
             implementation(libs.jetbrains.compose.material3)
             implementation(libs.kermit)

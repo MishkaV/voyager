@@ -6,5 +6,7 @@ sealed interface VoyagerStartupStatus {
 
     object ShouldShowIntro : VoyagerStartupStatus
 
+    object ShouldShowOnboarding : VoyagerStartupStatus
+
     object Main : VoyagerStartupStatus
 }

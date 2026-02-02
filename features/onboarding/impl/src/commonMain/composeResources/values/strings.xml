@@ -1,0 +1,9 @@
+<resources>
+    <string name="prefs_title">What do you want from this app?</string>
+    <string name="prefs_subtitle">That'll help us improve our travel tips</string>
+
+    <string name="vibes_title">Choose your travel vibes</string>
+    <string name="vibes_subtitle">Pick what you enjoy on trips. We’ll use this to tailor your recommendations.</string>
+
+    <string name="general_button_continue">Continue</string>
+</resources>

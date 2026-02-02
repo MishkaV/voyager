@@ -58,8 +58,8 @@ class MainViewModel(
             )
 
             _startupStatus.value = when {
-                !isOnboardingViewed -> VoyagerStartupStatus.ShouldShowIntro
                 !isLoggedIn -> VoyagerStartupStatus.ShouldShowIntro
+                !isOnboardingViewed -> VoyagerStartupStatus.ShouldShowOnboarding
                 else -> VoyagerStartupStatus.Main
             }.also {
                 Logger.d("MainViewModel: Startup status - $it")

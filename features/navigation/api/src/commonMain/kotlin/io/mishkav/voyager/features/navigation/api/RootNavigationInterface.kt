@@ -9,4 +9,6 @@ val LocalRootNavigation = staticCompositionLocalOf<RootNavigationInterface> {
 
 interface RootNavigationInterface {
     fun push(config: RootConfig)
+
+    fun replaceCurrent(config: RootConfig)
 }

@@ -57,4 +57,6 @@ include(
     ":features:intro:impl",
     ":features:navigation:api",
     ":features:navigation:impl",
+    ":features:onboarding:api",
+    ":features:onboarding:impl",
 )

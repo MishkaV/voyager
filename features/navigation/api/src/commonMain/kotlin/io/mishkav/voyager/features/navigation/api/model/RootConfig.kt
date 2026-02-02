@@ -7,7 +7,7 @@ sealed interface RootConfig {
 
     @Serializable
     data class Auth(
-        val nextScreenToNavigate: RootConfig
+        val successNavigationConfig: RootConfig
     ) : RootConfig
 
     @Serializable
@@ -17,7 +17,9 @@ sealed interface RootConfig {
     data object Intro : RootConfig
 
     @Serializable
-    data object Onboarding : RootConfig
+    data class Onboarding(
+        val successNavigationConfig: RootConfig
+    ) : RootConfig
 
     @Serializable
     data object CountryDetails : RootConfig

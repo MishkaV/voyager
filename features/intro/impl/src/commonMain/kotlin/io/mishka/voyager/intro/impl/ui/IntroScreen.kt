@@ -68,7 +68,9 @@ fun IntroScreen(
             text = stringResource(Res.string.button_next),
             onClick = {
                 val configToNavigate = when (introState.value) {
-                    IntroState.ShouldShowAuth -> RootConfig.Auth
+                    IntroState.ShouldShowAuth -> RootConfig.Auth(
+                        nextScreenToNavigate = RootConfig.Onboarding,
+                    )
                     IntroState.ShouldShowOnboarding -> RootConfig.Onboarding
                     null -> null
                 }

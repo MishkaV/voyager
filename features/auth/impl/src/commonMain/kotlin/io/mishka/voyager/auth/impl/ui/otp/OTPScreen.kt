@@ -1,4 +1,4 @@
-package io.mishka.voyager.auth.impl.ui.email
+package io.mishka.voyager.auth.impl.ui.otp
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -11,59 +11,55 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.windowInsetsPadding
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.autofill.ContentType
-import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.semantics.contentType
-import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import io.mishka.voyager.auth.impl.ui.email.state.AskEmailSnackbarState
-import io.mishka.voyager.auth.impl.ui.email.state.AskEmailState
-import io.mishkav.voyager.core.ui.decompose.DecomposeOnBackParameter
+import io.mishka.voyager.auth.impl.ui.otp.components.MAX_OTP_LENGTH
+import io.mishka.voyager.auth.impl.ui.otp.components.OTPTextField
+import io.mishka.voyager.auth.impl.ui.otp.components.ResendTimer
+import io.mishka.voyager.auth.impl.ui.otp.state.OTPSnackbarState
+import io.mishka.voyager.auth.impl.ui.otp.state.OTPState
 import io.mishkav.voyager.core.ui.theme.VoyagerTheme
 import io.mishkav.voyager.core.ui.uikit.appbar.SimpleVoyagerAppBar
 import io.mishkav.voyager.core.ui.uikit.button.VoyagerButton
 import io.mishkav.voyager.core.ui.uikit.button.VoyagerDefaultButtonSizes
 import io.mishkav.voyager.core.ui.uikit.button.VoyagerDefaultButtonStyles
 import io.mishkav.voyager.core.ui.uikit.snackbar.VoyagerErrorSnackbar
+import io.mishkav.voyager.core.ui.uikit.snackbar.VoyagerSnackbar
 import io.mishkav.voyager.core.ui.uikit.snackbar.compose.SnackbarBox
 import io.mishkav.voyager.core.ui.uikit.snackbar.compose.noOverlapBottomContentBySnackbar
-import io.mishkav.voyager.core.ui.uikit.textfield.VoyagerTextField
 import org.jetbrains.compose.resources.stringResource
 import voyager.features.auth.impl.generated.resources.Res
-import voyager.features.auth.impl.generated.resources.email_error_not_right_email
-import voyager.features.auth.impl.generated.resources.email_subtitle
-import voyager.features.auth.impl.generated.resources.email_textfield_label
-import voyager.features.auth.impl.generated.resources.email_textfield_placeholder
-import voyager.features.auth.impl.generated.resources.email_title
 import voyager.features.auth.impl.generated.resources.general_button_continue
 import voyager.features.auth.impl.generated.resources.general_snackbar_error
+import voyager.features.auth.impl.generated.resources.otp_error_code
+import voyager.features.auth.impl.generated.resources.otp_snackbar_resend_button_confirm
+import voyager.features.auth.impl.generated.resources.otp_snackbar_resend_complete
+import voyager.features.auth.impl.generated.resources.otp_subtitle
+import voyager.features.auth.impl.generated.resources.otp_title
 
 @Composable
-internal fun AskEmailScreen(
-    navigateToOTP: (email: String) -> Unit,
-    navigateBack: DecomposeOnBackParameter,
-    viewModel: AskEmailViewModel,
+internal fun OTPScreen(
+    email: String,
+    viewModel: OTPViewModel,
+    successNavigation: () -> Unit,
+    onBack: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val askEmailState = viewModel.askEmailState.collectAsStateWithLifecycle()
+    val otpState = viewModel.otpState.collectAsStateWithLifecycle()
 
-    LaunchedEffect(askEmailState.value) {
-        val state = askEmailState.value
-        if (state is AskEmailState.Success) {
-            navigateToOTP(state.email)
+    LaunchedEffect(otpState.value) {
+        if (otpState.value == OTPState.SUCCESS) {
+            successNavigation()
         }
     }
 
@@ -72,45 +68,61 @@ internal fun AskEmailScreen(
         component = viewModel.snackbarComponent,
         alignment = Alignment.BottomCenter,
         snackbarContent = { state ->
-            VoyagerErrorSnackbar(
-                text = stringResource(
-                    resource = when (state) {
-                        AskEmailSnackbarState.WRONG_EMAIL -> Res.string.email_error_not_right_email
-                        AskEmailSnackbarState.GENERAL_ERROR -> Res.string.general_snackbar_error
-                    }
-                ),
-                close = viewModel.snackbarComponent::hide,
-                modifier = Modifier
-                    .padding(horizontal = 24.dp)
-                    .padding(bottom = 12.dp),
-            )
+            val generalModifier = Modifier
+                .padding(horizontal = 24.dp)
+                .padding(bottom = 12.dp)
+
+            when (state) {
+                OTPSnackbarState.WRONG_OTP, OTPSnackbarState.RESEND_CODE_FAILED -> {
+                    VoyagerErrorSnackbar(
+                        text = stringResource(
+                            resource = when (state) {
+                                OTPSnackbarState.WRONG_OTP -> Res.string.otp_error_code
+                                OTPSnackbarState.RESEND_CODE_FAILED -> Res.string.general_snackbar_error
+                                OTPSnackbarState.RESEND_CODE_COMPLETE -> Res.string.general_snackbar_error
+                            }
+                        ),
+                        close = viewModel.snackbarComponent::hide,
+                        modifier = generalModifier,
+                    )
+                }
+
+                OTPSnackbarState.RESEND_CODE_COMPLETE -> {
+                    VoyagerSnackbar(
+                        text = stringResource(Res.string.otp_snackbar_resend_complete),
+                        buttonText = stringResource(Res.string.otp_snackbar_resend_button_confirm),
+                        buttonClick = viewModel.snackbarComponent::hide,
+                        modifier = generalModifier
+                    )
+                }
+            }
         },
     ) {
-        AskEmailScreenContent(
-            askEmailState = askEmailState,
-            startEmailLogin = { email ->
-                viewModel.startEmailLogin(
-                    email = email,
-                )
-            },
-            onBack = navigateBack::invoke,
+        OTPScreenContent(
+            email = email,
+            otpState = otpState,
+            resendCode = { viewModel.resendOTP(email) },
+            verifyOTP = { otp -> viewModel.verifyOTP(email, otp) },
+            onBack = onBack,
             modifier = Modifier.fillMaxSize().imePadding(),
         )
     }
 }
 
 @Composable
-private fun AskEmailScreenContent(
-    askEmailState: State<AskEmailState>,
-    startEmailLogin: (String) -> Unit,
+private fun OTPScreenContent(
+    email: String,
+    otpState: State<OTPState>,
+    resendCode: () -> Unit,
+    verifyOTP: (otp: String) -> Unit,
     onBack: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val emailState = rememberTextFieldState()
-    val focusRequester = remember { FocusRequester() }
-
-    LaunchedEffect(Unit) {
-        focusRequester.requestFocus()
+    val otpCodeState = rememberTextFieldState()
+    val isPrimaryButtonActive = remember(otpCodeState.text) {
+        derivedStateOf {
+            otpCodeState.text.length == MAX_OTP_LENGTH
+        }
     }
 
     Column(
@@ -126,7 +138,7 @@ private fun AskEmailScreenContent(
 
         Text(
             modifier = Modifier.fillMaxWidth(),
-            text = stringResource(Res.string.email_title),
+            text = stringResource(Res.string.otp_title),
             style = VoyagerTheme.typography.h1,
             textAlign = TextAlign.Start,
             color = VoyagerTheme.colors.font
@@ -136,7 +148,7 @@ private fun AskEmailScreenContent(
 
         Text(
             modifier = Modifier.fillMaxWidth(),
-            text = stringResource(Res.string.email_subtitle),
+            text = stringResource(Res.string.otp_subtitle, email),
             style = VoyagerTheme.typography.bodyBold,
             textAlign = TextAlign.Start,
             color = VoyagerTheme.colors.subtext
@@ -144,17 +156,14 @@ private fun AskEmailScreenContent(
 
         Spacer(Modifier.height(36.dp))
 
-        VoyagerTextField(
-            modifier = Modifier
-                .semantics {
-                    contentType = ContentType.EmailAddress
-                }
-                .focusRequester(focusRequester),
-            state = emailState,
-            label = stringResource(Res.string.email_textfield_label),
-            placeholder = stringResource(Res.string.email_textfield_placeholder),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+        OTPTextField(
+            state = otpCodeState,
+            modifier = Modifier.fillMaxWidth()
         )
+
+        Spacer(Modifier.height(16.dp))
+
+        ResendTimer(resendCode = resendCode)
 
         Spacer(Modifier.weight(1f))
 
@@ -163,9 +172,10 @@ private fun AskEmailScreenContent(
             style = VoyagerDefaultButtonStyles.primary(),
             size = VoyagerDefaultButtonSizes.buttonXL(),
             text = stringResource(Res.string.general_button_continue),
-            loading = askEmailState.value is AskEmailState.Loading,
+            loading = otpState.value == OTPState.LOADING,
+            enabled = isPrimaryButtonActive.value,
             onClick = {
-                startEmailLogin(emailState.text.toString())
+                verifyOTP(otpCodeState.text.toString())
             }
         )
 

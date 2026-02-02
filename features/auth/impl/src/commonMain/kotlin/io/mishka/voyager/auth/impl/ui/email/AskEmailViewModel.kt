@@ -21,14 +21,14 @@ class AskEmailViewModel(
 
     val snackbarComponent: SnackbarComponent<AskEmailSnackbarState> = SnackbarComponent()
 
-    private val _askEmailState = MutableStateFlow(AskEmailState.IDLE)
+    private val _askEmailState = MutableStateFlow<AskEmailState>(AskEmailState.Idle)
     val askEmailState = _askEmailState.asStateFlow()
 
     fun startEmailLogin(email: String) {
         viewModelScope.launch {
             Logger.d("AskEmailViewModel: startEmailLogin")
 
-            _askEmailState.value = AskEmailState.LOADING
+            _askEmailState.value = AskEmailState.Loading
 
             if (!isEmailValid(email)) {
                 showSnackbar(AskEmailSnackbarState.WRONG_EMAIL)
@@ -40,7 +40,7 @@ class AskEmailViewModel(
                     this.email = email
                 }
             }.onSuccess {
-                _askEmailState.value = AskEmailState.SUCCESS
+                _askEmailState.value = AskEmailState.Success(email)
             }.onFailure { error ->
                 Logger.e("AskEmailViewModel: Failed to send OTP - ${error.message}")
                 showSnackbar(AskEmailSnackbarState.GENERAL_ERROR)
@@ -49,7 +49,7 @@ class AskEmailViewModel(
     }
 
     private fun showSnackbar(state: AskEmailSnackbarState) {
-        _askEmailState.value = AskEmailState.IDLE
+        _askEmailState.value = AskEmailState.Idle
         snackbarComponent.show(
             SnackbarMessage(
                 duration = SnackbarDuration.Short,

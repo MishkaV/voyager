@@ -18,10 +18,12 @@ import dev.zacsweers.metro.binding
 import io.mishka.voyager.auth.api.AuthComponent
 import io.mishka.voyager.auth.api.model.AuthConfig
 import io.mishkav.voyager.core.ui.decompose.DecomposeComponent
+import io.mishkav.voyager.features.navigation.api.model.RootConfig
 
 @AssistedInject
 class AuthComponentImpl(
     @Assisted componentContext: ComponentContext,
+    @Assisted private val successNavigationConfig: RootConfig,
     private val loginComponentFactory: LoginDecomposeComponent.Factory,
     private val askEmailDecomposeComponent: AskEmailDecomposeComponent.Factory,
     private val insertOTPDecomposeComponent: InsertOTPDecomposeComponent.Factory,
@@ -39,22 +41,27 @@ class AuthComponentImpl(
         config: AuthConfig,
         componentContext: ComponentContext
     ): DecomposeComponent = when (config) {
-        AuthConfig.Login -> loginComponentFactory.create(
+        is AuthConfig.Login -> loginComponentFactory.create(
             componentContext = componentContext,
             navigateToAskEmail = {
                 navigation.pushNew(AuthConfig.AskEmail)
             }
         )
 
-        AuthConfig.AskEmail -> askEmailDecomposeComponent.create(
+        is AuthConfig.AskEmail -> askEmailDecomposeComponent.create(
             componentContext = componentContext,
-            navigateToOTP = {
-                navigation.pushNew(AuthConfig.InsertOTP)
+            navigateToOTP = { email ->
+                navigation.pushNew(AuthConfig.InsertOTP(email))
             },
-            navigateBack = navigation::pop
+            navigateBack = navigation::pop,
         )
 
-        AuthConfig.InsertOTP -> insertOTPDecomposeComponent.create(componentContext)
+        is AuthConfig.InsertOTP -> insertOTPDecomposeComponent.create(
+            componentContext = componentContext,
+            email = config.email,
+            navigateBack = navigation::pop,
+            successNavigationConfig = successNavigationConfig,
+        )
     }
 
     @AssistedFactory
@@ -62,6 +69,7 @@ class AuthComponentImpl(
     interface Factory : AuthComponent.Factory {
         override fun create(
             componentContext: ComponentContext,
+            successNavigationConfig: RootConfig,
         ): AuthComponentImpl
     }
 }

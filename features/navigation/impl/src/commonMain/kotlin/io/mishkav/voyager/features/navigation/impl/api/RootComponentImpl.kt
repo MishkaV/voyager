@@ -67,6 +67,7 @@ class RootComponentImpl(
         is RootConfig.Main -> TODO("Add screen implementation")
         is RootConfig.Auth -> authComponentFactory.create(
             componentContext = componentContext,
+            successNavigationConfig = config.nextScreenToNavigate,
         )
 
         is RootConfig.CountryDetails -> TODO("Add screen implementation")

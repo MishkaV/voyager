@@ -6,6 +6,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.input.InputTransformation
 import androidx.compose.foundation.text.input.OutputTransformation
 import androidx.compose.foundation.text.input.TextFieldLineLimits
@@ -37,6 +38,7 @@ fun VoyagerTextField(
     isError: Boolean = false,
     inputTransformation: InputTransformation? = null,
     outputTransformation: OutputTransformation? = null,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     lineLimits: TextFieldLineLimits = TextFieldLineLimits.SingleLine,
 ) {
     val colors = LocalColors.current
@@ -80,6 +82,7 @@ fun VoyagerTextField(
         isError = isError,
         inputTransformation = inputTransformation,
         outputTransformation = outputTransformation,
+        keyboardOptions = keyboardOptions,
         contentPadding = OutlinedTextFieldDefaults.contentPadding(
             start = 16.dp,
             end = 16.dp,

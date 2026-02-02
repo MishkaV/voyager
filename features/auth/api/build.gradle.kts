@@ -8,6 +8,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             api(projects.core.ui.decompose)
+            api(projects.features.navigation.api)
         }
     }
 }

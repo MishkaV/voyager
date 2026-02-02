@@ -17,7 +17,7 @@ import io.mishkav.voyager.core.ui.lifecycle.viewModelWithFactory
 @AssistedInject
 class AskEmailDecomposeComponent(
     @Assisted componentContext: ComponentContext,
-    @Assisted private val navigateToOTP: () -> Unit,
+    @Assisted private val navigateToOTP: (email: String) -> Unit,
     @Assisted private val navigateBack: DecomposeOnBackParameter,
     private val askEmailViewModelProvider: Provider<AskEmailViewModel>,
 ) : ScreenDecomposeComponent(componentContext) {
@@ -41,7 +41,7 @@ class AskEmailDecomposeComponent(
     interface Factory {
         fun create(
             componentContext: ComponentContext,
-            navigateToOTP: () -> Unit,
+            navigateToOTP: (email: String) -> Unit,
             navigateBack: DecomposeOnBackParameter,
         ): AskEmailDecomposeComponent
     }

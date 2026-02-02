@@ -11,5 +11,7 @@ sealed class AuthConfig {
     data object AskEmail : AuthConfig()
 
     @Serializable
-    data object InsertOTP : AuthConfig()
+    data class InsertOTP(
+        val email: String
+    ) : AuthConfig()
 }

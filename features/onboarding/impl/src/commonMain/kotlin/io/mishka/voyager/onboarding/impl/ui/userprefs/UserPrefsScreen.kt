@@ -85,7 +85,7 @@ private fun UserPrefsScreenContent(
         Spacer(Modifier.weight(1f))
 
         VoyagerButton(
-            modifier = Modifier.fillMaxWidth().noOverlapBottomContentBySnackbar(),
+            modifier = Modifier.fillMaxWidth(),
             style = VoyagerDefaultButtonStyles.primary(),
             size = VoyagerDefaultButtonSizes.buttonXL(),
             text = stringResource(Res.string.general_button_continue),

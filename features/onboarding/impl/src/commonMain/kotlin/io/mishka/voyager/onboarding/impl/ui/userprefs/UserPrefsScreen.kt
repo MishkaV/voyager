@@ -21,7 +21,6 @@ import io.mishkav.voyager.core.ui.uikit.appbar.SimpleVoyagerAppBar
 import io.mishkav.voyager.core.ui.uikit.button.VoyagerButton
 import io.mishkav.voyager.core.ui.uikit.button.VoyagerDefaultButtonSizes
 import io.mishkav.voyager.core.ui.uikit.button.VoyagerDefaultButtonStyles
-import io.mishkav.voyager.core.ui.uikit.snackbar.compose.noOverlapBottomContentBySnackbar
 import org.jetbrains.compose.resources.stringResource
 import voyager.features.onboarding.impl.generated.resources.Res
 import voyager.features.onboarding.impl.generated.resources.general_button_continue

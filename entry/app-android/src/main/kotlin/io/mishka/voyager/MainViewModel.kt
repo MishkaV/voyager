@@ -14,6 +14,7 @@ import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.auth.handleDeeplinks
 import io.mishka.voyager.core.storage.settings.VoyagerSettingsKeys
+import io.mishka.voyager.orchestrator.api.IAuthOrchestrator
 import io.mishka.voyager.supabase.api.ISupabaseAuth
 import io.mishkav.voyager.features.navigation.api.model.VoyagerStartupStatus
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -32,11 +33,18 @@ class MainViewModel(
     private val supabase: SupabaseClient,
     private val supabaseAuth: ISupabaseAuth,
     private val settings: SuspendSettings,
+    private val authOrchestrator: IAuthOrchestrator,
 ) : ViewModel() {
 
     private val _startupStatus =
         MutableStateFlow<VoyagerStartupStatus>(VoyagerStartupStatus.Loading)
     val startupStatus = _startupStatus.asStateFlow()
+
+    init {
+        with(viewModelScope) {
+            launch { authOrchestrator.startListen() }
+        }
+    }
 
     fun init(intent: Intent) {
         viewModelScope.launch {

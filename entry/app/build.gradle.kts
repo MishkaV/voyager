@@ -15,13 +15,19 @@ kotlin {
             implementation(libs.coil.gif)
         }
         commonMain.dependencies {
+            api(projects.common.orchestrator.impl)
             api(projects.core.debug)
+            api(projects.core.repositories.userPreferences.impl)
+            api(projects.core.repositories.vibes.impl)
+            api(projects.core.storage.database)
             api(projects.core.storage.settings)
             api(projects.core.supabase.impl)
             api(projects.core.utils.context)
+            api(projects.core.utils.time.impl)
             api(projects.features.auth.impl)
             api(projects.features.intro.impl)
             api(projects.features.navigation.impl)
+            api(projects.features.onboarding.impl)
 
             implementation(libs.jetbrains.compose.material3)
             implementation(libs.kermit)

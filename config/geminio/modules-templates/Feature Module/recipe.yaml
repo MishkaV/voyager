@@ -4,7 +4,7 @@ requiredParams:
 
 predefinedFeatures:
   - enableModuleCreationParams:
-      defaultPackageNamePrefix: io.mishka.voyager
+      defaultPackageNamePrefix: io.mishkav.voyager
 
 widgets:
   - booleanParameter:

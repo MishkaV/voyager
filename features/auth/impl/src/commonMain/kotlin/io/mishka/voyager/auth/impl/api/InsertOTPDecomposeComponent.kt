@@ -37,7 +37,7 @@ class InsertOTPDecomposeComponent(
             email = email,
             viewModel = viewModel,
             successNavigation = {
-                rootNavigation.push(successNavigationConfig)
+                rootNavigation.replaceCurrent(successNavigationConfig)
             },
             onBack = navigateBack::invoke,
             modifier = Modifier.fillMaxSize()

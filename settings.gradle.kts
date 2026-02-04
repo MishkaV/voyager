@@ -39,8 +39,19 @@ include(
     ":entry:app",
     ":entry:app-android",
 
+    // Common
+    ":common:orchestrator:api",
+    ":common:orchestrator:impl",
+
     // Core
     ":core:debug",
+    ":core:repositories:base",
+    ":core:repositories:paging",
+    ":core:repositories:user-preferences:api",
+    ":core:repositories:user-preferences:impl",
+    ":core:repositories:vibes:api",
+    ":core:repositories:vibes:impl",
+    ":core:storage:database",
     ":core:storage:settings",
     ":core:supabase:api",
     ":core:supabase:impl",
@@ -49,6 +60,9 @@ include(
     ":core:ui:theme",
     ":core:ui:uikit",
     ":core:utils:context",
+    ":core:utils:room",
+    ":core:utils:time:api",
+    ":core:utils:time:impl",
 
     // Features
     ":features:auth:api",
@@ -57,4 +71,6 @@ include(
     ":features:intro:impl",
     ":features:navigation:api",
     ":features:navigation:impl",
+    ":features:onboarding:api",
+    ":features:onboarding:impl",
 )

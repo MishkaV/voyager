@@ -3,6 +3,7 @@ androidx-activity = "1.12.3"
 androidx-annotaion = "1.9.1"
 androidx-datastore = "1.2.0"
 androidx-lifecycle-compose = "2.10.0"
+androidx-paging = "3.4.0"
 androidx-splashscreen = "1.2.0"
 android-secrets = "2.0.1"
 
@@ -28,6 +29,7 @@ jetbrains-viewmodel = "2.9.6"
 
 kotlin = "2.3.0"
 kotlinx-coroutines = "1.10.2"
+kotlinx-datetime = "0.7.1"
 kotlinx-serialization = "1.10.0"
 kermit = "2.0.8"
 ktor = "3.4.0"
@@ -46,6 +48,8 @@ androidx-activity-compose = { module = "androidx.activity:activity-compose", ver
 androidx-annotaion = { module = "androidx.annotation:annotation", version.ref = "androidx-annotaion" }
 androidx-datastore = { module = "androidx.datastore:datastore-preferences-core", version.ref = "androidx-datastore" }
 androidx-lifecycle-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "androidx-lifecycle-compose" }
+androidx-paging = { module = "androidx.paging:paging-common", version.ref = "androidx-paging" }
+androidx-paging-compose = { module = "androidx.paging:paging-compose", version.ref = "androidx-paging" }
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
@@ -92,6 +96,7 @@ ktor-engine-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "kto
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinx-coroutines" }
 kotlinx-coroutines-swing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-swing", version.ref = "kotlinx-coroutines" }
+kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
 kotlinx-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
 kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
 

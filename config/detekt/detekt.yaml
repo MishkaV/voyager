@@ -389,7 +389,7 @@ performance:
     active: true
     excludes: [ '**/test/**','**/jvmSharedTest/**', '**/androidUnitTest/**', '**/androidTest/**', '**/commonTest/**', '**/jvmTest/**', '**/jsTest/**', '**/iosTest/**' ]
   SpreadOperator:
-    active: true
+    active: false
     excludes: [ '**/test/**','**/jvmSharedTest/**', '**/androidUnitTest/**', '**/androidTest/**', '**/commonTest/**', '**/jvmTest/**', '**/jsTest/**', '**/iosTest/**' ]
   UnnecessaryPartOfBinaryExpression:
     active: false
@@ -578,7 +578,7 @@ style:
       - '1'
       - '2'
     ignoreHashCodeFunction: true
-    ignorePropertyDeclaration: false
+    ignorePropertyDeclaration: true
     ignoreLocalVariableDeclaration: true
     ignoreConstantDeclaration: true
     ignoreCompanionObjectPropertyDeclaration: true

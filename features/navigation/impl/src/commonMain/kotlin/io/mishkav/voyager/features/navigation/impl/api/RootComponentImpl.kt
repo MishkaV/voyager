@@ -15,6 +15,7 @@ import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.router.stack.pushNew
+import com.arkivanov.decompose.router.stack.replaceCurrent
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.backhandler.BackDispatcher
 import com.arkivanov.essenty.backhandler.BackHandler
@@ -27,6 +28,7 @@ import dev.zacsweers.metro.ContributesBinding
 import dev.zacsweers.metro.binding
 import io.mishka.voyager.auth.api.AuthComponent
 import io.mishka.voyager.intro.api.IntroComponent
+import io.mishka.voyager.onboarding.api.OnboardingComponent
 import io.mishkav.voyager.core.ui.decompose.DecomposeComponent
 import io.mishkav.voyager.core.ui.decompose.back.backAnimation
 import io.mishkav.voyager.core.ui.uikit.transition.LocalNavAnimatedVisibilityScope
@@ -42,6 +44,7 @@ class RootComponentImpl(
     @Assisted startupStatus: VoyagerStartupStatus,
     private val authComponentFactory: AuthComponent.Factory,
     private val introComponentFactory: IntroComponent.Factory,
+    private val onboardingComponentFactory: OnboardingComponent.Factory,
 ) : RootComponent, ComponentContext by componentContext, BackHandlerOwner {
 
     override val backHandler: BackHandler = externalBackHandler ?: BackDispatcher()
@@ -54,6 +57,9 @@ class RootComponentImpl(
         initialConfiguration = when (startupStatus) {
             VoyagerStartupStatus.Main -> RootConfig.Main
             VoyagerStartupStatus.ShouldShowIntro -> RootConfig.Intro
+            VoyagerStartupStatus.ShouldShowOnboarding -> RootConfig.Onboarding(
+                successNavigationConfig = RootConfig.Main
+            )
             VoyagerStartupStatus.Loading -> error("Not supported status")
         },
         handleBackButton = true,
@@ -67,11 +73,13 @@ class RootComponentImpl(
         is RootConfig.Main -> TODO("Add screen implementation")
         is RootConfig.Auth -> authComponentFactory.create(
             componentContext = componentContext,
-            successNavigationConfig = config.nextScreenToNavigate,
+            successNavigationConfig = config.successNavigationConfig,
         )
 
         is RootConfig.CountryDetails -> TODO("Add screen implementation")
-        is RootConfig.Onboarding -> TODO("Add screen implementation")
+        is RootConfig.Onboarding -> onboardingComponentFactory.create(
+            componentContext = componentContext,
+        )
         is RootConfig.Intro -> introComponentFactory.create(
             componentContext = componentContext,
         )
@@ -112,6 +120,10 @@ class RootComponentImpl(
 
     override fun push(config: RootConfig) {
         navigation.pushNew(config)
+    }
+
+    override fun replaceCurrent(config: RootConfig) {
+        navigation.replaceCurrent(config)
     }
 
     @AssistedFactory

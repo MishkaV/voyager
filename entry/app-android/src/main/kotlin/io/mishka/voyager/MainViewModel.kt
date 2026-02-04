@@ -13,7 +13,9 @@ import dev.zacsweers.metrox.viewmodel.ViewModelKey
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.auth.handleDeeplinks
+import io.github.jan.supabase.auth.user.UserSession
 import io.mishka.voyager.core.storage.settings.VoyagerSettingsKeys
+import io.mishka.voyager.orchestrator.api.IAuthOrchestrator
 import io.mishka.voyager.supabase.api.ISupabaseAuth
 import io.mishkav.voyager.features.navigation.api.model.VoyagerStartupStatus
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -32,16 +34,23 @@ class MainViewModel(
     private val supabase: SupabaseClient,
     private val supabaseAuth: ISupabaseAuth,
     private val settings: SuspendSettings,
+    private val authOrchestrator: IAuthOrchestrator,
 ) : ViewModel() {
 
     private val _startupStatus =
         MutableStateFlow<VoyagerStartupStatus>(VoyagerStartupStatus.Loading)
     val startupStatus = _startupStatus.asStateFlow()
 
+    init {
+        with(viewModelScope) {
+            launch { authOrchestrator.startListen() }
+        }
+    }
+
     fun init(intent: Intent) {
         viewModelScope.launch {
             // Firstly, check intent
-            if (isAuthDeeplink(intent)) {
+            val userSession = if (isAuthDeeplink(intent)) {
                 runCatching {
                     handleSupabaseDeeplinks(intent)
                 }.onFailure {
@@ -49,17 +58,19 @@ class MainViewModel(
                     _startupStatus.value = VoyagerStartupStatus.ShouldShowIntro
                     return@launch
                 }
+            } else {
+                null
             }
 
-            val isLoggedIn = supabaseAuth.isLoggedIn()
+            val isLoggedIn = supabaseAuth.isLoggedIn() || userSession != null
             val isOnboardingViewed = settings.getBoolean(
                 key = VoyagerSettingsKeys.IS_ONBOARDING_VIEWED,
                 defaultValue = false
             )
 
             _startupStatus.value = when {
-                !isOnboardingViewed -> VoyagerStartupStatus.ShouldShowIntro
                 !isLoggedIn -> VoyagerStartupStatus.ShouldShowIntro
+                !isOnboardingViewed -> VoyagerStartupStatus.ShouldShowOnboarding
                 else -> VoyagerStartupStatus.Main
             }.also {
                 Logger.d("MainViewModel: Startup status - $it")
@@ -82,14 +93,14 @@ class MainViewModel(
     private suspend fun handleSupabaseDeeplinks(
         intent: Intent,
         timeoutMs: Long = 5_000L,
-    ) {
-        withTimeout(timeoutMs) {
+    ): UserSession {
+        return withTimeout(timeoutMs) {
             suspendCancellableCoroutine { cont ->
                 supabase.handleDeeplinks(
                     intent = intent,
-                    onSessionSuccess = {
+                    onSessionSuccess = { session ->
                         Logger.d("MainViewModel: Successfully imported session from intent")
-                        if (cont.isActive) cont.resume(Unit)
+                        if (cont.isActive) cont.resume(session)
                     },
                     onError = { error ->
                         Logger.e("MainViewModel: Failed to import session from intent - ${error.message}")

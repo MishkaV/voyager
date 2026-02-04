@@ -25,5 +25,7 @@ sealed interface RootConfig {
     data object CountryDetails : RootConfig
 
     @Serializable
-    data object Location : RootConfig
+    data class Location(
+        val onRequestLocation: (isGranted: Boolean) -> Unit
+    ) : RootConfig
 }

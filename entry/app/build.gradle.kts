@@ -26,6 +26,7 @@ kotlin {
             api(projects.core.utils.time.impl)
             api(projects.features.auth.impl)
             api(projects.features.intro.impl)
+            api(projects.features.location.impl)
             api(projects.features.navigation.impl)
             api(projects.features.onboarding.impl)
 

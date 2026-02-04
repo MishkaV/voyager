@@ -11,4 +11,6 @@ interface RootNavigationInterface {
     fun push(config: RootConfig)
 
     fun replaceCurrent(config: RootConfig)
+
+    fun replaceAll(vararg configs: RootConfig)
 }

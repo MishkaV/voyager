@@ -15,6 +15,7 @@ import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.router.stack.pushNew
+import com.arkivanov.decompose.router.stack.replaceAll
 import com.arkivanov.decompose.router.stack.replaceCurrent
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.backhandler.BackDispatcher
@@ -28,6 +29,7 @@ import dev.zacsweers.metro.ContributesBinding
 import dev.zacsweers.metro.binding
 import io.mishka.voyager.auth.api.AuthComponent
 import io.mishka.voyager.intro.api.IntroComponent
+import io.mishka.voyager.location.api.LocationComponent
 import io.mishka.voyager.onboarding.api.OnboardingComponent
 import io.mishkav.voyager.core.ui.decompose.DecomposeComponent
 import io.mishkav.voyager.core.ui.decompose.back.backAnimation
@@ -45,6 +47,7 @@ class RootComponentImpl(
     private val authComponentFactory: AuthComponent.Factory,
     private val introComponentFactory: IntroComponent.Factory,
     private val onboardingComponentFactory: OnboardingComponent.Factory,
+    private val locationComponentFactory: LocationComponent.Factory,
 ) : RootComponent, ComponentContext by componentContext, BackHandlerOwner {
 
     override val backHandler: BackHandler = externalBackHandler ?: BackDispatcher()
@@ -84,7 +87,11 @@ class RootComponentImpl(
             componentContext = componentContext,
         )
 
-        is RootConfig.Location -> TODO("Add screen implementation")
+        is RootConfig.Location -> locationComponentFactory.create(
+            componentContext = componentContext,
+            onRequestLocation = config.onRequestLocation,
+            onBack = ::goBack
+        )
     }
 
     @OptIn(ExperimentalDecomposeApi::class, ExperimentalSharedTransitionApi::class)
@@ -124,6 +131,10 @@ class RootComponentImpl(
 
     override fun replaceCurrent(config: RootConfig) {
         navigation.replaceCurrent(config)
+    }
+
+    override fun replaceAll(vararg configs: RootConfig) {
+        navigation.replaceAll(*configs)
     }
 
     @AssistedFactory

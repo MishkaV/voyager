@@ -16,12 +16,10 @@ import dev.zacsweers.metro.binding
 import io.mishka.voyager.onboarding.api.OnboardingComponent
 import io.mishka.voyager.onboarding.api.model.OnboardingConfig
 import io.mishkav.voyager.core.ui.decompose.DecomposeComponent
-import io.mishkav.voyager.features.navigation.api.model.RootConfig
 
 @AssistedInject
 class OnboardingComponentImpl(
     @Assisted componentContext: ComponentContext,
-    @Assisted private val successNavigationConfig: RootConfig,
     private val userPrefsComponentFactory: UserPrefsDecomposeComponent.Factory,
     private val vibesComponentFactory: VibesDecomposeComponent.Factory,
 ) : OnboardingComponent<OnboardingConfig>(),
@@ -51,7 +49,6 @@ class OnboardingComponentImpl(
         is OnboardingConfig.Vibes -> vibesComponentFactory.create(
             componentContext = componentContext,
             navigateBack = navigation::pop,
-            successNavigationConfig = successNavigationConfig,
         )
     }
 
@@ -60,7 +57,6 @@ class OnboardingComponentImpl(
     interface Factory : OnboardingComponent.Factory {
         override fun create(
             componentContext: ComponentContext,
-            successNavigationConfig: RootConfig,
         ): OnboardingComponentImpl
     }
 }

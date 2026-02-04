@@ -49,6 +49,8 @@ include(
     ":core:repositories:paging",
     ":core:repositories:user-preferences:api",
     ":core:repositories:user-preferences:impl",
+    ":core:repositories:vibes:api",
+    ":core:repositories:vibes:impl",
     ":core:storage:database",
     ":core:storage:settings",
     ":core:supabase:api",

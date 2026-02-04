@@ -13,10 +13,10 @@ import kotlinx.coroutines.flow.onEach
 class AuthOrchestrator(
     private val supabaseAuth: Auth,
     private val syncableOrchestrator: SyncableOrchestrator,
-    // private val cleanupOrchestrator: CleanupOrchestrator,
+//     private val cleanupOrchestrator: CleanupOrchestrator,
 ) : IAuthOrchestrator {
 
-    private val logger by lazy { Logger.withTag("AuthOrchestrator") }
+    private val logger by lazy { Logger.withTag("${Logger.tag}: AuthOrchestrator") }
 
     override suspend fun startListen() {
         logger.d { "startListen()" }

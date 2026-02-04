@@ -19,7 +19,7 @@ import kotlinx.coroutines.launch
 class SyncableOrchestrator(
     private val syncables: Set<Syncable>,
 ) {
-    private val logger = Logger.withTag("SyncableOrchestrator")
+    private val logger = Logger.withTag("${Logger.tag}: SyncableOrchestrator")
 
     suspend fun syncAll() {
         if (syncables.isEmpty()) {

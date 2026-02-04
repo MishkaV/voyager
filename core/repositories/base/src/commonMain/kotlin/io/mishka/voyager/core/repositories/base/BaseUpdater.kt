@@ -17,18 +17,18 @@ abstract class BaseUpdater {
         maxAttempts: Int = DEFAULT_MAX_ATTEMPTS,
         block: suspend () -> T,
     ): Result<T> = suspendRunCatching {
-        repeat(maxAttempts - 1) { attempt ->
+        for (attempt in 1..maxAttempts) {
             // Check if active
             currentCoroutineContext().ensureActive()
 
             // Try to update
             try {
                 // Execute action
-                block()
+                return@suspendRunCatching block()
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
-                Logger.e("retryAction($attempt): Failed to execute block - $e")
+                Logger.e("retryAction($attempt): Failed to execute block - $e", e)
             }
 
             // Wait for new attempt if retrying
@@ -58,8 +58,8 @@ abstract class BaseUpdater {
     } catch (cancellationException: kotlin.coroutines.cancellation.CancellationException) {
         throw cancellationException
     } catch (exception: Exception) {
-        Logger.i {
-            "Failed to evaluate a suspendRunCatchingBlock. Returning failure UIResult"
+        Logger.i(exception) {
+            "Failed to evaluate a suspendRunCatchingBlock. Returning failure UIResult - $exception"
         }
         Result.failure(exception)
     }

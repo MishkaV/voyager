@@ -9,6 +9,8 @@ kotlin {
             api(projects.features.onboarding.api)
 
             implementation(projects.core.repositories.userPreferences.api)
+            implementation(projects.core.repositories.vibes.api)
+            implementation(projects.core.storage.settings)
             implementation(projects.features.navigation.api)
         }
     }

@@ -79,7 +79,6 @@ class RootComponentImpl(
         is RootConfig.CountryDetails -> TODO("Add screen implementation")
         is RootConfig.Onboarding -> onboardingComponentFactory.create(
             componentContext = componentContext,
-            successNavigationConfig = config.successNavigationConfig,
         )
         is RootConfig.Intro -> introComponentFactory.create(
             componentContext = componentContext,

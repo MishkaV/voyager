@@ -13,13 +13,11 @@ import io.mishka.voyager.onboarding.impl.ui.vibes.VibesViewModel
 import io.mishkav.voyager.core.ui.decompose.DecomposeOnBackParameter
 import io.mishkav.voyager.core.ui.decompose.ScreenDecomposeComponent
 import io.mishkav.voyager.core.ui.lifecycle.viewModelWithFactory
-import io.mishkav.voyager.features.navigation.api.model.RootConfig
 
 @AssistedInject
 class VibesDecomposeComponent(
     @Assisted componentContext: ComponentContext,
     @Assisted private val navigateBack: DecomposeOnBackParameter,
-    @Assisted private val successNavigationConfig: RootConfig,
     private val vibesViewModelProvider: Provider<VibesViewModel>,
 ) : ScreenDecomposeComponent(componentContext) {
 
@@ -42,7 +40,6 @@ class VibesDecomposeComponent(
         fun create(
             componentContext: ComponentContext,
             navigateBack: DecomposeOnBackParameter,
-            successNavigationConfig: RootConfig,
         ): VibesDecomposeComponent
     }
 }

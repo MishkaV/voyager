@@ -12,7 +12,7 @@ import io.mishka.voyager.core.repositories.base.Cleanable
 // class CleanupOrchestrator(
 //    private val cleanables: Set<Cleanable>,
 // ) {
-//    private val logger by lazy { Logger.withTag("CleanupOrchestrator") }
+//    private val logger by lazy { Logger.withTag("${Logger.tag}: CleanupOrchestrator") }
 //
 //    suspend fun cleanupAll() {
 //        if (cleanables.isEmpty()) {

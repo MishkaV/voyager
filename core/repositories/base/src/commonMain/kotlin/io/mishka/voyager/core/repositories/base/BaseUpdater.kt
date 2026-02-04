@@ -16,7 +16,7 @@ abstract class BaseUpdater {
     suspend fun <T> retryAction(
         maxAttempts: Int = DEFAULT_MAX_ATTEMPTS,
         block: suspend () -> T,
-    ): T {
+    ): Result<T> = suspendRunCatching {
         repeat(maxAttempts - 1) { attempt ->
             // Check if active
             currentCoroutineContext().ensureActive()
@@ -24,7 +24,7 @@ abstract class BaseUpdater {
             // Try to update
             try {
                 // Execute action
-                return block()
+                block()
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
@@ -35,14 +35,14 @@ abstract class BaseUpdater {
             delay(UPDATE_DELAY)
         }
 
-        throw CancellationException("retryAction(): Coroutine scope was cancelled")
+        error("retryAction(): Failed to get data after $maxAttempts attempts")
     }
 
     suspend fun <T> retryActionWithTimeOut(
         timeout: Duration = DEFAULT_TIMEOUT,
         maxAttempts: Int = DEFAULT_MAX_ATTEMPTS,
         block: suspend () -> T,
-    ): T {
+    ): Result<T> {
         return withTimeout(
             timeout = timeout,
         ) {
@@ -51,6 +51,17 @@ abstract class BaseUpdater {
                 block = block,
             )
         }
+    }
+
+    private suspend fun <T> suspendRunCatching(block: suspend () -> T): Result<T> = try {
+        Result.success(block())
+    } catch (cancellationException: kotlin.coroutines.cancellation.CancellationException) {
+        throw cancellationException
+    } catch (exception: Exception) {
+        Logger.i {
+            "Failed to evaluate a suspendRunCatchingBlock. Returning failure UIResult"
+        }
+        Result.failure(exception)
     }
 
     private companion object {

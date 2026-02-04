@@ -4,9 +4,11 @@ import io.mishka.voyager.core.repositories.base.Syncable
 import io.mishka.voyager.core.repositories.userpreferences.api.models.local.PrefEntity
 import kotlinx.coroutines.flow.Flow
 
-interface UserPreferencesRepository : Syncable {
+interface IUserPreferencesRepository : Syncable {
 
-    suspend fun getAllPrefs(forceUpdate: Boolean = false): Flow<List<PrefEntity>>
+    fun getAllPrefs(): Flow<List<PrefEntity>>
 
-    suspend fun addUserPref(userId: String, prefId: String)
+    suspend fun addUserPref(prefId: String)
+
+    suspend fun addUserPrefs(prefIds: List<String>)
 }

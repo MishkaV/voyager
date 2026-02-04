@@ -12,10 +12,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import io.mishka.voyager.onboarding.impl.ui.userprefs.blocks.CheckboxBlock
 import io.mishkav.voyager.core.ui.theme.VoyagerTheme
 import io.mishkav.voyager.core.ui.uikit.appbar.SimpleVoyagerAppBar
 import io.mishkav.voyager.core.ui.uikit.button.VoyagerButton
@@ -34,8 +38,15 @@ fun UserPrefsScreen(
     navigateBack: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val prefsState = viewModel.prefsState.collectAsStateWithLifecycle()
+
     UserPrefsScreenContent(
-        navigateToVibes = navigateToVibes,
+        prefsState = prefsState,
+        selectedPrefsIds = viewModel.selectedPrefsIds,
+        navigateToVibes = {
+            viewModel.addUserPref(viewModel.selectedPrefsIds)
+            navigateToVibes()
+        },
         navigateBack = navigateBack,
         modifier = modifier,
     )
@@ -43,6 +54,8 @@ fun UserPrefsScreen(
 
 @Composable
 private fun UserPrefsScreenContent(
+    prefsState: State<PrefsUIState>,
+    selectedPrefsIds: SnapshotStateList<String>,
     navigateToVibes: () -> Unit,
     navigateBack: () -> Unit,
     modifier: Modifier = Modifier,
@@ -79,7 +92,10 @@ private fun UserPrefsScreenContent(
 
         Spacer(Modifier.height(36.dp))
 
-        // TODO Checkboxs
+        CheckboxBlock(
+            prefsState = prefsState,
+            selectedPrefsIds = selectedPrefsIds,
+        )
 
         Spacer(Modifier.weight(1f))
 
@@ -88,12 +104,7 @@ private fun UserPrefsScreenContent(
             style = VoyagerDefaultButtonStyles.primary(),
             size = VoyagerDefaultButtonSizes.buttonXL(),
             text = stringResource(Res.string.general_button_continue),
-            loading = false, // TODO
-            onClick = {
-                // TODO
-
-                navigateToVibes()
-            }
+            onClick = navigateToVibes
         )
 
         Spacer(Modifier.height(12.dp))

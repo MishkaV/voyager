@@ -23,7 +23,7 @@ abstract class BaseUpdatableRepository(
         remoteLoad: suspend () -> T,
         localLoad: suspend () -> T?,
         replaceLocalData: suspend (T) -> Unit,
-    ): T {
+    ): Result<T> {
         val generalLogPrefix = "updatableLoad($key, $timeKey)"
 
         val timeLimitPassed = isPassedTimeLimit(timeKey, delay)
@@ -31,7 +31,7 @@ abstract class BaseUpdatableRepository(
 
         logger.d { "$generalLogPrefix: timeHasPassed - $timeHasPassed, forceUpdate - $forceUpdate" }
 
-        val getFromBackend: suspend () -> T = {
+        val getFromBackend: suspend () -> Result<T> = {
             retryAction {
                 val result = remoteLoad()
                 replaceLocalData(result)
@@ -40,8 +40,10 @@ abstract class BaseUpdatableRepository(
             }
         }
 
-        val getFromLocal: suspend () -> T = {
-            checkNotNull(localLoad()) { "$generalLogPrefix: Failed to get local data" }
+        val getFromLocal: suspend () -> Result<T> = {
+            runCatching {
+                checkNotNull(localLoad()) { "$generalLogPrefix: Failed to get local data" }
+            }
         }
 
         return try {

@@ -4,7 +4,7 @@ import co.touchlab.kermit.Logger
 
 abstract class BaseRepository : BaseUpdater() {
 
-    protected val logger: Logger = Logger.withTag(this::class.simpleName ?: "Repository")
+    protected val logger: Logger = Logger.withTag("${Logger.tag}: ${this::class.simpleName ?: "Repository"}")
 
     /**
      * Will try to get from local, if failed will try to get from backend
@@ -14,7 +14,7 @@ abstract class BaseRepository : BaseUpdater() {
         remoteLoad: suspend () -> Entity,
         localLoad: suspend () -> Entity,
         replaceLocalData: suspend (Entity) -> Unit,
-    ): Entity = retryAction {
+    ): Result<Entity> = retryAction {
         val remoteGetAndUpdate: suspend () -> Entity = {
             // Get from backend
             val remoteItem = remoteLoad()
@@ -43,7 +43,7 @@ abstract class BaseRepository : BaseUpdater() {
         remoteLoad: suspend (forceUpdate: Boolean) -> DTO,
         localLoad: suspend (forceUpdate: Boolean) -> Entity,
         replaceLocalData: suspend (DTO) -> Entity,
-    ): Entity = retryAction {
+    ): Result<Entity> = retryAction {
         val remoteGetAndUpdate: suspend () -> Entity = {
             // Get from backend
             val remoteItem = remoteLoad(forceUpdate)

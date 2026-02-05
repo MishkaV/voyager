@@ -24,7 +24,9 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import io.mishka.voyager.core.repositories.userstats.api.models.local.UserStatsEntity
 import io.mishka.voyager.features.main.api.consts.MAIN_BOTTOM_BAR_HEIGHT
+import io.mishka.voyager.profile.impl.ui.blocks.StatsBlock
 import io.mishka.voyager.profile.impl.ui.utils.sendEmail
 import io.mishkav.voyager.core.ui.theme.VoyagerTheme
 import io.mishkav.voyager.core.ui.uikit.button.VoyagerButton
@@ -51,7 +53,9 @@ fun ProfileScreen(
     modifier: Modifier = Modifier,
 ) {
     val rootNavigation = LocalRootNavigation.current
+
     val signOutState = viewModel.signOutState.collectAsStateWithLifecycle()
+    val statsState = viewModel.statsState.collectAsStateWithLifecycle()
 
     LaunchedEffect(signOutState.value) {
         if (signOutState.value is UIResult.Success) {
@@ -64,6 +68,7 @@ fun ProfileScreen(
     }
 
     ProfileScreenContent(
+        statsState = statsState,
         signOutState = signOutState,
         signOut = viewModel::signOut,
         modifier = modifier,
@@ -72,6 +77,7 @@ fun ProfileScreen(
 
 @Composable
 private fun ProfileScreenContent(
+    statsState: State<UIResult<UserStatsEntity>>,
     signOutState: State<UIResult<Unit>>,
     signOut: () -> Unit,
     modifier: Modifier = Modifier,
@@ -117,7 +123,10 @@ private fun ProfileScreenContent(
 
         Spacer(Modifier.height(24.dp))
 
-        // TODO Stats
+        StatsBlock(
+            statsState = statsState,
+            modifier = Modifier.fillMaxWidth(),
+        )
 
         Spacer(Modifier.weight(1f))
 

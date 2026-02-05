@@ -52,7 +52,7 @@ class VoyagerTypography(
     )
 
     val h3: TextStyle = TextStyle(
-        fontWeight = FontWeight.Normal,
+        fontWeight = FontWeight.SemiBold,
         fontFamily = fontFamily,
         fontSize = 16.sp,
         lineHeight = 20.sp,

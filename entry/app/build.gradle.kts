@@ -18,6 +18,7 @@ kotlin {
             api(projects.common.orchestrator.impl)
             api(projects.core.debug)
             api(projects.core.repositories.userPreferences.impl)
+            api(projects.core.repositories.userStats.impl)
             api(projects.core.repositories.vibes.impl)
             api(projects.core.storage.database)
             api(projects.core.storage.settings)

@@ -26,6 +26,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import io.mishka.voyager.features.main.api.consts.MAIN_BOTTOM_BAR_HEIGHT
 import io.mishka.voyager.features.main.impl.domain.model.MainBottomTab
 import io.mishkav.voyager.core.ui.theme.VoyagerTheme
 import io.mishkav.voyager.core.ui.uikit.utils.clickableUnindicated
@@ -34,8 +35,6 @@ import voyager.features.main.impl.generated.resources.Res
 import voyager.features.main.impl.generated.resources.tab_home
 import voyager.features.main.impl.generated.resources.tab_profile
 import voyager.features.main.impl.generated.resources.tab_search
-
-private val MAIN_BOTTOM_BAR_HEIGHT = 56.dp
 
 @Composable
 fun MainBottomBar(

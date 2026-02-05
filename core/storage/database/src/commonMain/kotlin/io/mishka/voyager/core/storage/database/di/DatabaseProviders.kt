@@ -5,6 +5,7 @@ import dev.zacsweers.metro.ContributesTo
 import dev.zacsweers.metro.Provides
 import dev.zacsweers.metro.SingleIn
 import io.mishka.voyager.core.repositories.userpreferences.api.datasource.PrefDao
+import io.mishka.voyager.core.repositories.userstats.api.datasource.UserStatsDao
 import io.mishka.voyager.core.repositories.vibes.api.datasource.VibeCategoryDao
 import io.mishka.voyager.core.repositories.vibes.api.datasource.VibeDao
 import io.mishka.voyager.core.repositories.vibes.api.datasource.VibesCountryDao
@@ -30,6 +31,11 @@ interface DatabaseProviders {
     fun providePrefDao(
         database: AppDatabase
     ): PrefDao = database.prefDao()
+
+    @Provides
+    fun provideUserStatsDao(
+        database: AppDatabase
+    ): UserStatsDao = database.userStatsDao()
 
     @Provides
     fun provideVibeCategoryDao(

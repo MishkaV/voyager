@@ -1,0 +1,18 @@
+<resources>
+    <string name="profile_tab_title">Profile</string>
+    <string name="profile_title">Hey, Voyager!</string>
+    <string name="profile_stat_explored_description">World explored</string>
+    <plurals name="profile_stat_visited_countries">
+        <item quantity="one">Country</item>
+        <item quantity="other">Countries</item>
+    </plurals>
+    <plurals name="profile_stat_visited_continents">
+        <item quantity="one">Continent</item>
+        <item quantity="other">Continents</item>
+    </plurals>
+    <string name="profile_button_email_us">Email us</string>
+    <string name="profile_button_sign_out">Sign out</string>
+    <string name="profile_app_version">Voyager %1$s</string>
+
+    <string name="general_email">myvoyager.space@gmail.com</string>
+</resources>

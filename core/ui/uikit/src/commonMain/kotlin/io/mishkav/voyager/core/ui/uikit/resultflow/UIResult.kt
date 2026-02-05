@@ -9,10 +9,12 @@ import kotlinx.coroutines.flow.onStart
 @Immutable
 sealed interface UIResult<out T> {
     data class Success<T>(val data: T) : UIResult<T>
-    data class Error(val exception: Throwable) : UIResult<Nothing>
-    data object Loading : UIResult<Nothing>
+
+    data class Error<T>(val exception: Throwable) : UIResult<T>
+
+    class Loading<T> : UIResult<T>
 }
 
 fun <T> Flow<T>.asUIResult(): Flow<UIResult<T>> = map<T, UIResult<T>> { UIResult.Success(it) }
-    .onStart { emit(UIResult.Loading) }
+    .onStart { emit(UIResult.Loading()) }
     .catch { emit(UIResult.Error(it)) }

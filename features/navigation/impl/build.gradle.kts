@@ -10,6 +10,7 @@ kotlin {
             implementation(projects.features.auth.api)
             implementation(projects.features.intro.api)
             implementation(projects.features.location.api)
+            implementation(projects.features.main.api)
             implementation(projects.features.onboarding.api)
         }
     }

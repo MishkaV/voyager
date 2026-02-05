@@ -13,4 +13,6 @@
     <string name="profile_button_email_us">Email us</string>
     <string name="profile_button_sign_out">Sign out</string>
     <string name="profile_app_version">Voyager %1$s</string>
+
+    <string name="general_email">myvoyager.space@gmail.com</string>
 </resources>

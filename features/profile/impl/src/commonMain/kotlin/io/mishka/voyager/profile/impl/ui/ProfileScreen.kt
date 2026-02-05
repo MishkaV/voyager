@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBars
@@ -19,19 +18,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import io.mishka.voyager.features.main.api.consts.MAIN_BOTTOM_BAR_HEIGHT
+import io.mishka.voyager.profile.impl.ui.utils.sendEmail
 import io.mishkav.voyager.core.ui.theme.VoyagerTheme
 import io.mishkav.voyager.core.ui.uikit.button.VoyagerButton
 import io.mishkav.voyager.core.ui.uikit.button.VoyagerDefaultButtonSizes
 import io.mishkav.voyager.core.ui.uikit.button.VoyagerDefaultButtonStyles
-import io.mishkav.voyager.core.ui.uikit.snackbar.compose.noOverlapBottomContentBySnackbar
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import voyager.features.profile.impl.BuildKonfig
 import voyager.features.profile.impl.generated.resources.Res
 import voyager.features.profile.impl.generated.resources.avatar
+import voyager.features.profile.impl.generated.resources.general_email
 import voyager.features.profile.impl.generated.resources.profile_app_version
 import voyager.features.profile.impl.generated.resources.profile_button_email_us
 import voyager.features.profile.impl.generated.resources.profile_button_sign_out
@@ -52,6 +53,9 @@ fun ProfileScreen(
 private fun ProfileScreenContent(
     modifier: Modifier = Modifier,
 ) {
+    val uriHandler = LocalUriHandler.current
+    val email = stringResource(Res.string.general_email)
+
     Column(
         modifier = modifier
             .background(VoyagerTheme.colors.background)
@@ -102,9 +106,7 @@ private fun ProfileScreenContent(
             ),
             size = VoyagerDefaultButtonSizes.buttonXL(),
             text = stringResource(Res.string.profile_button_email_us),
-            onClick = {
-                // TODO
-            }
+            onClick = { uriHandler.sendEmail(email) }
         )
 
         Spacer(Modifier.height(12.dp))

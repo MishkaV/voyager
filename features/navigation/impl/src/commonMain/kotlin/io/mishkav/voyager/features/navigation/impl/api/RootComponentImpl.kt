@@ -28,6 +28,7 @@ import dev.zacsweers.metro.AssistedInject
 import dev.zacsweers.metro.ContributesBinding
 import dev.zacsweers.metro.binding
 import io.mishka.voyager.auth.api.AuthComponent
+import io.mishka.voyager.features.main.api.MainComponent
 import io.mishka.voyager.intro.api.IntroComponent
 import io.mishka.voyager.location.api.LocationComponent
 import io.mishka.voyager.onboarding.api.OnboardingComponent
@@ -46,8 +47,9 @@ class RootComponentImpl(
     @Assisted startupStatus: VoyagerStartupStatus,
     private val authComponentFactory: AuthComponent.Factory,
     private val introComponentFactory: IntroComponent.Factory,
-    private val onboardingComponentFactory: OnboardingComponent.Factory,
     private val locationComponentFactory: LocationComponent.Factory,
+    private val mainComponentFactory: MainComponent.Factory,
+    private val onboardingComponentFactory: OnboardingComponent.Factory,
 ) : RootComponent, ComponentContext by componentContext, BackHandlerOwner {
 
     override val backHandler: BackHandler = externalBackHandler ?: BackDispatcher()
@@ -73,7 +75,10 @@ class RootComponentImpl(
         config: RootConfig,
         componentContext: ComponentContext
     ): DecomposeComponent = when (config) {
-        is RootConfig.Main -> TODO("Add screen implementation")
+        is RootConfig.Main -> mainComponentFactory.create(
+            componentContext = componentContext,
+            onBack = ::goBack,
+        )
         is RootConfig.Auth -> authComponentFactory.create(
             componentContext = componentContext,
             successNavigationConfig = config.successNavigationConfig,

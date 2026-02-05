@@ -72,6 +72,8 @@ include(
     ":features:intro:impl",
     ":features:location:api",
     ":features:location:impl",
+    ":features:main:api",
+    ":features:main:impl",
     ":features:navigation:api",
     ":features:navigation:impl",
     ":features:onboarding:api",

@@ -27,6 +27,7 @@ kotlin {
             api(projects.features.auth.impl)
             api(projects.features.intro.impl)
             api(projects.features.location.impl)
+            api(projects.features.main.impl)
             api(projects.features.navigation.impl)
             api(projects.features.onboarding.impl)
 

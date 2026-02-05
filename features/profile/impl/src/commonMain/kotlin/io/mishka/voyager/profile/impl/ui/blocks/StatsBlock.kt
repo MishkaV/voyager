@@ -1,6 +1,7 @@
 package io.mishka.voyager.profile.impl.ui.blocks
 
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
@@ -42,7 +43,7 @@ internal fun StatsBlock(
     AnimatedContent(
         modifier = modifier,
         targetState = statsState.value,
-        transitionSpec = { fadeIn() + slideInVertically() togetherWith fadeOut() },
+        transitionSpec = { fadeIn() + slideInVertically() + expandVertically() togetherWith fadeOut() },
     ) { state ->
         when (state) {
             is UIResult.Error -> Unit

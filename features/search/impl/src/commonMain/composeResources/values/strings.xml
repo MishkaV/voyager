@@ -1,0 +1,7 @@
+<resources>
+    <string name="search_tab_title">Search</string>
+    <string name="search_title_by_continents">Explore by continent</string>
+    <string name="search_title_all">Browse all countries</string>
+
+    <string name="search_textfield_placeholder">Which country you want to explore?</string>
+</resources>

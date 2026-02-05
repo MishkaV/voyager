@@ -15,18 +15,24 @@ import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.State
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import io.mishka.voyager.features.main.api.consts.MAIN_BOTTOM_BAR_HEIGHT
 import io.mishka.voyager.profile.impl.ui.utils.sendEmail
 import io.mishkav.voyager.core.ui.theme.VoyagerTheme
 import io.mishkav.voyager.core.ui.uikit.button.VoyagerButton
 import io.mishkav.voyager.core.ui.uikit.button.VoyagerDefaultButtonSizes
 import io.mishkav.voyager.core.ui.uikit.button.VoyagerDefaultButtonStyles
+import io.mishkav.voyager.core.ui.uikit.resultflow.UIResult
+import io.mishkav.voyager.features.navigation.api.LocalRootNavigation
+import io.mishkav.voyager.features.navigation.api.model.RootConfig
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import voyager.features.profile.impl.BuildKonfig
@@ -44,13 +50,30 @@ fun ProfileScreen(
     viewModel: ProfileViewModel,
     modifier: Modifier = Modifier,
 ) {
+    val rootNavigation = LocalRootNavigation.current
+    val signOutState = viewModel.signOutState.collectAsStateWithLifecycle()
+
+    LaunchedEffect(signOutState.value) {
+        if (signOutState.value is UIResult.Success) {
+            rootNavigation.replaceAll(
+                RootConfig.Auth(
+                    successNavigationConfig = RootConfig.Main
+                )
+            )
+        }
+    }
+
     ProfileScreenContent(
+        signOutState = signOutState,
+        signOut = viewModel::signOut,
         modifier = modifier,
     )
 }
 
 @Composable
 private fun ProfileScreenContent(
+    signOutState: State<UIResult<Unit>>,
+    signOut: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val uriHandler = LocalUriHandler.current
@@ -116,9 +139,8 @@ private fun ProfileScreenContent(
             style = VoyagerDefaultButtonStyles.primary(),
             size = VoyagerDefaultButtonSizes.buttonXL(),
             text = stringResource(Res.string.profile_button_sign_out),
-            onClick = {
-                // TODO
-            }
+            loading = signOutState.value is UIResult.Success,
+            onClick = signOut,
         )
 
         Spacer(Modifier.height(8.dp))

@@ -9,7 +9,10 @@ kotlin {
         commonMain.dependencies {
             api(projects.features.profile.api)
 
+            implementation(libs.supabase.auth)
+            implementation(project.dependencies.platform(libs.supabase.bom))
             implementation(projects.features.main.api)
+            implementation(projects.features.navigation.api)
         }
     }
 }

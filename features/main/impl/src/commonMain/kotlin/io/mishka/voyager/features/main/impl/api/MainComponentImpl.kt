@@ -19,8 +19,10 @@ import dev.zacsweers.metro.binding
 import io.mishka.voyager.features.main.api.MainComponent
 import io.mishka.voyager.features.main.impl.domain.model.MainBottomTab
 import io.mishka.voyager.features.main.impl.domain.model.MainConfig
-import io.mishka.voyager.features.main.impl.domain.model.toConfig
 import io.mishka.voyager.features.main.impl.ui.MainScreen
+import io.mishka.voyager.home.api.HomeComponent
+import io.mishka.voyager.profile.api.ProfileComponent
+import io.mishka.voyager.search.api.SearchComponent
 import io.mishkav.voyager.core.ui.decompose.DecomposeComponent
 import io.mishkav.voyager.core.ui.decompose.DecomposeOnBackParameter
 import io.mishkav.voyager.core.ui.decompose.popOr
@@ -29,6 +31,9 @@ import io.mishkav.voyager.core.ui.decompose.popOr
 class MainComponentImpl(
     @Assisted componentContext: ComponentContext,
     @Assisted private val onBack: DecomposeOnBackParameter,
+    private val homeComponentFactory: HomeComponent.Factory,
+    private val profileComponentFactory: ProfileComponent.Factory,
+    private val searchComponentFactory: SearchComponent.Factory,
 ) : MainComponent<MainConfig>(), ComponentContext by componentContext, BackHandlerOwner {
 
     private val backCallback = BackCallback {
@@ -51,11 +56,15 @@ class MainComponentImpl(
         config: MainConfig,
         componentContext: ComponentContext,
     ): DecomposeComponent = when (config) {
-        is MainConfig.Home -> TODO("Add screen implementation")
-
-        is MainConfig.Search -> TODO("Add screen implementation")
-
-        is MainConfig.Profile -> TODO("Add screen implementation")
+        is MainConfig.Home -> homeComponentFactory.create(
+            componentContext = componentContext,
+        )
+        is MainConfig.Profile -> profileComponentFactory.create(
+            componentContext = componentContext,
+        )
+        is MainConfig.Search -> searchComponentFactory.create(
+            componentContext = componentContext,
+        )
     }
 
     @Composable

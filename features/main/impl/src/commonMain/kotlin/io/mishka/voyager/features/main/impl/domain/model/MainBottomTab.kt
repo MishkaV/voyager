@@ -17,4 +17,10 @@ enum class MainBottomTab {
             SEARCH -> VoyagerIcon.search24
             PROFILE -> VoyagerIcon.profile24
         }
+
+    fun toConfig(): MainConfig = when (this) {
+        HOME -> MainConfig.Home
+        SEARCH -> MainConfig.Search
+        PROFILE -> MainConfig.Profile
+    }
 }

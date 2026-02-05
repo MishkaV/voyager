@@ -44,6 +44,7 @@ fun MainBottomBar(
     modifier: Modifier = Modifier,
 ) {
     val tabs = remember { MainBottomTab.entries.toTypedArray() }
+    val bottomBarFraction = 0.8f
 
     Row(
         modifier = modifier
@@ -56,9 +57,9 @@ fun MainBottomBar(
                 )
             )
             .windowInsetsPadding(WindowInsets.systemBars)
-            .fillMaxWidth()
-            .height(MAIN_BOTTOM_BAR_HEIGHT)
-            .padding(horizontal = 32.dp),
+            .padding(bottom = 4.dp)
+            .fillMaxWidth(bottomBarFraction)
+            .height(MAIN_BOTTOM_BAR_HEIGHT),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically,
     ) {

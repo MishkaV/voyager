@@ -21,10 +21,3 @@ sealed interface MainConfig {
         override val tab: MainBottomTab = MainBottomTab.PROFILE
     }
 }
-
-fun MainBottomTab.toConfig(): MainConfig =
-    when (this) {
-        MainBottomTab.HOME -> MainConfig.Home
-        MainBottomTab.SEARCH -> MainConfig.Search
-        MainBottomTab.PROFILE -> MainConfig.Profile
-    }

@@ -68,6 +68,8 @@ include(
     // Features
     ":features:auth:api",
     ":features:auth:impl",
+    ":features:home:api",
+    ":features:home:impl",
     ":features:intro:api",
     ":features:intro:impl",
     ":features:location:api",
@@ -78,4 +80,8 @@ include(
     ":features:navigation:impl",
     ":features:onboarding:api",
     ":features:onboarding:impl",
+    ":features:profile:api",
+    ":features:profile:impl",
+    ":features:search:api",
+    ":features:search:impl",
 )

@@ -36,8 +36,10 @@ kotlin {
             api(projects.features.profile.impl)
             api(projects.features.search.impl)
 
+            implementation(libs.supabase.coil)
             implementation(libs.jetbrains.compose.material3)
             implementation(libs.kermit)
+            implementation(project.dependencies.platform(libs.supabase.bom))
         }
         jvmMain.dependencies {
             implementation(compose.desktop.currentOs)

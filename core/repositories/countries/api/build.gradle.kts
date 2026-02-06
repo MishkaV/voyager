@@ -10,8 +10,6 @@ kotlin {
             api(projects.core.repositories.base)
             api(projects.core.repositories.paging)
             api(projects.core.utils.room)
-
-            implementation(libs.androidx.room.runtime)
         }
     }
 }

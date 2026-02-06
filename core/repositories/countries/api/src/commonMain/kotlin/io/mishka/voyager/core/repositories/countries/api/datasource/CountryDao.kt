@@ -5,7 +5,6 @@ import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Transaction
 import io.mishka.voyager.core.repositories.countries.api.models.local.CountryEntity
-import io.mishka.voyager.core.repositories.countries.api.models.local.CountryWithVisitedStatus
 import io.mishka.voyager.core.repositories.countries.api.models.local.CountryWithVisitedStatusRoom
 import io.mishka.voyager.core.utils.room.BaseDao
 

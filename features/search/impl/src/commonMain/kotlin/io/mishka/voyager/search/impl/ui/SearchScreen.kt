@@ -12,19 +12,28 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.State
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
+import io.mishka.voyager.core.repositories.countries.api.models.local.Continent
+import io.mishka.voyager.core.repositories.countries.api.models.local.CountryWithVisitedStatus
 import io.mishka.voyager.features.main.api.consts.MAIN_BOTTOM_BAR_HEIGHT
+import io.mishka.voyager.search.impl.ui.blocks.countriesListBlock
 import io.mishka.voyager.search.impl.ui.components.SearchAppBar
 import io.mishkav.voyager.core.ui.theme.VoyagerTheme
-import io.mishkav.voyager.core.ui.uikit.appbar.SimpleVoyagerAppBar
 import io.mishkav.voyager.core.ui.uikit.textfield.VoyagerTextField
 import org.jetbrains.compose.resources.stringResource
 import voyager.features.search.impl.generated.resources.Res
@@ -36,22 +45,41 @@ fun SearchScreen(
     viewModel: SearchViewModel,
     modifier: Modifier = Modifier,
 ) {
+    val continentState = viewModel.selectedContinent.collectAsStateWithLifecycle()
+    val countriesState = viewModel.countriesState.collectAsLazyPagingItems()
+
+    val searchState = rememberTextFieldState()
+
+    LaunchedEffect(Unit) {
+        snapshotFlow { searchState.text }.collect { newText ->
+            viewModel.updateQuery(newText.toString())
+        }
+    }
 
     SearchScreenContent(
+        continentState = continentState,
+        countriesState = countriesState,
+        searchState = searchState,
+        navigateToGeneralSearch = {
+            viewModel.selectContinent(null)
+        },
         modifier = modifier,
     )
 }
 
-
 @Composable
 private fun SearchScreenContent(
+    continentState: State<Continent?>,
+    countriesState: LazyPagingItems<CountryWithVisitedStatus>,
+    searchState: TextFieldState,
+    navigateToGeneralSearch: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val searchState = rememberTextFieldState()
-
-    // TODO
-    val isAppBarVisible = remember {
+    val isSearchActive = remember {
         derivedStateOf { searchState.text.isNotEmpty() }
+    }
+    val isAppBarVisible = remember {
+        derivedStateOf { continentState.value != null }
     }
 
     Column(
@@ -64,9 +92,7 @@ private fun SearchScreenContent(
     ) {
         SearchAppBar(
             isVisible = isAppBarVisible.value,
-            onBack = {
-                // TODO
-            }
+            onBack = navigateToGeneralSearch
         )
 
         // TODO Add change text if selected continent
@@ -88,11 +114,14 @@ private fun SearchScreenContent(
 
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
-            contentPadding = PaddingValues(bottom = MAIN_BOTTOM_BAR_HEIGHT + 12.dp)
+            contentPadding = PaddingValues(
+                top = 36.dp,
+                bottom = MAIN_BOTTOM_BAR_HEIGHT + 12.dp,
+            ),
         ) {
-            item { Spacer(Modifier.height(36.dp)) }
-
-
+            countriesListBlock(
+                countriesState = countriesState,
+            )
         }
     }
 }

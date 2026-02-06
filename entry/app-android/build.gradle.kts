@@ -80,6 +80,7 @@ dependencies {
     implementation(libs.metro.android)
     implementation(libs.metro.viewmodel)
     implementation(libs.supabase.auth)
+    implementation(libs.supabase.coil)
 
     implementation(projects.entry.app)
 }

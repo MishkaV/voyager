@@ -2,7 +2,6 @@ package io.mishka.voyager.core.repositories.userstats.api.datasource
 
 import androidx.room.Dao
 import androidx.room.Query
-import androidx.room.Transaction
 import io.mishka.voyager.core.repositories.userstats.api.models.local.UserStatsEntity
 import io.mishka.voyager.core.utils.room.BaseDao
 import kotlinx.coroutines.flow.Flow

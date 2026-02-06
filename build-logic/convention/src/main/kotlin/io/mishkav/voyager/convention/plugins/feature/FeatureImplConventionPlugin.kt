@@ -23,6 +23,7 @@ class FeatureImplConventionPlugin : Plugin<Project> {
 
                     implementation(project(":core:ui:lifecycle"))
                     implementation(project(":core:ui:uikit"))
+                    implementation(project(":core:utils:supabase"))
                 }
             }
         }

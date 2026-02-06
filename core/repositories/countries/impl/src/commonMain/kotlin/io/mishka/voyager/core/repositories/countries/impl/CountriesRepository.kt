@@ -1,6 +1,5 @@
 package io.mishka.voyager.core.repositories.countries.impl
 
-import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingData
 import androidx.paging.map
@@ -8,14 +7,12 @@ import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesBinding
 import dev.zacsweers.metro.ContributesIntoSet
 import dev.zacsweers.metro.binding
-import io.github.jan.supabase.auth.Auth
 import io.github.jan.supabase.postgrest.Postgrest
 import io.mishka.voyager.core.repositories.base.BaseRepository
 import io.mishka.voyager.core.repositories.base.Syncable
 import io.mishka.voyager.core.repositories.countries.api.ICountriesRepository
 import io.mishka.voyager.core.repositories.countries.api.datasource.CountryDao
 import io.mishka.voyager.core.repositories.countries.api.models.local.Continent
-import io.mishka.voyager.core.repositories.countries.api.models.local.CountryEntity
 import io.mishka.voyager.core.repositories.countries.api.models.local.CountryWithVisitedStatus
 import io.mishka.voyager.core.repositories.countries.api.models.remote.CountryDTO
 import io.mishka.voyager.core.repositories.countries.impl.mappers.toEntity
@@ -44,7 +41,7 @@ class CountriesRepository(
     ): Flow<PagingData<CountryWithVisitedStatus>> {
         logger.d { "getCountriesWithVisitedStatus: continent=$continent, query=$query" }
         val userId = supabaseAuth.getCurrentUser()?.id ?: ""
-        val queryPattern = query?.trim()?.takeIf { it.isNotEmpty() }?.let { "%$it%" }
+        val queryPattern = query?.trim()?.takeIf { it.isNotEmpty() }?.let { "$it%" }
 
         return Pager(
             config = DefaultPagingConfig.create(),

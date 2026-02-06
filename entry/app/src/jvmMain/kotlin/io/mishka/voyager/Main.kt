@@ -6,25 +6,30 @@ import com.arkivanov.decompose.DefaultComponentContext
 import com.arkivanov.essenty.backhandler.BackDispatcher
 import com.arkivanov.essenty.lifecycle.LifecycleRegistry
 import dev.zacsweers.metro.createGraph
-import io.mishka.voyager.di.VoyagerGraph
+import io.github.jan.supabase.annotations.SupabaseExperimental
+import io.github.jan.supabase.coil.coil3
+import io.mishka.voyager.di.VoyagerJVMAppGraph
 import io.mishka.voyager.setup.setupInstruments
 import io.mishkav.voyager.core.debug.isDebuggable
 import io.mishkav.voyager.features.navigation.api.model.VoyagerStartupStatus
 import io.mishkav.voyager.features.navigation.impl.ui.RootComposePoint
 
+@OptIn(SupabaseExperimental::class)
 fun main() {
+    val appGraph = createGraph<VoyagerJVMAppGraph>()
+
     setupInstruments(
-        isDebuggable = isDebuggable()
+        isDebuggable = isDebuggable(),
+        supabaseCoil = appGraph.supabase.coil3,
     )
 
-    val appGraph = createGraph<VoyagerGraph>()
     val backDispatcher = BackDispatcher()
     val lifecycle = LifecycleRegistry()
 
     val root = appGraph.rootComponentFactory.create(
         componentContext = DefaultComponentContext(lifecycle),
         backHandler = backDispatcher,
-        startupStatus = VoyagerStartupStatus.ShouldLogin,
+        startupStatus = VoyagerStartupStatus.ShouldShowIntro,
     )
 
     application {

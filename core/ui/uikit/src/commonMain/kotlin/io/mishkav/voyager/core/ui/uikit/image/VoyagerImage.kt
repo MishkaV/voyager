@@ -25,7 +25,7 @@ import io.mishkav.voyager.core.ui.uikit.shimmer.placeholderFadeConnecting
 
 @Composable
 fun VoyagerImage(
-    imageUrl: String?,
+    data: Any?,
     contentDescription: String?,
     shapeDp: Dp,
     modifier: Modifier = Modifier,
@@ -36,7 +36,7 @@ fun VoyagerImage(
     colorFilter: ColorFilter? = null,
 ) {
     VoyagerImage(
-        imageUrl = imageUrl,
+        data = data,
         contentDescription = contentDescription,
         shape = RoundedCornerShape(shapeDp),
         modifier = modifier,
@@ -50,7 +50,7 @@ fun VoyagerImage(
 
 @Composable
 fun VoyagerImage(
-    imageUrl: String?,
+    data: Any?,
     contentDescription: String?,
     shape: CornerBasedShape,
     modifier: Modifier = Modifier,
@@ -62,9 +62,8 @@ fun VoyagerImage(
 ) {
     val imagePainter = rememberAsyncImagePainter(
         model = imageBuilder
-            .data(imageUrl)
+            .data(data)
             .crossfade(true)
-            .placeholderMemoryCacheKey("placeholder_$imageUrl")
             .build(),
     )
     val imageModelState = imagePainter.state.collectAsState()

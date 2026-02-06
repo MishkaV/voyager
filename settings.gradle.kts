@@ -66,6 +66,7 @@ include(
     ":core:utils:context",
     ":core:utils:permissions",
     ":core:utils:room",
+    ":core:utils:supabase",
     ":core:utils:time:api",
     ":core:utils:time:impl",
 

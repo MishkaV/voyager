@@ -15,6 +15,7 @@ kotlin {
 
             implementation(projects.core.utils.context)
             implementation(libs.sqlite.bundled)
+            implementation(libs.androidx.room.paging)
         }
     }
 }

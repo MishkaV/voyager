@@ -5,6 +5,8 @@ import android.os.StrictMode
 import dev.zacsweers.metro.createGraphFactory
 import dev.zacsweers.metrox.android.MetroAppComponentProviders
 import dev.zacsweers.metrox.android.MetroApplication
+import io.github.jan.supabase.annotations.SupabaseExperimental
+import io.github.jan.supabase.coil.coil3
 import io.mishka.voyager.di.VoyagerAndroidAppGraph
 import io.mishka.voyager.setup.setupInstruments
 import io.mishkav.voyager.BuildConfig
@@ -18,11 +20,15 @@ class VoyagerApplication : Application(), MetroApplication {
 
     val isDebuggable = BuildConfig.DEBUG
 
+    @OptIn(SupabaseExperimental::class)
     override fun onCreate() {
         super.onCreate()
 
         setStrictModePolicy()
-        setupInstruments(isDebuggable)
+        setupInstruments(
+            isDebuggable = isDebuggable,
+            supabaseCoil = appGraph.supabase.coil3,
+        )
     }
 
     private fun setStrictModePolicy() {

@@ -66,9 +66,9 @@ fun IntroScreen(
                 rootNavigation.push(
                     config = RootConfig.Auth(
                         successNavigationConfig = RootConfig.Onboarding(
-                            successNavigationConfig = RootConfig.Location {
-                                rootNavigation.replaceAll(RootConfig.Main)
-                            },
+                            successNavigationConfig = RootConfig.Location(
+                                successNavigationConfig = RootConfig.Main
+                            ),
                         ),
                     )
                 )

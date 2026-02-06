@@ -67,7 +67,8 @@ abstract class BaseRemoteMediator<Key : Any, Value : Any>(
                         saveToDatabase(items)
                     }
                 } catch (e: Exception) {
-                    throw e
+                    Logger.e(e) { "Error saving data to database" }
+                    error("Failed to save data to database")
                 }
             }
 

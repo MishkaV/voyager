@@ -26,6 +26,7 @@ sealed interface RootConfig {
 
     @Serializable
     data class Location(
-        val onRequestLocation: (isGranted: Boolean) -> Unit
+        // TODO Refactor that
+        val successNavigationConfig: RootConfig
     ) : RootConfig
 }

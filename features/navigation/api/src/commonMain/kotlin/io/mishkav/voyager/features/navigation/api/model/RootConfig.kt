@@ -22,10 +22,16 @@ sealed interface RootConfig {
     ) : RootConfig
 
     @Serializable
-    data object CountryDetails : RootConfig
+    data class CountryDetails(
+        val countryId: String,
+        val name: String,
+        val flagFullPatch: String,
+        val backgroundHex: String,
+    ) : RootConfig
 
     @Serializable
     data class Location(
-        val onRequestLocation: (isGranted: Boolean) -> Unit
+        // TODO Refactor that
+        val successNavigationConfig: RootConfig
     ) : RootConfig
 }

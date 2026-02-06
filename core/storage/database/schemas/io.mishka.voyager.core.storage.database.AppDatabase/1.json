@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "fb6d249cb532cb4399b067e7cdfeb83f",
+    "identityHash": "93e63d42bd22ce3bff77163d04e0a4af",
     "entities": [
       {
         "tableName": "prefs",
@@ -61,6 +61,109 @@
           "autoGenerate": false,
           "columnNames": [
             "userId"
+          ]
+        }
+      },
+      {
+        "tableName": "countries",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `iso2` TEXT NOT NULL, `name` TEXT NOT NULL, `capital` TEXT NOT NULL, `continent` TEXT NOT NULL, `primaryLanguage` TEXT NOT NULL, `primaryLanguageCode` TEXT NOT NULL, `primaryCurrency` TEXT NOT NULL, `primaryCurrencyCode` TEXT NOT NULL, `flagFullPatch` TEXT NOT NULL, `backgroundHex` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "iso2",
+            "columnName": "iso2",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "capital",
+            "columnName": "capital",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "continent",
+            "columnName": "continent",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "primaryLanguage",
+            "columnName": "primaryLanguage",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "primaryLanguageCode",
+            "columnName": "primaryLanguageCode",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "primaryCurrency",
+            "columnName": "primaryCurrency",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "primaryCurrencyCode",
+            "columnName": "primaryCurrencyCode",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "flagFullPatch",
+            "columnName": "flagFullPatch",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "backgroundHex",
+            "columnName": "backgroundHex",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        }
+      },
+      {
+        "tableName": "countries_visited",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`userId` TEXT NOT NULL, `countryId` TEXT NOT NULL, PRIMARY KEY(`userId`, `countryId`))",
+        "fields": [
+          {
+            "fieldPath": "userId",
+            "columnName": "userId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "countryId",
+            "columnName": "countryId",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "userId",
+            "countryId"
           ]
         }
       },
@@ -152,7 +255,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'fb6d249cb532cb4399b067e7cdfeb83f')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '93e63d42bd22ce3bff77163d04e0a4af')"
     ]
   }
 }

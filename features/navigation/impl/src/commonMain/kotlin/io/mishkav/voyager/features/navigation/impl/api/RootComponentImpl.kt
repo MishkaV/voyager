@@ -65,6 +65,7 @@ class RootComponentImpl(
             VoyagerStartupStatus.ShouldShowOnboarding -> RootConfig.Onboarding(
                 successNavigationConfig = RootConfig.Main
             )
+
             VoyagerStartupStatus.Loading -> error("Not supported status")
         },
         handleBackButton = true,
@@ -79,6 +80,7 @@ class RootComponentImpl(
             componentContext = componentContext,
             onBack = ::goBack,
         )
+
         is RootConfig.Auth -> authComponentFactory.create(
             componentContext = componentContext,
             successNavigationConfig = config.successNavigationConfig,
@@ -88,13 +90,16 @@ class RootComponentImpl(
         is RootConfig.Onboarding -> onboardingComponentFactory.create(
             componentContext = componentContext,
         )
+
         is RootConfig.Intro -> introComponentFactory.create(
             componentContext = componentContext,
         )
 
         is RootConfig.Location -> locationComponentFactory.create(
             componentContext = componentContext,
-            onRequestLocation = config.onRequestLocation,
+            onRequestLocation = { isGranted ->
+                navigation.replaceAll(config.successNavigationConfig)
+            },
             onBack = ::goBack
         )
     }

@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import io.mishka.voyager.features.main.api.consts.MAIN_BOTTOM_BAR_HEIGHT
 import io.mishka.voyager.features.main.impl.domain.model.MainBottomTab
 import io.mishkav.voyager.core.ui.theme.VoyagerTheme
+import io.mishkav.voyager.core.ui.uikit.snackbar.compose.noOverlapBottomContentBySnackbar
 import io.mishkav.voyager.core.ui.uikit.utils.clickableUnindicated
 import org.jetbrains.compose.resources.stringResource
 import voyager.features.main.impl.generated.resources.Res
@@ -36,6 +37,7 @@ import voyager.features.main.impl.generated.resources.tab_home
 import voyager.features.main.impl.generated.resources.tab_profile
 import voyager.features.main.impl.generated.resources.tab_search
 
+@Suppress("MagicNumber")
 @Composable
 fun MainBottomBar(
     selectedTab: MainBottomTab,
@@ -49,14 +51,14 @@ fun MainBottomBar(
         modifier = modifier
             .background(
                 brush = Brush.verticalGradient(
-                    colors = listOf(
-                        Color.Transparent,
-                        VoyagerTheme.colors.black.copy(alpha = 0.7f),
-                    )
+                    0.0f to Color.Transparent,
+                    0.5f to VoyagerTheme.colors.background.copy(alpha = 0.85f),
+                    1.0f to VoyagerTheme.colors.background,
                 )
             )
             .windowInsetsPadding(WindowInsets.systemBars)
             .padding(bottom = 4.dp)
+            .noOverlapBottomContentBySnackbar()
             .fillMaxWidth(bottomBarFraction)
             .height(MAIN_BOTTOM_BAR_HEIGHT),
         horizontalArrangement = Arrangement.Center,
@@ -81,7 +83,7 @@ private fun TabIcon(
     modifier: Modifier = Modifier,
 ) {
     val alpha by animateFloatAsState(
-        targetValue = if (isSelected) 1f else 0.35f,
+        targetValue = if (isSelected) 1f else 0.8f,
         label = "alpha",
     )
     val scale by animateFloatAsState(

@@ -85,6 +85,8 @@ private fun ProfileScreenContent(
     val uriHandler = LocalUriHandler.current
     val email = stringResource(Res.string.general_email)
 
+    val imageWeight = 0.52f
+
     Column(
         modifier = modifier
             .background(VoyagerTheme.colors.background)
@@ -105,7 +107,7 @@ private fun ProfileScreenContent(
 
         Image(
             modifier = Modifier
-                .fillMaxWidth(0.52f)
+                .fillMaxWidth(imageWeight)
                 .aspectRatio(1f)
                 .clip(CircleShape),
             painter = painterResource(Res.drawable.avatar),

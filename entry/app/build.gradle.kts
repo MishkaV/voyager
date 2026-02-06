@@ -17,6 +17,7 @@ kotlin {
         commonMain.dependencies {
             api(projects.common.orchestrator.impl)
             api(projects.core.debug)
+            api(projects.core.repositories.countries.impl)
             api(projects.core.repositories.userPreferences.impl)
             api(projects.core.repositories.userStats.impl)
             api(projects.core.repositories.vibes.impl)
@@ -35,8 +36,10 @@ kotlin {
             api(projects.features.profile.impl)
             api(projects.features.search.impl)
 
+            implementation(libs.supabase.coil)
             implementation(libs.jetbrains.compose.material3)
             implementation(libs.kermit)
+            implementation(project.dependencies.platform(libs.supabase.bom))
         }
         jvmMain.dependencies {
             implementation(compose.desktop.currentOs)

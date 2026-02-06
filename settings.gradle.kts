@@ -46,6 +46,8 @@ include(
     // Core
     ":core:debug",
     ":core:repositories:base",
+    ":core:repositories:countries:api",
+    ":core:repositories:countries:impl",
     ":core:repositories:paging",
     ":core:repositories:user-preferences:api",
     ":core:repositories:user-preferences:impl",
@@ -64,6 +66,7 @@ include(
     ":core:utils:context",
     ":core:utils:permissions",
     ":core:utils:room",
+    ":core:utils:supabase",
     ":core:utils:time:api",
     ":core:utils:time:impl",
 

@@ -2,7 +2,6 @@ package io.mishka.voyager.search.impl.api
 
 import androidx.compose.runtime.Composable
 import com.arkivanov.decompose.ComponentContext
-import com.arkivanov.essenty.backhandler.BackHandlerOwner
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.Assisted
 import dev.zacsweers.metro.AssistedFactory
@@ -19,7 +18,7 @@ import io.mishkav.voyager.core.ui.lifecycle.viewModelWithFactory
 class SearchComponentImpl(
     @Assisted componentContext: ComponentContext,
     private val searchViewModelProvider: Provider<SearchViewModel>,
-) : SearchComponent(componentContext), ComponentContext by componentContext, BackHandlerOwner {
+) : SearchComponent(componentContext), ComponentContext by componentContext {
 
     @Composable
     override fun Render() {
@@ -28,6 +27,7 @@ class SearchComponentImpl(
         }
 
         SearchScreen(
+            backHandler = backHandler,
             viewModel = viewModel,
         )
     }

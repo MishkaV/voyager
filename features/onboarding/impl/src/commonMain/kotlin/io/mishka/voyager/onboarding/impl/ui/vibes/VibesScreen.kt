@@ -45,9 +45,9 @@ fun VibesScreen(
             viewModel.addSelectedVibes()
             viewModel.setOnboardingAsCompleted()
             rootNavigation.push(
-                config = RootConfig.Location {
-                    rootNavigation.replaceAll(RootConfig.Main)
-                }
+                config = RootConfig.Location(
+                    successNavigationConfig = RootConfig.Main
+                )
             )
         },
         navigateBack = navigateBack,

@@ -11,7 +11,6 @@ import io.mishkav.voyager.core.ui.uikit.resultflow.UIResult
 import io.mishkav.voyager.core.ui.uikit.resultflow.UIResultFlow
 import io.mishkav.voyager.core.ui.uikit.resultflow.asUIResult
 import io.mishkav.voyager.core.ui.uikit.resultflow.loadOrError
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -30,7 +29,6 @@ class ProfileViewModel(
 
     val statsState: StateFlow<UIResult<UserStatsEntity>> = userStatsRepository.getUserStats()
         .asUIResult()
-        .onEach { result -> Logger.d { "KEK: new result - $result" } }
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5_000),

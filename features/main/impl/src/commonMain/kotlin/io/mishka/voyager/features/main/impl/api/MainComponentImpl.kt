@@ -17,6 +17,7 @@ import dev.zacsweers.metro.AssistedInject
 import dev.zacsweers.metro.ContributesBinding
 import dev.zacsweers.metro.binding
 import io.mishka.voyager.features.main.api.MainComponent
+import io.mishka.voyager.features.main.api.snackbar.BottomMainSnackbarController
 import io.mishka.voyager.features.main.impl.domain.model.MainBottomTab
 import io.mishka.voyager.features.main.impl.domain.model.MainConfig
 import io.mishka.voyager.features.main.impl.ui.MainScreen
@@ -35,6 +36,8 @@ class MainComponentImpl(
     private val profileComponentFactory: ProfileComponent.Factory,
     private val searchComponentFactory: SearchComponent.Factory,
 ) : MainComponent<MainConfig>(), ComponentContext by componentContext, BackHandlerOwner {
+
+    private val bottomSnackbarController by lazy { BottomMainSnackbarController() }
 
     private val backCallback = BackCallback {
         navigation.popOr(onBack::invoke)
@@ -72,6 +75,7 @@ class MainComponentImpl(
         val childStack by stack.subscribeAsState()
 
         MainScreen(
+            bottomSnackbarController = bottomSnackbarController,
             childStack = childStack,
             onTabClick = ::goToTab,
         )

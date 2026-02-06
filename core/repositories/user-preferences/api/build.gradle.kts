@@ -9,8 +9,6 @@ kotlin {
         commonMain.dependencies {
             api(projects.core.repositories.base)
             api(projects.core.utils.room)
-
-            implementation(libs.androidx.room.runtime)
         }
     }
 }

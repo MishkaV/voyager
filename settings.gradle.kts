@@ -46,6 +46,8 @@ include(
     // Core
     ":core:debug",
     ":core:repositories:base",
+    ":core:repositories:countries:api",
+    ":core:repositories:countries:impl",
     ":core:repositories:paging",
     ":core:repositories:user-preferences:api",
     ":core:repositories:user-preferences:impl",

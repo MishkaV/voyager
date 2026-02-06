@@ -51,7 +51,7 @@ class VibesRepository(
         logger.d { "addUserVibes: vibeIds=$vibeIds" }
 
         retryAction {
-            supabaseAuth.getCurrentUser()?.id?.let { userId ->
+            supabaseAuth.getAsyncCurrentUser()?.id?.let { userId ->
                 // Replace all current user vibes
                 supabasePostgrest.from(TABLE_VIBES_USER).delete {
                     filter {

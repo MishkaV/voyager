@@ -42,7 +42,7 @@ class UserPreferencesRepository(
         logger.d { "Adding user pref: prefId=$prefId" }
 
         retryAction {
-            supabaseAuth.getCurrentUser()?.id?.let { userId ->
+            supabaseAuth.getAsyncCurrentUser()?.id?.let { userId ->
                 // Firstly clean all current
                 supabasePostgrest.from(TABLE_USER_PREFS).delete {
                     filter {

@@ -14,11 +14,8 @@ import io.mishka.voyager.core.repositories.userstats.api.models.remote.UserStats
 import io.mishka.voyager.core.repositories.userstats.impl.mappers.toEntity
 import io.mishka.voyager.supabase.api.ISupabaseAuth
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.flow.onEach
-import java.util.logging.Logger
 
 @ContributesBinding(
     scope = AppScope::class,
@@ -39,7 +36,7 @@ class UserStatsRepository(
         return userStatsDao.value.getStatsFlow()
             .onEach { logger.d { "KEK: new stats - $it" } }
             .mapNotNull { stats ->
-                stats ?: supabaseAuth.getCurrentUser()?.id?.let {
+                stats ?: supabaseAuth.getAsyncCurrentUser()?.id?.let {
                     UserStatsEntity(
                         userId = it
                     )
@@ -51,7 +48,7 @@ class UserStatsRepository(
         logger.i { "Sync user stats repository" }
 
         retryAction {
-            supabaseAuth.getCurrentUser()?.id?.let { userId ->
+            supabaseAuth.getAsyncCurrentUser()?.id?.let { userId ->
                 val stats = supabasePostgrest.from(TABLE_USER_TRAVEL_STATS)
                     .select {
                         filter {

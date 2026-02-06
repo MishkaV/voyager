@@ -14,7 +14,13 @@ interface ISupabaseAuth {
      * Get current authenticated user
      * @return UserInfo if user is logged in, null otherwise
      */
-    suspend fun getCurrentUser(): UserInfo?
+    suspend fun getAsyncCurrentUser(): UserInfo?
+
+    /**
+     * Get current authenticated user
+     * @return UserInfo if user is logged in, null otherwise
+     */
+    fun getCurrentUser(): UserInfo?
 
     /**
      * Check if user is logged in

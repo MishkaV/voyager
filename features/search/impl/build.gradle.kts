@@ -8,6 +8,7 @@ kotlin {
         commonMain.dependencies {
             api(projects.features.search.api)
 
+            implementation(projects.core.repositories.countries.api)
             implementation(projects.features.main.api)
         }
     }

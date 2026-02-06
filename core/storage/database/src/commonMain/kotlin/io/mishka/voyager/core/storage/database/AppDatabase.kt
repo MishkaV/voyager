@@ -4,6 +4,10 @@ import androidx.room.ConstructedBy
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.RoomDatabaseConstructor
+import io.mishka.voyager.core.repositories.countries.api.datasource.CountryDao
+import io.mishka.voyager.core.repositories.countries.api.datasource.UserCountryDao
+import io.mishka.voyager.core.repositories.countries.api.models.local.CountryEntity
+import io.mishka.voyager.core.repositories.countries.api.models.local.UserCountryEntity
 import io.mishka.voyager.core.repositories.userpreferences.api.datasource.PrefDao
 import io.mishka.voyager.core.repositories.userpreferences.api.models.local.PrefEntity
 import io.mishka.voyager.core.repositories.userstats.api.datasource.UserStatsDao
@@ -26,6 +30,10 @@ internal const val DATABASE_NAME = "voyager-database.db"
         // User Stats
         UserStatsEntity::class,
 
+        // Countries
+        CountryEntity::class,
+        UserCountryEntity::class,
+
         // Vibes
         VibeCategoryEntity::class,
         VibeEntity::class,
@@ -42,6 +50,10 @@ abstract class AppDatabase : RoomDatabase() {
 
     // User Stats
     abstract fun userStatsDao(): UserStatsDao
+
+    // Countries
+    abstract fun countryDao(): CountryDao
+    abstract fun userCountryDao(): UserCountryDao
 
     // Vibes
     abstract fun vibeCategoryDao(): VibeCategoryDao

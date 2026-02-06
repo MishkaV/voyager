@@ -5,11 +5,12 @@ import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.RoomDatabase
+import androidx.room.immediateTransaction
+import androidx.room.useWriterConnection
 import co.touchlab.kermit.Logger
 
 /**
  * Base remote mediator for implementing network + database pattern.
- * Follows the pattern from: https://developer.android.com/topic/libraries/architecture/paging/v3-network-db
  *
  * RemoteMediator handles loading data from network and saving it to the database.
  * The PagingSource then reads from the database, providing a single source of truth.
@@ -26,7 +27,8 @@ abstract class BaseRemoteMediator<Key : Any, Value : Any>(
     /**
      * Logger instance with tag derived from mediator class name.
      */
-    protected val logger: Logger = Logger.withTag(this::class.simpleName ?: "RemoteMediator")
+    protected val logger: Logger =
+        Logger.withTag("${Logger.tag}: ${this::class.simpleName ?: "RemoteMediator"}")
 
     override suspend fun load(
         loadType: LoadType,
@@ -38,11 +40,13 @@ abstract class BaseRemoteMediator<Key : Any, Value : Any>(
                     logger.d { "Load type: REFRESH" }
                     getRefreshKey(state)
                 }
+
                 LoadType.PREPEND -> {
                     logger.d { "Load type: PREPEND" }
                     getPrependKey(state)
                         ?: return MediatorResult.Success(endOfPaginationReached = true)
                 }
+
                 LoadType.APPEND -> {
                     logger.d { "Load type: APPEND" }
                     getAppendKey(state)
@@ -54,16 +58,15 @@ abstract class BaseRemoteMediator<Key : Any, Value : Any>(
             val items = fetchRemote(loadKey, state.config.pageSize)
 
             // Save to database
-            database.useWriterConnection { transactor ->
-                transactor.execSQL("BEGIN TRANSACTION")
+            database.useWriterConnection<Unit> { transactor ->
                 try {
-                    if (loadType == LoadType.REFRESH) {
-                        clearDatabase()
+                    transactor.immediateTransaction {
+                        if (loadType == LoadType.REFRESH) {
+                            clearDatabase()
+                        }
+                        saveToDatabase(items)
                     }
-                    saveToDatabase(items)
-                    transactor.execSQL("COMMIT")
                 } catch (e: Exception) {
-                    transactor.execSQL("ROLLBACK")
                     throw e
                 }
             }

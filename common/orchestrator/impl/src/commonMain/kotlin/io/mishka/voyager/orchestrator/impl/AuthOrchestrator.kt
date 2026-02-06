@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.onEach
 class AuthOrchestrator(
     private val supabaseAuth: Auth,
     private val syncableOrchestrator: SyncableOrchestrator,
-//     private val cleanupOrchestrator: CleanupOrchestrator,
+    private val cleanupOrchestrator: CleanupOrchestrator,
 ) : IAuthOrchestrator {
 
     private val logger by lazy { Logger.withTag("${Logger.tag}: AuthOrchestrator") }
@@ -28,9 +28,9 @@ class AuthOrchestrator(
                 when (status) {
                     is SessionStatus.Authenticated -> syncableOrchestrator.syncAll()
                     is SessionStatus.NotAuthenticated -> {
-//                        if (status.isSignOut) {
-//                            cleanupOrchestrator.cleanupAll()
-//                        }
+                        if (status.isSignOut) {
+                            cleanupOrchestrator.cleanupAll()
+                        }
                     }
                     is SessionStatus.Initializing -> Unit
                     is SessionStatus.RefreshFailure -> Unit

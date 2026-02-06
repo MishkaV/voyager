@@ -25,9 +25,13 @@ class SupabaseAuth(
         }
     }
 
-    override suspend fun getCurrentUser(): UserInfo? {
+    override suspend fun getAsyncCurrentUser(): UserInfo? {
         auth.awaitInitialization()
 
+        return getCurrentUser()
+    }
+
+    override fun getCurrentUser(): UserInfo? {
         return auth.currentUserOrNull()
     }
 

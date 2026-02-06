@@ -18,6 +18,7 @@ import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 
 @Inject
 class SearchViewModel(
@@ -54,6 +55,19 @@ class SearchViewModel(
 
     fun selectContinent(continent: Continent?) {
         _selectedContinent.value = continent
+    }
+
+    fun addOrRemoveVisitedCounty(
+        countryId: String,
+        isVisited: Boolean,
+    ) {
+        viewModelScope.launch {
+            if (isVisited) {
+                userCountriesRepository.addCountryToVisited(countryId)
+            } else {
+                userCountriesRepository.removeCountryFromVisited(countryId)
+            }
+        }
     }
 
     private companion object {

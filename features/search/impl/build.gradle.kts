@@ -11,6 +11,7 @@ kotlin {
             implementation(libs.androidx.paging.compose)
             implementation(projects.core.repositories.countries.api)
             implementation(projects.features.main.api)
+            implementation(projects.features.navigation.api)
         }
     }
 }

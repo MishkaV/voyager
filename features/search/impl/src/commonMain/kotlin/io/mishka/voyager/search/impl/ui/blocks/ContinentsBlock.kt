@@ -1,6 +1,7 @@
 package io.mishka.voyager.search.impl.ui.blocks
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -29,6 +30,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import io.mishka.voyager.core.repositories.countries.api.models.local.Continent
+import io.mishka.voyager.search.impl.ui.utils.DURATION_ANIMATION
 import io.mishka.voyager.search.impl.ui.utils.itemBackground
 import io.mishka.voyager.search.impl.ui.utils.itemImageRes
 import io.mishkav.voyager.core.ui.theme.VoyagerTheme
@@ -49,12 +51,22 @@ fun LazyListScope.continentsBlock(
     ) {
         AnimatedVisibility(
             visible = isContinentContentVisible.value,
-            enter = slideInVertically() + expandVertically(
+            enter = slideInVertically(
+                animationSpec = tween(durationMillis = DURATION_ANIMATION)
+            ) + expandVertically(
+                animationSpec = tween(durationMillis = DURATION_ANIMATION),
                 expandFrom = Alignment.Top
             ) + fadeIn(
+                animationSpec = tween(durationMillis = DURATION_ANIMATION),
                 initialAlpha = 0.3f
             ),
-            exit = slideOutVertically() + shrinkVertically() + fadeOut()
+            exit = slideOutVertically(
+                animationSpec = tween(durationMillis = DURATION_ANIMATION)
+            ) + shrinkVertically(
+                animationSpec = tween(durationMillis = DURATION_ANIMATION)
+            ) + fadeOut(
+                animationSpec = tween(durationMillis = DURATION_ANIMATION),
+            ),
         ) {
             ContinentsBlock(
                 selectContinent = selectContinent,

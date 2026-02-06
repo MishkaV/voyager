@@ -40,6 +40,8 @@ import voyager.features.search.impl.generated.resources.search_empty_title
 private const val MOCK_ITEMS_COUNT = 20
 
 fun LazyListScope.countriesListBlock(
+    addOrRemoveVisitedCounty: (countryId: String, isVisited: Boolean) -> Unit,
+    navigateToCountryInfo: (CountryWithVisitedStatus) -> Unit,
     countriesState: LazyPagingItems<CountryWithVisitedStatus>,
 ) {
     val sharedModifier = Modifier.fillMaxWidth()
@@ -74,11 +76,12 @@ fun LazyListScope.countriesListBlock(
                         CountryBox(
                             country = country,
                             onVisitClick = { isVisited ->
-                                // TODO
+                                addOrRemoveVisitedCounty(
+                                    country.country.id,
+                                    isVisited,
+                                )
                             },
-                            onCountryClick = {
-                                // TODO
-                            },
+                            onCountryClick = navigateToCountryInfo,
                             modifier = sharedModifier,
                         )
                     } ?: LoadingCountryBox(modifier = sharedModifier)
@@ -92,12 +95,12 @@ fun LazyListScope.countriesListBlock(
 private fun CountryBox(
     country: CountryWithVisitedStatus,
     onVisitClick: (isVisited: Boolean) -> Unit,
-    onCountryClick: () -> Unit,
+    onCountryClick: (CountryWithVisitedStatus) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Row(
         modifier = modifier
-            .clickableUnindicated(onClick = onCountryClick)
+            .clickableUnindicated(onClick = { onCountryClick(country) })
             .padding(vertical = 10.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {

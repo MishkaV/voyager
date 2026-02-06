@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import io.mishka.voyager.features.main.api.consts.MAIN_BOTTOM_BAR_HEIGHT
 import io.mishka.voyager.features.main.impl.domain.model.MainBottomTab
 import io.mishkav.voyager.core.ui.theme.VoyagerTheme
+import io.mishkav.voyager.core.ui.uikit.snackbar.compose.noOverlapBottomContentBySnackbar
 import io.mishkav.voyager.core.ui.uikit.utils.clickableUnindicated
 import org.jetbrains.compose.resources.stringResource
 import voyager.features.main.impl.generated.resources.Res
@@ -57,6 +58,7 @@ fun MainBottomBar(
             )
             .windowInsetsPadding(WindowInsets.systemBars)
             .padding(bottom = 4.dp)
+            .noOverlapBottomContentBySnackbar()
             .fillMaxWidth(bottomBarFraction)
             .height(MAIN_BOTTOM_BAR_HEIGHT),
         horizontalArrangement = Arrangement.Center,

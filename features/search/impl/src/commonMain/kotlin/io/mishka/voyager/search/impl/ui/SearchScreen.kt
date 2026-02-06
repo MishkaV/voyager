@@ -27,8 +27,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.LazyPagingItems
@@ -37,6 +39,8 @@ import com.arkivanov.essenty.backhandler.BackHandler
 import io.mishka.voyager.core.repositories.countries.api.models.local.Continent
 import io.mishka.voyager.core.repositories.countries.api.models.local.CountryWithVisitedStatus
 import io.mishka.voyager.features.main.api.consts.MAIN_BOTTOM_BAR_HEIGHT
+import io.mishka.voyager.features.main.api.snackbar.LocalBottomBottomMainSnackbarController
+import io.mishka.voyager.features.main.api.snackbar.MainSnackbarState
 import io.mishka.voyager.search.impl.ui.blocks.TitleBlock
 import io.mishka.voyager.search.impl.ui.blocks.continentsBlock
 import io.mishka.voyager.search.impl.ui.blocks.countriesListBlock
@@ -44,6 +48,8 @@ import io.mishka.voyager.search.impl.ui.components.SearchAppBar
 import io.mishka.voyager.search.impl.ui.utils.toRootCountryConfig
 import io.mishkav.voyager.core.ui.decompose.BackHandler
 import io.mishkav.voyager.core.ui.theme.VoyagerTheme
+import io.mishkav.voyager.core.ui.uikit.snackbar.core.SnackbarDuration
+import io.mishkav.voyager.core.ui.uikit.snackbar.core.SnackbarMessage
 import io.mishkav.voyager.core.ui.uikit.textfield.VoyagerTextField
 import io.mishkav.voyager.features.navigation.api.LocalRootNavigation
 import org.jetbrains.compose.resources.stringResource
@@ -56,6 +62,9 @@ fun SearchScreen(
     viewModel: SearchViewModel,
     modifier: Modifier = Modifier,
 ) {
+    val haptic = LocalHapticFeedback.current
+    val bottomMainSnackbar = LocalBottomBottomMainSnackbarController.current
+
     val continentState = viewModel.selectedContinent.collectAsStateWithLifecycle()
     val countriesState = viewModel.countriesState.collectAsLazyPagingItems()
 
@@ -78,7 +87,35 @@ fun SearchScreen(
         continentState = continentState,
         countriesState = countriesState,
         searchState = searchState,
-        addOrRemoveVisitedCounty = viewModel::addOrRemoveVisitedCounty,
+        addOrRemoveVisitedCounty = { country ->
+            if (country.isVisited) {
+                bottomMainSnackbar.show(
+                    message = SnackbarMessage(
+                        duration = SnackbarDuration.Short,
+                        content = MainSnackbarState.Default(
+                            text = "Passport stamped. ${country.country.name} visited!",
+                            buttonText = "Superb!",
+                        ),
+                    )
+                )
+                haptic.performHapticFeedback(HapticFeedbackType.ToggleOn)
+            } else {
+                bottomMainSnackbar.show(
+                    message = SnackbarMessage(
+                        duration = SnackbarDuration.Short,
+                        content = MainSnackbarState.Default(
+                            text = "Visit undone. Adventure pending!",
+                            buttonText = "Good",
+                        ),
+                    )
+                )
+                haptic.performHapticFeedback(HapticFeedbackType.ToggleOff)
+            }
+            viewModel.addOrRemoveVisitedCounty(
+                countryId = country.country.id,
+                isVisited = country.isVisited,
+            )
+        },
         navigateToGeneralSearch = {
             viewModel.selectContinent(null)
         },
@@ -92,7 +129,7 @@ private fun SearchScreenContent(
     continentState: State<Continent?>,
     countriesState: LazyPagingItems<CountryWithVisitedStatus>,
     searchState: TextFieldState,
-    addOrRemoveVisitedCounty: (countryId: String, isVisited: Boolean) -> Unit,
+    addOrRemoveVisitedCounty: (CountryWithVisitedStatus) -> Unit,
     navigateToGeneralSearch: () -> Unit,
     selectContinent: (Continent) -> Unit,
     modifier: Modifier = Modifier,

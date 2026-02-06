@@ -40,7 +40,7 @@ import voyager.features.search.impl.generated.resources.search_empty_title
 private const val MOCK_ITEMS_COUNT = 20
 
 fun LazyListScope.countriesListBlock(
-    addOrRemoveVisitedCounty: (countryId: String, isVisited: Boolean) -> Unit,
+    addOrRemoveVisitedCounty: (CountryWithVisitedStatus) -> Unit,
     navigateToCountryInfo: (CountryWithVisitedStatus) -> Unit,
     countriesState: LazyPagingItems<CountryWithVisitedStatus>,
 ) {
@@ -77,8 +77,7 @@ fun LazyListScope.countriesListBlock(
                             country = country,
                             onVisitClick = { isVisited ->
                                 addOrRemoveVisitedCounty(
-                                    country.country.id,
-                                    isVisited,
+                                    country.copy(isVisited = !isVisited)
                                 )
                             },
                             onCountryClick = navigateToCountryInfo,

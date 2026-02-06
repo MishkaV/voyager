@@ -37,7 +37,7 @@ import voyager.features.search.impl.generated.resources.Res
 import voyager.features.search.impl.generated.resources.search_empty_subtitle
 import voyager.features.search.impl.generated.resources.search_empty_title
 
-private const val MOCK_ITEMS_COUNT = 10
+private const val MOCK_ITEMS_COUNT = 20
 
 fun LazyListScope.countriesListBlock(
     countriesState: LazyPagingItems<CountryWithVisitedStatus>,

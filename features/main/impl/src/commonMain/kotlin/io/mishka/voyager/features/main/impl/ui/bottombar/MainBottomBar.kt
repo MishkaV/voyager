@@ -36,6 +36,7 @@ import voyager.features.main.impl.generated.resources.tab_home
 import voyager.features.main.impl.generated.resources.tab_profile
 import voyager.features.main.impl.generated.resources.tab_search
 
+@Suppress("MagicNumber")
 @Composable
 fun MainBottomBar(
     selectedTab: MainBottomTab,
@@ -49,10 +50,9 @@ fun MainBottomBar(
         modifier = modifier
             .background(
                 brush = Brush.verticalGradient(
-                    colors = listOf(
-                        Color.Transparent,
-                        VoyagerTheme.colors.black.copy(alpha = 0.7f),
-                    )
+                    0.0f to Color.Transparent,
+                    0.5f to VoyagerTheme.colors.background.copy(alpha = 0.85f),
+                    1.0f to VoyagerTheme.colors.background,
                 )
             )
             .windowInsetsPadding(WindowInsets.systemBars)
@@ -81,7 +81,7 @@ private fun TabIcon(
     modifier: Modifier = Modifier,
 ) {
     val alpha by animateFloatAsState(
-        targetValue = if (isSelected) 1f else 0.35f,
+        targetValue = if (isSelected) 1f else 0.8f,
         label = "alpha",
     )
     val scale by animateFloatAsState(

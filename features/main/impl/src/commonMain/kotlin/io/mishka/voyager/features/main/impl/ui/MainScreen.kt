@@ -2,6 +2,7 @@ package io.mishka.voyager.features.main.impl.ui
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -31,7 +32,9 @@ fun MainScreen(
         MainBottomBar(
             selectedTab = selectedTab.tab,
             onTabClick = onTabClick,
-            modifier = Modifier.align(Alignment.BottomCenter),
+            modifier = Modifier
+                .fillMaxWidth()
+                .align(Alignment.BottomCenter),
         )
     }
 }

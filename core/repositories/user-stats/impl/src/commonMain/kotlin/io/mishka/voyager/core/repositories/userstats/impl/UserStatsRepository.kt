@@ -34,7 +34,6 @@ class UserStatsRepository(
     override fun getUserStats(): Flow<UserStatsEntity> {
         logger.d { "getUserStats()" }
         return userStatsDao.value.getStatsFlow()
-            .onEach { logger.d { "KEK: new stats - $it" } }
             .mapNotNull { stats ->
                 stats ?: supabaseAuth.getAsyncCurrentUser()?.id?.let {
                     UserStatsEntity(

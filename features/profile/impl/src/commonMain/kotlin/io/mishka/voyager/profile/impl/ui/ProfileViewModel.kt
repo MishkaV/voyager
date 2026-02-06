@@ -29,7 +29,6 @@ class ProfileViewModel(
 
     val statsState: StateFlow<UIResult<UserStatsEntity>> = userStatsRepository.getUserStats()
         .asUIResult()
-        .onEach { result -> Logger.d { "KEK: new result - $result" } }
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5_000),

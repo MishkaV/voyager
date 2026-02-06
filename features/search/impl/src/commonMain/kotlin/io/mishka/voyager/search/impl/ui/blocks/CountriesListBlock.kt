@@ -77,7 +77,7 @@ fun LazyListScope.countriesListBlock(
                             country = country,
                             onVisitClick = { isVisited ->
                                 addOrRemoveVisitedCounty(
-                                    country.copy(isVisited = !isVisited)
+                                    country.copy(isVisited = isVisited)
                                 )
                             },
                             onCountryClick = navigateToCountryInfo,

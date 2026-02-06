@@ -28,11 +28,14 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.arkivanov.essenty.backhandler.BackHandler
 import io.mishka.voyager.core.repositories.countries.api.models.local.Continent
 import io.mishka.voyager.core.repositories.countries.api.models.local.CountryWithVisitedStatus
 import io.mishka.voyager.features.main.api.consts.MAIN_BOTTOM_BAR_HEIGHT
+import io.mishka.voyager.search.impl.ui.blocks.continentsBlock
 import io.mishka.voyager.search.impl.ui.blocks.countriesListBlock
 import io.mishka.voyager.search.impl.ui.components.SearchAppBar
+import io.mishkav.voyager.core.ui.decompose.BackHandler
 import io.mishkav.voyager.core.ui.theme.VoyagerTheme
 import io.mishkav.voyager.core.ui.uikit.textfield.VoyagerTextField
 import org.jetbrains.compose.resources.stringResource
@@ -42,6 +45,7 @@ import voyager.features.search.impl.generated.resources.search_textfield_placeho
 
 @Composable
 fun SearchScreen(
+    backHandler: BackHandler,
     viewModel: SearchViewModel,
     modifier: Modifier = Modifier,
 ) {
@@ -49,6 +53,13 @@ fun SearchScreen(
     val countriesState = viewModel.countriesState.collectAsLazyPagingItems()
 
     val searchState = rememberTextFieldState()
+
+    BackHandler(
+        backHandler = backHandler,
+        isEnabled = continentState.value != null,
+    ) {
+        viewModel.selectContinent(null)
+    }
 
     LaunchedEffect(Unit) {
         snapshotFlow { searchState.text }.collect { newText ->
@@ -63,6 +74,7 @@ fun SearchScreen(
         navigateToGeneralSearch = {
             viewModel.selectContinent(null)
         },
+        selectContinent = viewModel::selectContinent,
         modifier = modifier,
     )
 }
@@ -73,6 +85,7 @@ private fun SearchScreenContent(
     countriesState: LazyPagingItems<CountryWithVisitedStatus>,
     searchState: TextFieldState,
     navigateToGeneralSearch: () -> Unit,
+    selectContinent: (Continent) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val isSearchActive = remember {
@@ -80,6 +93,12 @@ private fun SearchScreenContent(
     }
     val isAppBarVisible = remember {
         derivedStateOf { continentState.value != null }
+    }
+
+    val isContinentContentVisible = remember {
+        derivedStateOf {
+            !isSearchActive.value && continentState.value == null
+        }
     }
 
     Column(
@@ -119,6 +138,11 @@ private fun SearchScreenContent(
                 bottom = MAIN_BOTTOM_BAR_HEIGHT + 12.dp,
             ),
         ) {
+            continentsBlock(
+                isContinentContentVisible = isContinentContentVisible,
+                selectContinent = selectContinent,
+            )
+
             countriesListBlock(
                 countriesState = countriesState,
             )

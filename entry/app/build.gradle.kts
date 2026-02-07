@@ -27,6 +27,7 @@ kotlin {
             api(projects.core.utils.context)
             api(projects.core.utils.time.impl)
             api(projects.features.auth.impl)
+            api(projects.features.details.impl)
             api(projects.features.home.impl)
             api(projects.features.intro.impl)
             api(projects.features.location.impl)

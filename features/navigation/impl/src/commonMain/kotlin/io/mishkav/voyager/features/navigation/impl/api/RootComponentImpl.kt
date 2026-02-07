@@ -2,6 +2,8 @@ package io.mishkav.voyager.features.navigation.impl.api
 
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionLayout
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
@@ -9,6 +11,12 @@ import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.decompose.extensions.compose.experimental.stack.ChildStack
+import com.arkivanov.decompose.extensions.compose.experimental.stack.animation.PredictiveBackParams
+import com.arkivanov.decompose.extensions.compose.experimental.stack.animation.fade
+import com.arkivanov.decompose.extensions.compose.experimental.stack.animation.plus
+import com.arkivanov.decompose.extensions.compose.experimental.stack.animation.scale
+import com.arkivanov.decompose.extensions.compose.experimental.stack.animation.stackAnimation
+import com.arkivanov.decompose.extensions.compose.stack.animation.predictiveback.androidPredictiveBackAnimatableV2
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
@@ -28,12 +36,13 @@ import dev.zacsweers.metro.AssistedInject
 import dev.zacsweers.metro.ContributesBinding
 import dev.zacsweers.metro.binding
 import io.mishka.voyager.auth.api.AuthComponent
+import io.mishka.voyager.details.api.CountryDetailsComponent
+import io.mishka.voyager.details.api.models.CountryDetailsArgs
 import io.mishka.voyager.features.main.api.MainComponent
 import io.mishka.voyager.intro.api.IntroComponent
 import io.mishka.voyager.location.api.LocationComponent
 import io.mishka.voyager.onboarding.api.OnboardingComponent
 import io.mishkav.voyager.core.ui.decompose.DecomposeComponent
-import io.mishkav.voyager.core.ui.decompose.back.backAnimation
 import io.mishkav.voyager.core.ui.uikit.transition.LocalNavAnimatedVisibilityScope
 import io.mishkav.voyager.core.ui.uikit.transition.LocalSharedTransitionScope
 import io.mishkav.voyager.features.navigation.api.RootComponent
@@ -46,6 +55,7 @@ class RootComponentImpl(
     @Assisted externalBackHandler: BackHandler?,
     @Assisted startupStatus: VoyagerStartupStatus,
     private val authComponentFactory: AuthComponent.Factory,
+    private val countryDetailsComponentFactory: CountryDetailsComponent.Factory,
     private val introComponentFactory: IntroComponent.Factory,
     private val locationComponentFactory: LocationComponent.Factory,
     private val mainComponentFactory: MainComponent.Factory,
@@ -86,7 +96,17 @@ class RootComponentImpl(
             successNavigationConfig = config.successNavigationConfig,
         )
 
-        is RootConfig.CountryDetails -> TODO("Add screen implementation")
+        is RootConfig.CountryDetails -> countryDetailsComponentFactory.create(
+            componentContext = componentContext,
+            navigateBack = ::goBack,
+            args = CountryDetailsArgs(
+                countryId = config.countryId,
+                name = config.name,
+                flagFullPatch = config.flagFullPatch,
+                backgroundHex = config.backgroundHex,
+            )
+        )
+
         is RootConfig.Onboarding -> onboardingComponentFactory.create(
             componentContext = componentContext,
         )
@@ -108,17 +128,32 @@ class RootComponentImpl(
     @Composable
     override fun Render(modifier: Modifier) {
         val childStack by stack.subscribeAsState()
+        val animationSpec = tween<Float>(durationMillis = 500)
 
-        SharedTransitionLayout {
+        SharedTransitionLayout(
+            modifier = modifier,
+        ) {
             CompositionLocalProvider(
                 LocalSharedTransitionScope provides this@SharedTransitionLayout
             ) {
                 ChildStack(
-                    modifier = modifier,
+                    modifier = Modifier.fillMaxSize(),
                     stack = childStack,
-                    animation = backAnimation(
-                        backHandler = backHandler,
-                        onBack = ::goBack,
+                    animation = stackAnimation(
+                        animator = fade(animationSpec) + scale(animationSpec),
+                        predictiveBackParams = { childStack ->
+                            val activeConfig = childStack.active.configuration
+
+                            if (activeConfig is RootConfig.CountryDetails) {
+                                null
+                            } else {
+                                PredictiveBackParams(
+                                    backHandler = backHandler,
+                                    onBack = ::goBack,
+                                    animatable = ::androidPredictiveBackAnimatableV2,
+                                )
+                            }
+                        },
                     ),
                 ) {
                     CompositionLocalProvider(

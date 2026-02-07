@@ -73,6 +73,8 @@ include(
     // Features
     ":features:auth:api",
     ":features:auth:impl",
+    ":features:details:api",
+    ":features:details:impl",
     ":features:home:api",
     ":features:home:impl",
     ":features:intro:api",

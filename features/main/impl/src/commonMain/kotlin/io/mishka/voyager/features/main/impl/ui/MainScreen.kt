@@ -8,8 +8,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
+import com.arkivanov.decompose.extensions.compose.experimental.stack.ChildStack
 import com.arkivanov.decompose.extensions.compose.stack.Children
 import com.arkivanov.decompose.router.stack.ChildStack
 import io.mishka.voyager.features.main.api.snackbar.BottomMainSnackbarController
@@ -28,7 +28,6 @@ fun MainScreen(
     onTabClick: (tab: MainBottomTab) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val density = LocalDensity.current
     val selectedTab = childStack.active.configuration
 
     CompositionLocalProvider(

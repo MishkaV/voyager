@@ -8,6 +8,7 @@ kotlin {
             api(projects.features.navigation.api)
 
             implementation(projects.features.auth.api)
+            implementation(projects.features.details.api)
             implementation(projects.features.intro.api)
             implementation(projects.features.location.api)
             implementation(projects.features.main.api)

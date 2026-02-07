@@ -15,7 +15,6 @@ import io.mishka.voyager.core.repositories.userstats.impl.mappers.toEntity
 import io.mishka.voyager.supabase.api.ISupabaseAuth
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.mapNotNull
-import kotlinx.coroutines.flow.onEach
 
 @ContributesBinding(
     scope = AppScope::class,

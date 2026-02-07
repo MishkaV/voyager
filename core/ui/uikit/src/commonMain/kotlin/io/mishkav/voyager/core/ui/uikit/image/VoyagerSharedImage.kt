@@ -32,7 +32,7 @@ import io.mishkav.voyager.core.ui.uikit.transition.LocalNavAnimatedVisibilitySco
 @OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 public fun SharedTransitionScope.VoyagerSharedImage(
-    imageUrl: String?,
+    data: Any?,
     contentDescription: String?,
     shapeDp: Dp,
     shareKey: String,
@@ -44,7 +44,7 @@ public fun SharedTransitionScope.VoyagerSharedImage(
     colorFilter: ColorFilter? = null,
 ) {
     VoyagerSharedImage(
-        imageUrl = imageUrl,
+        data = data,
         contentDescription = contentDescription,
         shape = RoundedCornerShape(shapeDp),
         shareKey = shareKey,
@@ -60,7 +60,7 @@ public fun SharedTransitionScope.VoyagerSharedImage(
 @OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 public fun SharedTransitionScope.VoyagerSharedImage(
-    imageUrl: String?,
+    data: Any?,
     contentDescription: String?,
     shape: CornerBasedShape,
     shareKey: String,
@@ -76,9 +76,8 @@ public fun SharedTransitionScope.VoyagerSharedImage(
 
     val imagePainter = rememberAsyncImagePainter(
         model = imageBuilder
-            .data(imageUrl)
+            .data(data)
             .crossfade(true)
-            .placeholderMemoryCacheKey("placeholder_$imageUrl")
             .build()
     )
 

@@ -1,4 +1,4 @@
-package io.mishka.voyager.features.main.api.snackbar
+package io.mishkav.voyager.features.navigation.api.snackbar
 
 sealed interface MainSnackbarState {
 

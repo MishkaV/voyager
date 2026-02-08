@@ -15,9 +15,11 @@ kotlin {
             implementation(libs.coil.gif)
         }
         commonMain.dependencies {
+            api(projects.common.audioController.impl)
             api(projects.common.orchestrator.impl)
             api(projects.core.debug)
             api(projects.core.repositories.countries.impl)
+            api(projects.core.repositories.countryDetails.impl)
             api(projects.core.repositories.userPreferences.impl)
             api(projects.core.repositories.userStats.impl)
             api(projects.core.repositories.vibes.impl)

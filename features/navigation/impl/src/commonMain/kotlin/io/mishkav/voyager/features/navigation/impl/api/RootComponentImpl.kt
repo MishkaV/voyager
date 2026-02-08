@@ -48,6 +48,7 @@ import io.mishkav.voyager.core.ui.uikit.transition.LocalSharedTransitionScope
 import io.mishkav.voyager.features.navigation.api.RootComponent
 import io.mishkav.voyager.features.navigation.api.model.RootConfig
 import io.mishkav.voyager.features.navigation.api.model.VoyagerStartupStatus
+import io.mishkav.voyager.features.navigation.api.snackbar.BottomMainSnackbarController
 
 @AssistedInject
 class RootComponentImpl(
@@ -63,6 +64,8 @@ class RootComponentImpl(
 ) : RootComponent, ComponentContext by componentContext, BackHandlerOwner {
 
     override val backHandler: BackHandler = externalBackHandler ?: BackDispatcher()
+
+    override val bottomSnackbarController by lazy { BottomMainSnackbarController() }
 
     private val navigation = StackNavigation<RootConfig>()
 

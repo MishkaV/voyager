@@ -4,9 +4,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.essenty.backhandler.BackHandler
+import io.mishkav.voyager.core.ui.uikit.snackbar.core.SnackbarComponent
 import io.mishkav.voyager.features.navigation.api.model.VoyagerStartupStatus
+import io.mishkav.voyager.features.navigation.api.snackbar.MainSnackbarState
 
 interface RootComponent : ComponentContext, RootNavigationInterface {
+
+    val bottomSnackbarController: SnackbarComponent<MainSnackbarState>
 
     @Composable
     fun Render(modifier: Modifier = Modifier)

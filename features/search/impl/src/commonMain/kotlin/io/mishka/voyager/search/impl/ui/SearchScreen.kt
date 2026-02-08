@@ -39,8 +39,6 @@ import com.arkivanov.essenty.backhandler.BackHandler
 import io.mishka.voyager.core.repositories.countries.api.models.local.Continent
 import io.mishka.voyager.core.repositories.countries.api.models.local.CountryWithVisitedStatus
 import io.mishka.voyager.features.main.api.consts.MAIN_BOTTOM_BAR_HEIGHT
-import io.mishka.voyager.features.main.api.snackbar.LocalBottomBottomMainSnackbarController
-import io.mishka.voyager.features.main.api.snackbar.MainSnackbarState
 import io.mishka.voyager.search.impl.ui.blocks.TitleBlock
 import io.mishka.voyager.search.impl.ui.blocks.continentsBlock
 import io.mishka.voyager.search.impl.ui.blocks.countriesListBlock
@@ -52,6 +50,8 @@ import io.mishkav.voyager.core.ui.uikit.snackbar.core.SnackbarDuration
 import io.mishkav.voyager.core.ui.uikit.snackbar.core.SnackbarMessage
 import io.mishkav.voyager.core.ui.uikit.textfield.VoyagerTextField
 import io.mishkav.voyager.features.navigation.api.LocalRootNavigation
+import io.mishkav.voyager.features.navigation.api.snackbar.LocalBottomBottomMainSnackbarController
+import io.mishkav.voyager.features.navigation.api.snackbar.MainSnackbarState
 import org.jetbrains.compose.resources.stringResource
 import voyager.features.search.impl.generated.resources.Res
 import voyager.features.search.impl.generated.resources.search_textfield_placeholder

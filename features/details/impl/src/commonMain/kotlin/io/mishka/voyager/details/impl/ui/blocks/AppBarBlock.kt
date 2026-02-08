@@ -11,16 +11,21 @@ import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import io.mishka.voyager.core.repositories.countries.api.models.local.CountryWithVisitedStatus
 import io.mishkav.voyager.core.ui.theme.VoyagerTheme
 import io.mishkav.voyager.core.ui.theme.icons.back16
 import io.mishkav.voyager.core.ui.theme.icons.location24
+import io.mishkav.voyager.core.ui.uikit.resultflow.UIResult
 import io.mishkav.voyager.core.ui.uikit.utils.clickableUnindicated
 
 internal fun LazyListScope.appBarBlock(
-    isVisited: Boolean,
+    countryState: State<UIResult<CountryWithVisitedStatus>>,
     navigateBack: () -> Unit,
     addOrRemoveVisitedCounty: (isVisited: Boolean) -> Unit,
 ) {
@@ -28,8 +33,20 @@ internal fun LazyListScope.appBarBlock(
         key = "APP_BAR_KEY",
         contentType = "APP_BAR_CONTENT_TYPE"
     ) {
+        val isVisited = remember(countryState.value) {
+            derivedStateOf {
+                (countryState.value as? UIResult.Success)?.data?.isVisited ?: false
+            }
+        }
+        val isLocationChangeActive = remember(countryState.value) {
+            derivedStateOf {
+                countryState.value is UIResult.Success
+            }
+        }
+
         AppBarBlock(
-            isVisited = isVisited,
+            isVisited = isVisited.value,
+            isLocationChangeActive = isLocationChangeActive.value,
             navigateBack = navigateBack,
             addOrRemoveVisitedCounty = addOrRemoveVisitedCounty,
             modifier = Modifier.fillMaxWidth()
@@ -40,6 +57,7 @@ internal fun LazyListScope.appBarBlock(
 @Composable
 private fun AppBarBlock(
     isVisited: Boolean,
+    isLocationChangeActive: Boolean,
     navigateBack: () -> Unit,
     addOrRemoveVisitedCounty: (isVisited: Boolean) -> Unit,
     modifier: Modifier = Modifier,
@@ -67,7 +85,7 @@ private fun AppBarBlock(
             modifier = Modifier
                 .size(24.dp)
                 .align(Alignment.CenterEnd)
-                .clickableUnindicated {
+                .clickableUnindicated(enabled = isLocationChangeActive) {
                     addOrRemoveVisitedCounty(!isVisited)
                 },
         )

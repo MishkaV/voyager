@@ -7,7 +7,6 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             api(projects.core.ui.decompose)
-            api(projects.core.ui.uikit)
         }
     }
 }

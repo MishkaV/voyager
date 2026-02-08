@@ -23,13 +23,15 @@ class CountryDetailsComponentImpl(
     @Assisted componentContext: ComponentContext,
     @Assisted private val args: CountryDetailsArgs,
     @Assisted private val navigateBack: DecomposeOnBackParameter,
-    private val countryDetailsViewModelProvider: Provider<CountryDetailsViewModel>,
+    private val countryDetailsViewModelProvider: Provider<CountryDetailsViewModel.Factory>,
 ) : CountryDetailsComponent(componentContext), ComponentContext by componentContext {
 
     @Composable
     override fun Render() {
         val viewModel = viewModelWithFactory {
-            countryDetailsViewModelProvider()
+            countryDetailsViewModelProvider().create(
+                countryId = args.countryId,
+            )
         }
 
         CountryDetailsScreen(

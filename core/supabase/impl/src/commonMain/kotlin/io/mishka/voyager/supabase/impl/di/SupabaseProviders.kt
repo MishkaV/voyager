@@ -9,6 +9,8 @@ import io.github.jan.supabase.auth.Auth
 import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.coil.Coil3Integration
 import io.github.jan.supabase.createSupabaseClient
+import io.github.jan.supabase.functions.Functions
+import io.github.jan.supabase.functions.functions
 import io.github.jan.supabase.postgrest.Postgrest
 import io.github.jan.supabase.postgrest.postgrest
 import io.github.jan.supabase.storage.Storage
@@ -31,6 +33,7 @@ interface SupabaseProviders {
             }
             install(Postgrest)
             install(Storage)
+            install(Functions)
             install(Coil3Integration)
         }
     }
@@ -48,5 +51,10 @@ interface SupabaseProviders {
     @Provides
     fun provideSupabaseStorage(supabase: SupabaseClient): Storage {
         return supabase.storage
+    }
+
+    @Provides
+    fun provideSupabaseFunctions(supabase: SupabaseClient): Functions {
+        return supabase.functions
     }
 }

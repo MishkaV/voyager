@@ -52,11 +52,13 @@ private fun CountryDetailsScreenContent(
             addOrRemoveVisitedCounty = addOrRemoveVisitedCounty,
         )
 
-        item { Spacer(Modifier.height(32.dp)) }
+        item(contentType = "SPACER") { Spacer(Modifier.height(32.dp)) }
 
         titleBlock(
             countryName = args.name,
             flagFullPatch = args.flagFullPatch,
         )
+
+        item(contentType = "SPACER") { Spacer(Modifier.height(34.dp)) }
     }
 }

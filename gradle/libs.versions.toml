@@ -5,6 +5,7 @@ androidx-datastore = "1.2.0"
 androidx-lifecycle-compose = "2.10.0"
 androidx-paging = "3.4.0"
 androidx-splashscreen = "1.2.0"
+androidx-media3 = "1.9.2"
 android-secrets = "2.0.1"
 
 buildKonfig = "0.17.1"
@@ -57,6 +58,8 @@ androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref =
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
 androidx-room-paging = { module = "androidx.room:room-paging", version.ref = "room" }
 androidx-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "androidx-splashscreen" }
+androidx-media3-exoplayer = { module = "androidx.media3:media3-exoplayer", version.ref = "androidx-media3" }
+androidx-media3-session = { module = "androidx.media3:media3-session", version.ref = "androidx-media3" }
 
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
 coil-gif = { module = "io.coil-kt.coil3:coil-gif", version.ref = "coil" }

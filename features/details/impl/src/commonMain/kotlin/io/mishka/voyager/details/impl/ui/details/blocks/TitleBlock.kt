@@ -1,4 +1,4 @@
-package io.mishka.voyager.details.impl.ui.blocks
+package io.mishka.voyager.details.impl.ui.details.blocks
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer

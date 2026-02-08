@@ -1,4 +1,4 @@
-package io.mishka.voyager.details.impl.ui
+package io.mishka.voyager.details.impl.ui.details
 
 import dev.zacsweers.metro.Assisted
 import dev.zacsweers.metro.AssistedFactory

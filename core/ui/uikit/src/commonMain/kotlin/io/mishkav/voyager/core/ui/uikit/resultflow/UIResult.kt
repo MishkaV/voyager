@@ -15,6 +15,8 @@ sealed interface UIResult<out T> {
     data class Error<T>(val exception: Throwable) : UIResult<T>
 
     class Loading<T> : UIResult<T>
+
+    class Nothing<T> : UIResult<T>
 }
 
 fun <T> Flow<T>.asUIResult(): Flow<UIResult<T>> = map<T, UIResult<T>> { UIResult.Success(it) }

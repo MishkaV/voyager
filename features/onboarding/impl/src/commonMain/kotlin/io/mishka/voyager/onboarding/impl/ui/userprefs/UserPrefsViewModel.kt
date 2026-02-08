@@ -41,7 +41,7 @@ class UserPrefsViewModel(
             .map { state ->
                 when (state) {
                     is UIResult.Error -> PrefsUIState.Error(state.exception)
-                    is UIResult.Loading -> PrefsUIState.Loading
+                    is UIResult.Loading, is UIResult.Nothing -> PrefsUIState.Loading
                     is UIResult.Success -> PrefsUIState.Success(state.data)
                 }
             }

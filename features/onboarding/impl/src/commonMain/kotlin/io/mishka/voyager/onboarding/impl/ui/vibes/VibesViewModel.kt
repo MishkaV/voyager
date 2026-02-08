@@ -52,8 +52,8 @@ class VibesViewModel(
             .map { state ->
                 when (state) {
                     is UIResult.Error -> VibesUIState.Error(state.exception)
-                    is UIResult.Loading -> VibesUIState.Loading
                     is UIResult.Success -> VibesUIState.Success(state.data)
+                    is UIResult.Loading, is UIResult.Nothing -> VibesUIState.Loading
                 }
             }
     }

@@ -8,6 +8,7 @@ kotlin {
         commonMain.dependencies {
             api(projects.features.details.api)
 
+            implementation(libs.markdown)
             implementation(projects.common.audioController.api)
             implementation(projects.core.repositories.countries.api)
             implementation(projects.core.repositories.countryDetails.api)

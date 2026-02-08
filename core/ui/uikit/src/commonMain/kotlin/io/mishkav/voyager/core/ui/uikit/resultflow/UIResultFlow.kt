@@ -7,5 +7,5 @@ typealias UIResultFlow<T> = StateFlow<UIResult<T>>
 typealias MutableUIResultFlow<T> = MutableStateFlow<UIResult<T>>
 
 fun <T> MutableUIResultFlow(
-    value: UIResult<T> = UIResult.Loading()
+    value: UIResult<T> = UIResult.Nothing()
 ): MutableUIResultFlow<T> = MutableStateFlow(value)

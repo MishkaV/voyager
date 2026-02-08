@@ -11,6 +11,7 @@ import io.mishka.voyager.core.repositories.countrydetails.api.ICountryAiSuggests
 import io.mishka.voyager.core.repositories.countrydetails.api.datasource.CountryAiSuggestDao
 import io.mishka.voyager.core.repositories.countrydetails.api.models.local.CountryAiSuggestEntity
 import io.mishka.voyager.core.repositories.countrydetails.api.models.remote.CountryAiSuggestDTO
+import io.mishka.voyager.core.repositories.countrydetails.api.models.remote.CountryAiSuggestResponseDTO
 import io.mishka.voyager.core.repositories.countrydetails.impl.mappers.toEntity
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
@@ -69,7 +70,7 @@ class CountryAiSuggestsRepository(
                 body = params
             )
 
-            response.body<String>()
+            response.body<CountryAiSuggestResponseDTO>().text
         }
     }
 

@@ -13,8 +13,8 @@ import dev.zacsweers.metro.Provider
 import dev.zacsweers.metro.binding
 import io.mishka.voyager.details.api.CountryDetailsComponent
 import io.mishka.voyager.details.api.models.CountryDetailsArgs
-import io.mishka.voyager.details.impl.ui.CountryDetailsScreen
-import io.mishka.voyager.details.impl.ui.CountryDetailsViewModel
+import io.mishka.voyager.details.impl.ui.details.CountryDetailsScreen
+import io.mishka.voyager.details.impl.ui.details.CountryDetailsViewModel
 import io.mishkav.voyager.core.ui.decompose.DecomposeOnBackParameter
 import io.mishkav.voyager.core.ui.lifecycle.viewModelWithFactory
 

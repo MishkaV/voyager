@@ -1,4 +1,4 @@
-package io.mishka.voyager.details.impl.ui.blocks
+package io.mishka.voyager.details.impl.ui.details.blocks
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.expandVertically

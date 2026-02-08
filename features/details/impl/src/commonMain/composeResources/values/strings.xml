@@ -7,5 +7,8 @@
     <string name="details_overview">At a glance</string>
     <string name="details_overview_wiki">Check Wikipedia →</string>
     <string name="details_voyager_ai">Ask Voyager AI ✨</string>
+    <string name="details_voyager_ai_error_title">Oops! Couldn’t generate travel suggestions</string>
+    <string name="details_voyager_ai_error_subtitle">We couldn’t create your trip ideas right now.</string>
+    <string name="details_voyager_ai_button">Try out more</string>
     <string name="details_podcast">Voyager Podcast</string>
 </resources>

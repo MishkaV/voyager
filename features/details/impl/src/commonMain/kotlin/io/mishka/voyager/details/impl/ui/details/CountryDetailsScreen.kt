@@ -1,4 +1,4 @@
-package io.mishka.voyager.details.impl.ui
+package io.mishka.voyager.details.impl.ui.details
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.PaddingValues
@@ -21,15 +21,18 @@ import io.mishka.voyager.core.repositories.countrydetails.api.models.local.Count
 import io.mishka.voyager.core.repositories.countrydetails.api.models.local.CountryBestTimeEntity
 import io.mishka.voyager.core.repositories.countrydetails.api.models.local.CountryOverviewEntity
 import io.mishka.voyager.details.api.models.CountryDetailsArgs
-import io.mishka.voyager.details.impl.ui.blocks.appBarBlock
-import io.mishka.voyager.details.impl.ui.blocks.bestTimeBlock
-import io.mishka.voyager.details.impl.ui.blocks.generalInfoBlock
-import io.mishka.voyager.details.impl.ui.blocks.overviewBlock
-import io.mishka.voyager.details.impl.ui.blocks.titleBlock
-import io.mishka.voyager.details.impl.ui.utils.toComposeColor
+import io.mishka.voyager.details.impl.ui.details.blocks.appBarBlock
+import io.mishka.voyager.details.impl.ui.details.blocks.bestTimeBlock
+import io.mishka.voyager.details.impl.ui.details.blocks.generalInfoBlock
+import io.mishka.voyager.details.impl.ui.details.blocks.overviewBlock
+import io.mishka.voyager.details.impl.ui.details.blocks.titleBlock
+import io.mishka.voyager.details.impl.ui.details.blocks.voyagerAIBlock
+import io.mishka.voyager.details.impl.ui.details.utils.toComposeColor
 import io.mishkav.voyager.core.ui.uikit.resultflow.UIResult
 import io.mishkav.voyager.core.ui.uikit.snackbar.core.SnackbarDuration
 import io.mishkav.voyager.core.ui.uikit.snackbar.core.SnackbarMessage
+import io.mishkav.voyager.features.navigation.api.LocalRootNavigation
+import io.mishkav.voyager.features.navigation.api.bottomsheet.SheetConfig
 import io.mishkav.voyager.features.navigation.api.snackbar.LocalBottomBottomMainSnackbarController
 import io.mishkav.voyager.features.navigation.api.snackbar.MainSnackbarState
 
@@ -42,6 +45,7 @@ fun CountryDetailsScreen(
 ) {
     val bottomMainSnackbar = LocalBottomBottomMainSnackbarController.current
     val haptic = LocalHapticFeedback.current
+    val rootNavigation = LocalRootNavigation.current
 
     val countryState = viewModel.countryState.collectAsStateWithLifecycle()
     val aiSuggestsState = viewModel.aiSuggestsState.collectAsStateWithLifecycle()
@@ -81,7 +85,16 @@ fun CountryDetailsScreen(
                 haptic.performHapticFeedback(HapticFeedbackType.ToggleOff)
             }
             viewModel.addOrRemoveVisitedCounty(isVisited)
-        }
+        },
+        requestSuggest = { aiSuggestId ->
+            rootNavigation.openBottomSheet(
+                config = SheetConfig.RequestVoyagerAI(
+                    aiSuggestId = aiSuggestId,
+                    backgroundHex = args.backgroundHex,
+                    countryId = args.countryId,
+                )
+            )
+        },
     )
 }
 
@@ -94,6 +107,7 @@ private fun CountryDetailsScreenContent(
     overviewState: State<UIResult<CountryOverviewEntity?>>,
     navigateBack: () -> Unit,
     addOrRemoveVisitedCounty: (isVisited: Boolean) -> Unit,
+    requestSuggest: (aiSuggestId: String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     LazyColumn(
@@ -126,6 +140,13 @@ private fun CountryDetailsScreenContent(
         item(contentType = "SPACER") { Spacer(Modifier.height(12.dp)) }
 
         overviewBlock(overviewState = overviewState)
+
+        item(contentType = "SPACER") { Spacer(Modifier.height(12.dp)) }
+
+        voyagerAIBlock(
+            aiSuggestsState = aiSuggestsState,
+            requestSuggest = requestSuggest,
+        )
 
         item(contentType = "SPACER") {
             Spacer(Modifier.windowInsetsPadding(WindowInsets.navigationBars))

@@ -21,6 +21,7 @@ import io.mishka.voyager.core.repositories.countrydetails.api.models.local.Count
 import io.mishka.voyager.core.repositories.countrydetails.api.models.local.CountryOverviewEntity
 import io.mishka.voyager.details.api.models.CountryDetailsArgs
 import io.mishka.voyager.details.impl.ui.blocks.appBarBlock
+import io.mishka.voyager.details.impl.ui.blocks.bestTimeBlock
 import io.mishka.voyager.details.impl.ui.blocks.generalInfoBlock
 import io.mishka.voyager.details.impl.ui.blocks.titleBlock
 import io.mishka.voyager.details.impl.ui.utils.toComposeColor
@@ -114,8 +115,10 @@ private fun CountryDetailsScreenContent(
 
         item(contentType = "SPACER") { Spacer(Modifier.height(34.dp)) }
 
-        generalInfoBlock(
-            countryState = countryState
-        )
+        generalInfoBlock(countryState = countryState)
+
+        item(contentType = "SPACER") { Spacer(Modifier.height(12.dp)) }
+
+        bestTimeBlock(bestTimesState = bestTimesState)
     }
 }

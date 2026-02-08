@@ -4,7 +4,7 @@ import io.mishka.voyager.core.repositories.countrydetails.api.models.local.Count
 
 interface ICountryAiSuggestsRepository {
 
-    suspend fun getByCountryId(countryId: String, forceUpdate: Boolean = false): Result<List<CountryAiSuggestEntity>>
+    suspend fun getByCountryId(countryId: String): Result<List<CountryAiSuggestEntity>>
 
     suspend fun generateAiSuggest(aiSuggestId: String, countryId: String): Result<String>
 }

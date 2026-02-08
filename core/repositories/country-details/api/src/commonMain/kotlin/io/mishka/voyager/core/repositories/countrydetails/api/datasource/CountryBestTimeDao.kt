@@ -8,6 +8,9 @@ import io.mishka.voyager.core.utils.room.BaseDao
 @Dao
 interface CountryBestTimeDao : BaseDao<CountryBestTimeEntity> {
 
+    @Query("SELECT COUNT(*) FROM country_best_times WHERE countryId = :countryId")
+    suspend fun getCountByCountryId(countryId: String): Int
+
     @Query("SELECT * FROM country_best_times WHERE countryId = :countryId")
     suspend fun getByCountryId(countryId: String): List<CountryBestTimeEntity>
 }

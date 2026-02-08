@@ -22,12 +22,11 @@ class CountryPodcastsRepository(
 
     override suspend fun getByCountryId(
         countryId: String,
-        forceUpdate: Boolean
     ): Result<List<CountryPodcastEntity>> {
-        logger.d { "getByCountryId: countryId=$countryId, forceUpdate=$forceUpdate" }
+        logger.d { "getByCountryId: countryId=$countryId" }
 
         return restartableLoad(
-            forceUpdate = forceUpdate,
+            forceUpdate = dao.value.getCountByCountryId(countryId) == 0,
             remoteLoad = { force ->
                 supabasePostgrest.from(TABLE_COUNTRY_PODCASTS)
                     .select {

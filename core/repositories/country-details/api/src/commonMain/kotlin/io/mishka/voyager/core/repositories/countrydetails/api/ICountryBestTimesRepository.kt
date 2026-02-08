@@ -4,5 +4,5 @@ import io.mishka.voyager.core.repositories.countrydetails.api.models.local.Count
 
 interface ICountryBestTimesRepository {
 
-    suspend fun getByCountryId(countryId: String, forceUpdate: Boolean = false): Result<List<CountryBestTimeEntity>>
+    suspend fun getByCountryId(countryId: String): Result<List<CountryBestTimeEntity>>
 }

@@ -4,5 +4,5 @@ import io.mishka.voyager.core.repositories.countrydetails.api.models.local.Count
 
 interface ICountryOverviewRepository {
 
-    suspend fun getByCountryId(countryId: String, forceUpdate: Boolean = false): Result<CountryOverviewEntity?>
+    suspend fun getByCountryId(countryId: String): Result<CountryOverviewEntity?>
 }

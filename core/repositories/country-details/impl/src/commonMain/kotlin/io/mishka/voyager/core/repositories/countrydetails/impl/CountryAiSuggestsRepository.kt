@@ -27,12 +27,11 @@ class CountryAiSuggestsRepository(
 
     override suspend fun getByCountryId(
         countryId: String,
-        forceUpdate: Boolean
     ): Result<List<CountryAiSuggestEntity>> {
-        logger.d { "getByCountryId: countryId=$countryId, forceUpdate=$forceUpdate" }
+        logger.d { "getByCountryId: countryId=$countryId" }
 
         return restartableLoad(
-            forceUpdate = forceUpdate,
+            forceUpdate = dao.value.getCountByCountryId(countryId) == 0,
             remoteLoad = { force ->
                 supabasePostgrest.from(TABLE_COUNTRY_AI_SUGGESTS)
                     .select {

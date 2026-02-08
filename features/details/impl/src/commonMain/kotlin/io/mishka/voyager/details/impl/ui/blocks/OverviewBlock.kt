@@ -7,7 +7,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -21,35 +21,41 @@ import androidx.compose.runtime.State
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import io.mishka.voyager.core.repositories.countrydetails.api.models.local.CountryBestTimeEntity
+import io.mishka.voyager.core.repositories.countrydetails.api.models.local.CountryOverviewEntity
 import io.mishkav.voyager.core.ui.theme.VoyagerTheme
 import io.mishkav.voyager.core.ui.uikit.resultflow.UIResult
 import io.mishkav.voyager.core.ui.uikit.shimmer.placeholderFadeConnecting
+import io.mishkav.voyager.core.ui.uikit.utils.clickableUnindicated
+import io.mishkav.voyager.core.ui.uikit.utils.safeOpenUri
 import org.jetbrains.compose.resources.stringResource
 import voyager.features.details.impl.generated.resources.Res
-import voyager.features.details.impl.generated.resources.details_best_time
+import voyager.features.details.impl.generated.resources.details_overview
+import voyager.features.details.impl.generated.resources.details_overview_wiki
 
-internal fun LazyListScope.bestTimeBlock(
-    bestTimesState: State<UIResult<List<CountryBestTimeEntity>>>,
+internal fun LazyListScope.overviewBlock(
+    overviewState: State<UIResult<CountryOverviewEntity?>>,
 ) {
     item(
-        key = "BEST_TIME_BLOCK_KEY",
-        contentType = "BEST_TIME_BLOCK_TYPE",
+        key = "OVERVIEW_BLOCK_KEY",
+        contentType = "OVERVIEW_BLOCK_TYPE",
     ) {
-        BestTimeBlock(
-            bestTimesState = bestTimesState,
+        OverviewBlock(
+            overviewState = overviewState,
             modifier = Modifier.fillMaxWidth(),
         )
     }
 }
 
 @Composable
-private fun BestTimeBlock(
-    bestTimesState: State<UIResult<List<CountryBestTimeEntity>>>,
+private fun OverviewBlock(
+    overviewState: State<UIResult<CountryOverviewEntity?>>,
     modifier: Modifier = Modifier,
 ) {
+    val uriHandler = LocalUriHandler.current
+
     Column(
         modifier = modifier
             .clip(RoundedCornerShape(16.dp))
@@ -58,50 +64,44 @@ private fun BestTimeBlock(
                 vertical = 12.dp,
                 horizontal = 16.dp
             ),
+        horizontalAlignment = Alignment.Start,
     ) {
         Text(
-            text = stringResource(Res.string.details_best_time),
-            style = VoyagerTheme.typography.caption,
-            color = VoyagerTheme.colors.white.copy(alpha = 0.7f),
+            text = stringResource(Res.string.details_overview),
+            style = VoyagerTheme.typography.h3,
+            color = VoyagerTheme.colors.white,
             textAlign = TextAlign.Start,
         )
 
-        Spacer(Modifier.height(6.dp))
+        Spacer(Modifier.height(8.dp))
 
         AnimatedContent(
-            targetState = bestTimesState.value,
+            targetState = overviewState.value,
             transitionSpec = {
                 fadeIn() + slideInVertically() + expandVertically() togetherWith fadeOut()
-            }
+            },
         ) { state ->
-            Column(
-                modifier = Modifier.fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(6.dp)
-            ) {
-                when (state) {
-                    is UIResult.Success -> {
-                        state.data.forEach { item ->
-                            BestTimeItem(
-                                title = item.title,
-                                description = item.description,
-                                modifier = Modifier.fillMaxWidth(),
-                            )
-                        }
+            when (state) {
+                is UIResult.Success -> {
+                    state.data?.let { overview ->
+                        OverviewContent(
+                            description = overview.body,
+                            modifier = Modifier.fillMaxWidth().clickableUnindicated {
+                                uriHandler.safeOpenUri(overview.wikipediaUrl)
+                            },
+                        )
                     }
+                }
 
-                    else -> {
-                        repeat(2) {
-                            BestTimeItem(
-                                title = "",
-                                description = "",
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .placeholderFadeConnecting(
-                                        shape = RoundedCornerShape(8.dp),
-                                    )
+                else -> {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(126.dp)
+                            .placeholderFadeConnecting(
+                                shape = RoundedCornerShape(8.dp),
                             )
-                        }
-                    }
+                    )
                 }
             }
         }
@@ -109,30 +109,28 @@ private fun BestTimeBlock(
 }
 
 @Composable
-private fun BestTimeItem(
-    title: String,
+private fun OverviewContent(
     description: String,
     modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = modifier
-            .clip(RoundedCornerShape(8.dp))
-            .background(VoyagerTheme.colors.white.copy(alpha = 0.2f))
-            .padding(12.dp),
-        horizontalAlignment = Alignment.Start,
+        modifier = modifier,
+        horizontalAlignment = Alignment.Start
     ) {
         Text(
-            text = title,
-            style = VoyagerTheme.typography.h2,
+            modifier = Modifier.fillMaxWidth(),
+            text = description,
+            style = VoyagerTheme.typography.body,
             color = VoyagerTheme.colors.white,
             textAlign = TextAlign.Start,
         )
 
-        Spacer(Modifier.height(2.dp))
+        Spacer(Modifier.height(12.dp))
 
         Text(
-            text = description,
-            style = VoyagerTheme.typography.body,
+            modifier = Modifier.fillMaxWidth(),
+            text = stringResource(Res.string.details_overview_wiki),
+            style = VoyagerTheme.typography.caption,
             color = VoyagerTheme.colors.white,
             textAlign = TextAlign.Start,
         )

@@ -1,6 +1,7 @@
 package io.mishka.voyager.details.impl.ui
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.height
@@ -23,6 +24,7 @@ import io.mishka.voyager.details.api.models.CountryDetailsArgs
 import io.mishka.voyager.details.impl.ui.blocks.appBarBlock
 import io.mishka.voyager.details.impl.ui.blocks.bestTimeBlock
 import io.mishka.voyager.details.impl.ui.blocks.generalInfoBlock
+import io.mishka.voyager.details.impl.ui.blocks.overviewBlock
 import io.mishka.voyager.details.impl.ui.blocks.titleBlock
 import io.mishka.voyager.details.impl.ui.utils.toComposeColor
 import io.mishkav.voyager.core.ui.uikit.resultflow.UIResult
@@ -97,8 +99,8 @@ private fun CountryDetailsScreenContent(
     LazyColumn(
         modifier = modifier
             .background(args.backgroundHex.toComposeColor())
-            .padding(horizontal = 24.dp)
-            .windowInsetsPadding(WindowInsets.navigationBars),
+            .padding(horizontal = 24.dp),
+        contentPadding = PaddingValues(bottom = 12.dp)
     ) {
         appBarBlock(
             countryState = countryState,
@@ -120,5 +122,13 @@ private fun CountryDetailsScreenContent(
         item(contentType = "SPACER") { Spacer(Modifier.height(12.dp)) }
 
         bestTimeBlock(bestTimesState = bestTimesState)
+
+        item(contentType = "SPACER") { Spacer(Modifier.height(12.dp)) }
+
+        overviewBlock(overviewState = overviewState)
+
+        item(contentType = "SPACER") {
+            Spacer(Modifier.windowInsetsPadding(WindowInsets.navigationBars))
+        }
     }
 }

@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.shape.CircleShape
@@ -27,12 +26,12 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import io.mishka.voyager.core.repositories.userstats.api.models.local.UserStatsEntity
 import io.mishka.voyager.features.main.api.consts.MAIN_BOTTOM_BAR_HEIGHT
 import io.mishka.voyager.profile.impl.ui.blocks.StatsBlock
-import io.mishka.voyager.profile.impl.ui.utils.sendEmail
 import io.mishkav.voyager.core.ui.theme.VoyagerTheme
 import io.mishkav.voyager.core.ui.uikit.button.VoyagerButton
 import io.mishkav.voyager.core.ui.uikit.button.VoyagerDefaultButtonSizes
 import io.mishkav.voyager.core.ui.uikit.button.VoyagerDefaultButtonStyles
 import io.mishkav.voyager.core.ui.uikit.resultflow.UIResult
+import io.mishkav.voyager.core.ui.uikit.utils.sendEmail
 import io.mishkav.voyager.features.navigation.api.LocalRootNavigation
 import io.mishkav.voyager.features.navigation.api.model.RootConfig
 import org.jetbrains.compose.resources.painterResource

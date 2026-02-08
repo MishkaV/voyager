@@ -5,6 +5,7 @@
 
     <string name="details_best_time">Best time</string>
     <string name="details_overview">At a glance</string>
+    <string name="details_overview_wiki">Check Wikipedia →</string>
     <string name="details_voyager_ai">Ask Voyager AI ✨</string>
     <string name="details_podcast">Voyager Podcast</string>
 </resources>

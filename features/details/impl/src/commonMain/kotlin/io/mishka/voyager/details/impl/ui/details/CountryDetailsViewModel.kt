@@ -4,6 +4,7 @@ import dev.zacsweers.metro.Assisted
 import dev.zacsweers.metro.AssistedFactory
 import dev.zacsweers.metro.AssistedInject
 import io.mishka.voyager.common.audiocontroller.api.IAudioController
+import io.mishka.voyager.common.audiocontroller.api.models.PlaybackState
 import io.mishka.voyager.core.repositories.countries.api.ICountriesRepository
 import io.mishka.voyager.core.repositories.countries.api.IUserCountriesRepository
 import io.mishka.voyager.core.repositories.countries.api.models.local.CountryWithVisitedStatus
@@ -26,13 +27,15 @@ import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 @AssistedInject
 class CountryDetailsViewModel(
     @Assisted private val countryId: String,
-    val audioController: IAudioController,
+    private val audioController: IAudioController,
     private val countriesRepository: ICountriesRepository,
     private val countryAiSuggestRepository: ICountryAiSuggestsRepository,
     private val countryBestTimeRepository: ICountryBestTimesRepository,
@@ -48,6 +51,31 @@ class CountryDetailsViewModel(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5_000),
             initialValue = UIResult.Loading()
+        )
+
+    val playbackState = combine(
+        audioController.playbackState,
+        audioController.playbackInfo
+    ) { state, info ->
+        when {
+            info == null -> state
+            info.countryId != countryId -> PlaybackState.IDLE
+            else -> state
+        }
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5_000),
+        initialValue = PlaybackState.IDLE
+    )
+
+    val playbackInfo = audioController.playbackInfo
+        .map { info ->
+            info?.takeIf { it.countryId == countryId }
+        }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5_000),
+            initialValue = null
         )
 
     private val _aiSuggestsState = MutableUIResultFlow<List<CountryAiSuggestEntity>>()
@@ -84,6 +112,7 @@ class CountryDetailsViewModel(
                 audioController.play()
             } else {
                 audioController.loadAndPlay(
+                    countryId = countryId,
                     podcastId = podcast.id,
                     audioFullPath = podcast.audioFullPatch,
                     title = podcast.title,
@@ -91,6 +120,24 @@ class CountryDetailsViewModel(
                     durationSec = podcast.durationSec,
                 )
             }
+        }
+    }
+
+    fun seekTo(positionSec: Int) {
+        viewModelScope.launch {
+            audioController.seekTo(positionSec)
+        }
+    }
+
+    fun seekForward() {
+        viewModelScope.launch {
+            audioController.seekForward()
+        }
+    }
+
+    fun seekBackward() {
+        viewModelScope.launch {
+            audioController.seekBackward()
         }
     }
 

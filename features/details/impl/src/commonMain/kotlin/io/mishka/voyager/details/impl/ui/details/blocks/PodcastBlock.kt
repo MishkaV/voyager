@@ -1,15 +1,22 @@
 package io.mishka.voyager.details.impl.ui.details.blocks
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.LinearWavyProgressIndicator
+import androidx.compose.material3.Slider
+import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
@@ -21,32 +28,47 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import io.mishka.voyager.common.audiocontroller.api.models.PlaybackState
+import io.mishka.voyager.common.audiocontroller.api.models.PodcastPlaybackInfo
 import io.mishka.voyager.core.repositories.countrydetails.api.models.local.CountryPodcastEntity
 import io.mishka.voyager.details.impl.ui.details.components.PlayButton
+import io.mishka.voyager.details.impl.ui.details.utils.toComposeColor
 import io.mishkav.voyager.core.ui.theme.VoyagerTheme
+import io.mishkav.voyager.core.ui.theme.icons.next24
+import io.mishkav.voyager.core.ui.theme.icons.prev24
 import io.mishkav.voyager.core.ui.uikit.resultflow.UIResult
 import io.mishkav.voyager.core.ui.uikit.resultflow.isLoading
 import io.mishkav.voyager.core.ui.uikit.resultflow.successOrNull
 import io.mishkav.voyager.core.ui.uikit.shimmer.placeholderFadeConnecting
+import io.mishkav.voyager.core.ui.uikit.utils.clickableUnindicated
 import org.jetbrains.compose.resources.stringResource
 import voyager.features.details.impl.generated.resources.Res
 import voyager.features.details.impl.generated.resources.details_podcast
 
 internal fun LazyListScope.podcastBlock(
+    backgroundHex: String,
     podcastInfoState: State<UIResult<CountryPodcastEntity?>>,
     playbackState: State<PlaybackState>,
+    playbackInfo: State<PodcastPlaybackInfo?>,
     playPodcast: (CountryPodcastEntity) -> Unit,
     pausePodcast: () -> Unit,
+    seekTo: (Int) -> Unit,
+    seekForward: () -> Unit,
+    seekBackward: () -> Unit,
 ) {
     item(
         key = "PODCAST_BLOCK_KEY",
         contentType = "PODCAST_BLOCK_TYPE",
     ) {
         PodcastBlock(
+            backgroundHex = backgroundHex,
             podcastInfoState = podcastInfoState,
             playbackState = playbackState,
+            playbackInfo = playbackInfo,
             playPodcast = playPodcast,
             pausePodcast = pausePodcast,
+            seekTo = seekTo,
+            seekForward = seekForward,
+            seekBackward = seekBackward,
             modifier = Modifier.fillMaxWidth(),
         )
     }
@@ -54,10 +76,15 @@ internal fun LazyListScope.podcastBlock(
 
 @Composable
 private fun PodcastBlock(
+    backgroundHex: String,
     podcastInfoState: State<UIResult<CountryPodcastEntity?>>,
     playbackState: State<PlaybackState>,
+    playbackInfo: State<PodcastPlaybackInfo?>,
     playPodcast: (CountryPodcastEntity) -> Unit,
     pausePodcast: () -> Unit,
+    seekTo: (Int) -> Unit,
+    seekForward: () -> Unit,
+    seekBackward: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -89,7 +116,15 @@ private fun PodcastBlock(
 
         Spacer(Modifier.height(16.dp))
 
-        // TODO Add controlls
+        PodcastControls(
+            backgroundHex = backgroundHex,
+            playbackInfo = playbackInfo,
+            playbackState = playbackState,
+            seekTo = seekTo,
+            seekForward = seekForward,
+            seekBackward = seekBackward,
+            modifier = Modifier.fillMaxWidth(),
+        )
     }
 }
 
@@ -161,6 +196,113 @@ private fun PodcastInfo(
                     }
                 }
             },
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun PodcastControls(
+    backgroundHex: String,
+    playbackInfo: State<PodcastPlaybackInfo?>,
+    playbackState: State<PlaybackState>,
+    seekTo: (Int) -> Unit,
+    seekForward: () -> Unit,
+    seekBackward: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val progress = remember(playbackInfo.value) {
+        derivedStateOf {
+            playbackInfo.value?.let { info ->
+                info.currentPositionSec.toFloat() / info.durationSec
+            } ?: 0f
+        }
+    }
+    val amplitude = remember(playbackState.value) {
+        derivedStateOf {
+            when (playbackState.value) {
+                PlaybackState.IDLE,
+                PlaybackState.PAUSED,
+                PlaybackState.STOPPED,
+                PlaybackState.ERROR,
+                PlaybackState.LOADING -> 0f
+
+                PlaybackState.PLAYING -> 1f
+            }
+        }
+    }
+    val isEnabled = remember(playbackState.value) {
+        derivedStateOf {
+            when (playbackState.value) {
+                PlaybackState.IDLE,
+                PlaybackState.STOPPED,
+                PlaybackState.ERROR -> false
+
+                PlaybackState.PAUSED,
+                PlaybackState.LOADING,
+                PlaybackState.PLAYING -> true
+            }
+        }
+    }
+
+    Row(
+        modifier = modifier,
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Icon(
+            modifier = Modifier.size(24.dp).clickableUnindicated(
+                enabled = isEnabled.value,
+                onClick = seekBackward,
+            ),
+            imageVector = VoyagerTheme.icons.prev24,
+            contentDescription = null,
+            tint = VoyagerTheme.colors.white,
+        )
+
+        Spacer(Modifier.width(8.dp))
+
+        Box(
+            modifier = Modifier.weight(1f),
+            contentAlignment = Alignment.Center,
+        ) {
+            LinearWavyProgressIndicator(
+                modifier = Modifier.fillMaxWidth(),
+                progress = { progress.value },
+                amplitude = { amplitude.value },
+                color = backgroundHex.toComposeColor().copy(alpha = 1f),
+                trackColor = VoyagerTheme.colors.white.copy(alpha = 0.8f),
+            )
+
+            Slider(
+                modifier = Modifier.fillMaxWidth().height(16.dp),
+                value = progress.value,
+                enabled = isEnabled.value,
+                onValueChange = { currentProgress ->
+                    val totalSec = playbackInfo.value?.durationSec ?: 0
+                    val secToSeek = (totalSec * currentProgress).toInt()
+                    seekTo(secToSeek)
+                },
+                colors = SliderDefaults.colors(
+                    thumbColor = VoyagerTheme.colors.white,
+                    activeTrackColor = androidx.compose.ui.graphics.Color.Transparent,
+                    inactiveTrackColor = androidx.compose.ui.graphics.Color.Transparent,
+                    disabledThumbColor = VoyagerTheme.colors.white,
+                    disabledActiveTrackColor = androidx.compose.ui.graphics.Color.Transparent,
+                    disabledInactiveTrackColor = androidx.compose.ui.graphics.Color.Transparent,
+                )
+            )
+        }
+
+        Spacer(Modifier.width(8.dp))
+
+        Icon(
+            modifier = Modifier.size(24.dp).clickableUnindicated(
+                enabled = isEnabled.value,
+                onClick = seekForward
+            ),
+            imageVector = VoyagerTheme.icons.next24,
+            contentDescription = null,
+            tint = VoyagerTheme.colors.white,
         )
     }
 }

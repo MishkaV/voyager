@@ -1,6 +1,7 @@
 package io.mishka.voyager.common.audiocontroller.api.models
 
 data class PodcastPlaybackInfo(
+    val countryId: String,
     val podcastId: String,
     val audioFullPath: String,
     val title: String,

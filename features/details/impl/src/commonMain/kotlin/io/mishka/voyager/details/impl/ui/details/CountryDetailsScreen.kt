@@ -55,7 +55,8 @@ fun CountryDetailsScreen(
     val bestTimesState = viewModel.bestTimesState.collectAsStateWithLifecycle()
     val overviewState = viewModel.overviewState.collectAsStateWithLifecycle()
     val podcastInfoState = viewModel.podcastInfoState.collectAsStateWithLifecycle()
-    val playbackState = viewModel.audioController.playbackState.collectAsStateWithLifecycle()
+    val playbackInfo = viewModel.playbackInfo.collectAsStateWithLifecycle()
+    val playbackState = viewModel.playbackState.collectAsStateWithLifecycle()
 
     CountryDetailsScreenContent(
         modifier = modifier,
@@ -66,8 +67,12 @@ fun CountryDetailsScreen(
         overviewState = overviewState,
         podcastInfoState = podcastInfoState,
         playbackState = playbackState,
+        playbackInfo = playbackInfo,
         playPodcast = viewModel::playPodcast,
         pausePodcast = viewModel::pausePodcast,
+        seekTo = viewModel::seekTo,
+        seekForward = viewModel::seekForward,
+        seekBackward = viewModel::seekBackward,
         navigateBack = navigateBack,
         addOrRemoveVisitedCounty = { isVisited ->
             if (isVisited) {
@@ -116,8 +121,12 @@ private fun CountryDetailsScreenContent(
     overviewState: State<UIResult<CountryOverviewEntity?>>,
     podcastInfoState: State<UIResult<CountryPodcastEntity?>>,
     playbackState: State<PlaybackState>,
+    playbackInfo: State<io.mishka.voyager.common.audiocontroller.api.models.PodcastPlaybackInfo?>,
     playPodcast: (CountryPodcastEntity) -> Unit,
     pausePodcast: () -> Unit,
+    seekTo: (Int) -> Unit,
+    seekForward: () -> Unit,
+    seekBackward: () -> Unit,
     navigateBack: () -> Unit,
     addOrRemoveVisitedCounty: (isVisited: Boolean) -> Unit,
     requestSuggest: (aiSuggestId: String) -> Unit,
@@ -164,10 +173,15 @@ private fun CountryDetailsScreenContent(
         item(contentType = "SPACER") { Spacer(Modifier.height(12.dp)) }
 
         podcastBlock(
+            backgroundHex = args.backgroundHex,
             podcastInfoState = podcastInfoState,
             playbackState = playbackState,
+            playbackInfo = playbackInfo,
             playPodcast = playPodcast,
             pausePodcast = pausePodcast,
+            seekTo = seekTo,
+            seekForward = seekForward,
+            seekBackward = seekBackward,
         )
 
         item(contentType = "SPACER") {

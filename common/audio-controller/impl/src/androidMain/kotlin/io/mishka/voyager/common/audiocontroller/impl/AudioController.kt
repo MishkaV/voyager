@@ -149,6 +149,7 @@ actual class AudioController actual constructor(
     }
 
     override suspend fun loadAndPlay(
+        countryId: String,
         podcastId: String,
         audioFullPath: String,
         title: String,
@@ -170,6 +171,7 @@ actual class AudioController actual constructor(
         _playbackState.value = PlaybackState.LOADING
 
         _playbackInfo.value = PodcastPlaybackInfo(
+            countryId = countryId,
             podcastId = podcastId,
             audioFullPath = audioFullPath,
             title = title,
@@ -256,12 +258,12 @@ actual class AudioController actual constructor(
         updatePlaybackInfoWithPosition()
     }
 
-    override suspend fun seekForward(seconds: Int) {
+    override suspend fun seekForward(seconds: Int) = withContext(Dispatchers.Main) {
         val currentPos = getCurrentPosition()
         seekTo(currentPos + seconds)
     }
 
-    override suspend fun seekBackward(seconds: Int) {
+    override suspend fun seekBackward(seconds: Int) = withContext(Dispatchers.Main) {
         val currentPos = getCurrentPosition()
         seekTo((currentPos - seconds).coerceAtLeast(0))
     }

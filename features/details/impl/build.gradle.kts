@@ -8,6 +8,8 @@ kotlin {
         commonMain.dependencies {
             api(projects.features.details.api)
 
+            // Move to jetbrains material only with support LinearWavyProgressIndicator
+            implementation(libs.androidx.compose.material3)
             implementation(libs.markdown)
             implementation(libs.jetbrains.compose.material3)
             implementation(projects.common.audioController.api)

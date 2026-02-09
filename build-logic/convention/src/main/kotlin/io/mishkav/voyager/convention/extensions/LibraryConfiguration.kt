@@ -74,6 +74,8 @@ fun Project.configureKotlin() {
                 listOf(
                     // Enable experimental coroutines APIs, including Flow
                     "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
+                    // Enable experimental material3 expressive APIs - remove with stable version
+                    "-opt-in=androidx.compose.material3.ExperimentalMaterial3ExpressiveApi",
                     // Dismiss expect/actual
                     "-Xexpect-actual-classes"
                 )

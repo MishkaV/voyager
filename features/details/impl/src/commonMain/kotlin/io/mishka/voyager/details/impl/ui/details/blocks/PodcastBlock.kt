@@ -1,5 +1,12 @@
 package io.mishka.voyager.details.impl.ui.details.blocks
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -37,6 +44,7 @@ import io.mishkav.voyager.core.ui.theme.icons.next24
 import io.mishkav.voyager.core.ui.theme.icons.prev24
 import io.mishkav.voyager.core.ui.uikit.resultflow.UIResult
 import io.mishkav.voyager.core.ui.uikit.resultflow.isLoading
+import io.mishkav.voyager.core.ui.uikit.resultflow.isSuccess
 import io.mishkav.voyager.core.ui.uikit.resultflow.successOrNull
 import io.mishkav.voyager.core.ui.uikit.shimmer.placeholderFadeConnecting
 import io.mishkav.voyager.core.ui.uikit.utils.clickableUnindicated
@@ -59,18 +67,24 @@ internal fun LazyListScope.podcastBlock(
         key = "PODCAST_BLOCK_KEY",
         contentType = "PODCAST_BLOCK_TYPE",
     ) {
-        PodcastBlock(
-            backgroundHex = backgroundHex,
-            podcastInfoState = podcastInfoState,
-            playbackState = playbackState,
-            playbackInfo = playbackInfo,
-            playPodcast = playPodcast,
-            pausePodcast = pausePodcast,
-            seekTo = seekTo,
-            seekForward = seekForward,
-            seekBackward = seekBackward,
-            modifier = Modifier.fillMaxWidth(),
-        )
+        AnimatedVisibility(
+            visible = podcastInfoState.value.isSuccess(),
+            enter = expandVertically() + slideInVertically() + fadeIn(),
+            exit = slideOutVertically() + fadeOut(),
+        ) {
+            PodcastBlock(
+                backgroundHex = backgroundHex,
+                podcastInfoState = podcastInfoState,
+                playbackState = playbackState,
+                playbackInfo = playbackInfo,
+                playPodcast = playPodcast,
+                pausePodcast = pausePodcast,
+                seekTo = seekTo,
+                seekForward = seekForward,
+                seekBackward = seekBackward,
+                modifier = Modifier.fillMaxWidth(),
+            )
+        }
     }
 }
 

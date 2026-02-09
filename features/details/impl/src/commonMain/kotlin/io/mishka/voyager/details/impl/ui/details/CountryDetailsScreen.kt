@@ -17,6 +17,7 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import io.mishka.voyager.common.audiocontroller.api.models.PlaybackState
+import io.mishka.voyager.common.audiocontroller.api.models.PodcastPlaybackInfo
 import io.mishka.voyager.core.repositories.countries.api.models.local.CountryWithVisitedStatus
 import io.mishka.voyager.core.repositories.countrydetails.api.models.local.CountryAiSuggestEntity
 import io.mishka.voyager.core.repositories.countrydetails.api.models.local.CountryBestTimeEntity
@@ -121,7 +122,7 @@ private fun CountryDetailsScreenContent(
     overviewState: State<UIResult<CountryOverviewEntity?>>,
     podcastInfoState: State<UIResult<CountryPodcastEntity?>>,
     playbackState: State<PlaybackState>,
-    playbackInfo: State<io.mishka.voyager.common.audiocontroller.api.models.PodcastPlaybackInfo?>,
+    playbackInfo: State<PodcastPlaybackInfo?>,
     playPodcast: (CountryPodcastEntity) -> Unit,
     pausePodcast: () -> Unit,
     seekTo: (Int) -> Unit,

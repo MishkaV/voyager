@@ -11,6 +11,6 @@ interface CountryPodcastDao : BaseDao<CountryPodcastEntity> {
     @Query("SELECT COUNT(*) FROM country_podcasts WHERE countryId = :countryId")
     suspend fun getCountByCountryId(countryId: String): Int
 
-    @Query("SELECT * FROM country_podcasts WHERE countryId = :countryId")
-    suspend fun getByCountryId(countryId: String): List<CountryPodcastEntity>
+    @Query("SELECT * FROM country_podcasts WHERE countryId = :countryId LIMIT 1")
+    suspend fun getByCountryId(countryId: String): CountryPodcastEntity?
 }

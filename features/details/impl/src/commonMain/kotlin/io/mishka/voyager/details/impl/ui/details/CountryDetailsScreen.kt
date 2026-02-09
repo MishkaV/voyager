@@ -16,15 +16,18 @@ import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import io.mishka.voyager.common.audiocontroller.api.models.PlaybackState
 import io.mishka.voyager.core.repositories.countries.api.models.local.CountryWithVisitedStatus
 import io.mishka.voyager.core.repositories.countrydetails.api.models.local.CountryAiSuggestEntity
 import io.mishka.voyager.core.repositories.countrydetails.api.models.local.CountryBestTimeEntity
 import io.mishka.voyager.core.repositories.countrydetails.api.models.local.CountryOverviewEntity
+import io.mishka.voyager.core.repositories.countrydetails.api.models.local.CountryPodcastEntity
 import io.mishka.voyager.details.api.models.CountryDetailsArgs
 import io.mishka.voyager.details.impl.ui.details.blocks.appBarBlock
 import io.mishka.voyager.details.impl.ui.details.blocks.bestTimeBlock
 import io.mishka.voyager.details.impl.ui.details.blocks.generalInfoBlock
 import io.mishka.voyager.details.impl.ui.details.blocks.overviewBlock
+import io.mishka.voyager.details.impl.ui.details.blocks.podcastBlock
 import io.mishka.voyager.details.impl.ui.details.blocks.titleBlock
 import io.mishka.voyager.details.impl.ui.details.blocks.voyagerAIBlock
 import io.mishka.voyager.details.impl.ui.details.utils.toComposeColor
@@ -51,6 +54,8 @@ fun CountryDetailsScreen(
     val aiSuggestsState = viewModel.aiSuggestsState.collectAsStateWithLifecycle()
     val bestTimesState = viewModel.bestTimesState.collectAsStateWithLifecycle()
     val overviewState = viewModel.overviewState.collectAsStateWithLifecycle()
+    val podcastInfoState = viewModel.podcastInfoState.collectAsStateWithLifecycle()
+    val playbackState = viewModel.audioController.playbackState.collectAsStateWithLifecycle()
 
     CountryDetailsScreenContent(
         modifier = modifier,
@@ -59,6 +64,10 @@ fun CountryDetailsScreen(
         aiSuggestsState = aiSuggestsState,
         bestTimesState = bestTimesState,
         overviewState = overviewState,
+        podcastInfoState = podcastInfoState,
+        playbackState = playbackState,
+        playPodcast = viewModel::playPodcast,
+        pausePodcast = viewModel::pausePodcast,
         navigateBack = navigateBack,
         addOrRemoveVisitedCounty = { isVisited ->
             if (isVisited) {
@@ -105,6 +114,10 @@ private fun CountryDetailsScreenContent(
     aiSuggestsState: State<UIResult<List<CountryAiSuggestEntity>>>,
     bestTimesState: State<UIResult<List<CountryBestTimeEntity>>>,
     overviewState: State<UIResult<CountryOverviewEntity?>>,
+    podcastInfoState: State<UIResult<CountryPodcastEntity?>>,
+    playbackState: State<PlaybackState>,
+    playPodcast: (CountryPodcastEntity) -> Unit,
+    pausePodcast: () -> Unit,
     navigateBack: () -> Unit,
     addOrRemoveVisitedCounty: (isVisited: Boolean) -> Unit,
     requestSuggest: (aiSuggestId: String) -> Unit,
@@ -146,6 +159,15 @@ private fun CountryDetailsScreenContent(
         voyagerAIBlock(
             aiSuggestsState = aiSuggestsState,
             requestSuggest = requestSuggest,
+        )
+
+        item(contentType = "SPACER") { Spacer(Modifier.height(12.dp)) }
+
+        podcastBlock(
+            podcastInfoState = podcastInfoState,
+            playbackState = playbackState,
+            playPodcast = playPodcast,
+            pausePodcast = pausePodcast,
         )
 
         item(contentType = "SPACER") {

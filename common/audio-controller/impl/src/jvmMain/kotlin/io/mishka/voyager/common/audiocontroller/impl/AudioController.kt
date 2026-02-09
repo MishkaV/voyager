@@ -1,8 +1,5 @@
 package io.mishka.voyager.common.audiocontroller.impl
 
-import dev.zacsweers.metro.AppScope
-import dev.zacsweers.metro.ContributesBinding
-import dev.zacsweers.metro.SingleIn
 import io.mishka.voyager.common.audiocontroller.api.IAudioController
 import io.mishka.voyager.common.audiocontroller.api.models.PlaybackState
 import io.mishka.voyager.common.audiocontroller.api.models.PodcastPlaybackInfo
@@ -11,8 +8,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
-@SingleIn(AppScope::class)
-@ContributesBinding(AppScope::class)
 actual class AudioController actual constructor(
     context: VoyagerPlatformContext,
     audioUrlResolver: io.mishka.voyager.common.audiocontroller.impl.utils.SupabaseAudioUrlResolver

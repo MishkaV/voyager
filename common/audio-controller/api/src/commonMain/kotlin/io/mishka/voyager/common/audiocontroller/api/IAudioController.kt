@@ -18,7 +18,6 @@ interface IAudioController {
 
     /**
      * Load and play podcast
-     * @param audioFullPath Path in Supabase Storage format "bucket/file" (e.g., "podcasts/CM.wav")
      */
     suspend fun loadAndPlay(
         podcastId: String,

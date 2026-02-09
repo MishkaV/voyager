@@ -17,7 +17,7 @@ import com.google.common.util.concurrent.ListenableFuture
 
 /**
  * MediaSessionService for background audio playback
- * Handles playback controls and notifications
+ * Handles playback controls and notifications with custom buttons
  */
 class PodcastPlaybackService : MediaSessionService() {
 
@@ -105,6 +105,7 @@ class PodcastPlaybackService : MediaSessionService() {
                         val currentPosition = it.currentPosition
                         val newPosition = currentPosition + SKIP_DURATION_MS
                         it.seekTo(newPosition)
+                        Logger.d { "PodcastPlaybackService: Skip forward to ${newPosition}ms" }
                     }
                 }
                 COMMAND_SKIP_BACKWARD -> {
@@ -112,6 +113,7 @@ class PodcastPlaybackService : MediaSessionService() {
                         val currentPosition = it.currentPosition
                         val newPosition = (currentPosition - SKIP_DURATION_MS).coerceAtLeast(0)
                         it.seekTo(newPosition)
+                        Logger.d { "PodcastPlaybackService: Skip backward to ${newPosition}ms" }
                     }
                 }
             }
@@ -131,19 +133,36 @@ class PodcastPlaybackService : MediaSessionService() {
 
         @OptIn(UnstableApi::class)
         private fun getCustomLayout(): ImmutableList<CommandButton> {
+            val res = this@PodcastPlaybackService.resources
+            val packageName = this@PodcastPlaybackService.packageName
+
+            // Try to find custom icons, fallback to system icons if not found
+            var icPrevId = res.getIdentifier("ic_prev_24", "drawable", packageName)
+            var icNextId = res.getIdentifier("ic_next_24", "drawable", packageName)
+
+            // Fallback to Android system icons if custom icons not found
+            if (icPrevId == 0) {
+                icPrevId = android.R.drawable.ic_media_rew
+                Logger.w { "Custom icon ic_prev_24 not found, using system icon" }
+            }
+            if (icNextId == 0) {
+                icNextId = android.R.drawable.ic_media_ff
+                Logger.w { "Custom icon ic_next_24 not found, using system icon" }
+            }
+
             return ImmutableList.of(
-                // Skip backward button
+                // Skip backward button (-10s)
                 CommandButton.Builder()
                     .setDisplayName("Skip backward")
                     .setSessionCommand(SessionCommand(COMMAND_SKIP_BACKWARD, Bundle.EMPTY))
-                    .setIconResId(android.R.drawable.ic_media_rew)
+                    .setIconResId(icPrevId)
                     .build(),
-                // Play/Pause is handled by default
-                // Skip forward button
+                // Play/Pause is handled automatically by MediaSession
+                // Skip forward button (+10s)
                 CommandButton.Builder()
                     .setDisplayName("Skip forward")
                     .setSessionCommand(SessionCommand(COMMAND_SKIP_FORWARD, Bundle.EMPTY))
-                    .setIconResId(android.R.drawable.ic_media_ff)
+                    .setIconResId(icNextId)
                     .build()
             )
         }

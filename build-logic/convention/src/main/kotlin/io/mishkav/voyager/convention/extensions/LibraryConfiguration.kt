@@ -52,7 +52,7 @@ fun Project.configureKmp() {
                 if (namespace == null) {
                     // Default namespace
                     namespace =
-                        "${project.group.toString().lowercase()}.${project.name.replace("-", ".")}"
+                        "${project.group.toString().lowercase().replace("-", ".")}.${project.name.replace("-", ".")}"
                 }
 
                 compilerOptions {

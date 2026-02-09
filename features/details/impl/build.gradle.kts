@@ -9,6 +9,7 @@ kotlin {
             api(projects.features.details.api)
 
             implementation(libs.markdown)
+            implementation(libs.jetbrains.compose.material3)
             implementation(projects.common.audioController.api)
             implementation(projects.core.repositories.countries.api)
             implementation(projects.core.repositories.countryDetails.api)

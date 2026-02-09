@@ -22,7 +22,7 @@ class CountryPodcastsRepository(
 
     override suspend fun getByCountryId(
         countryId: String,
-    ): Result<List<CountryPodcastEntity>> {
+    ): Result<CountryPodcastEntity?> {
         logger.d { "getByCountryId: countryId=$countryId" }
 
         return restartableLoad(
@@ -34,15 +34,15 @@ class CountryPodcastsRepository(
                             CountryPodcastDTO::countryId eq countryId
                         }
                     }
-                    .decodeList<CountryPodcastDTO>()
+                    .decodeSingle<CountryPodcastDTO>()
             },
             localLoad = { force ->
                 dao.value.getByCountryId(countryId)
             },
-            replaceLocalData = { dtos ->
-                val entities = dtos.map { it.toEntity() }
-                dao.value.upsert(*entities.toTypedArray())
-                entities
+            replaceLocalData = { dto ->
+                val entity = dto.toEntity()
+                dao.value.upsert(entity)
+                entity
             }
         )
     }

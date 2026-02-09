@@ -3,15 +3,18 @@ package io.mishka.voyager.details.impl.ui.details
 import dev.zacsweers.metro.Assisted
 import dev.zacsweers.metro.AssistedFactory
 import dev.zacsweers.metro.AssistedInject
+import io.mishka.voyager.common.audiocontroller.api.IAudioController
 import io.mishka.voyager.core.repositories.countries.api.ICountriesRepository
 import io.mishka.voyager.core.repositories.countries.api.IUserCountriesRepository
 import io.mishka.voyager.core.repositories.countries.api.models.local.CountryWithVisitedStatus
 import io.mishka.voyager.core.repositories.countrydetails.api.ICountryAiSuggestsRepository
 import io.mishka.voyager.core.repositories.countrydetails.api.ICountryBestTimesRepository
 import io.mishka.voyager.core.repositories.countrydetails.api.ICountryOverviewRepository
+import io.mishka.voyager.core.repositories.countrydetails.api.ICountryPodcastsRepository
 import io.mishka.voyager.core.repositories.countrydetails.api.models.local.CountryAiSuggestEntity
 import io.mishka.voyager.core.repositories.countrydetails.api.models.local.CountryBestTimeEntity
 import io.mishka.voyager.core.repositories.countrydetails.api.models.local.CountryOverviewEntity
+import io.mishka.voyager.core.repositories.countrydetails.api.models.local.CountryPodcastEntity
 import io.mishkav.voyager.core.ui.lifecycle.DecomposeViewModel
 import io.mishkav.voyager.core.ui.uikit.resultflow.MutableUIResultFlow
 import io.mishkav.voyager.core.ui.uikit.resultflow.UIResult
@@ -29,12 +32,12 @@ import kotlinx.coroutines.launch
 @AssistedInject
 class CountryDetailsViewModel(
     @Assisted private val countryId: String,
+    val audioController: IAudioController,
     private val countriesRepository: ICountriesRepository,
     private val countryAiSuggestRepository: ICountryAiSuggestsRepository,
     private val countryBestTimeRepository: ICountryBestTimesRepository,
     private val countryOverviewRepository: ICountryOverviewRepository,
-    // TODO - Change on controller?
-    // private val countryPodcastsRepository: ICountryPodcastsRepository,
+    private val countryPodcastsRepository: ICountryPodcastsRepository,
     private val userCountriesRepository: IUserCountriesRepository,
 ) : DecomposeViewModel() {
 
@@ -56,6 +59,9 @@ class CountryDetailsViewModel(
     private val _overviewState = MutableUIResultFlow<CountryOverviewEntity?>()
     val overviewState: UIResultFlow<CountryOverviewEntity?> = _overviewState.asStateFlow()
 
+    private val _podcastInfoState = MutableUIResultFlow<CountryPodcastEntity?>()
+    val podcastInfoState: UIResultFlow<CountryPodcastEntity?> = _podcastInfoState.asStateFlow()
+
     init {
         loadCountryDetails()
     }
@@ -67,6 +73,30 @@ class CountryDetailsViewModel(
             } else {
                 userCountriesRepository.removeCountryFromVisited(countryId)
             }
+        }
+    }
+
+    fun playPodcast(podcast: CountryPodcastEntity) {
+        viewModelScope.launch {
+            val info = audioController.playbackInfo
+
+            if (info.value?.podcastId == podcast.id) {
+                audioController.play()
+            } else {
+                audioController.loadAndPlay(
+                    podcastId = podcast.id,
+                    audioFullPath = podcast.audioFullPatch,
+                    title = podcast.title,
+                    subtitle = podcast.subtitle,
+                    durationSec = podcast.durationSec,
+                )
+            }
+        }
+    }
+
+    fun pausePodcast() {
+        viewModelScope.launch {
+            audioController.pause()
         }
     }
 
@@ -93,7 +123,14 @@ class CountryDetailsViewModel(
                             .getByCountryId(countryId)
                             .getOrThrow()
                     }
-                }
+                },
+                async {
+                    _podcastInfoState.loadOrError {
+                        countryPodcastsRepository
+                            .getByCountryId(countryId)
+                            .getOrThrow()
+                    }
+                },
             ).awaitAll()
         }
     }

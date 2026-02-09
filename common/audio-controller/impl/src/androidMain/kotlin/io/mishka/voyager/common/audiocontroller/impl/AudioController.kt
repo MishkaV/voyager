@@ -2,14 +2,13 @@ package io.mishka.voyager.common.audiocontroller.impl
 
 import android.app.Application
 import android.content.ComponentName
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.session.MediaController
 import androidx.media3.session.SessionToken
 import co.touchlab.kermit.Logger
-import dev.zacsweers.metro.AppScope
-import dev.zacsweers.metro.ContributesBinding
-import dev.zacsweers.metro.SingleIn
 import io.mishka.voyager.common.audiocontroller.api.IAudioController
 import io.mishka.voyager.common.audiocontroller.api.models.PlaybackState
 import io.mishka.voyager.common.audiocontroller.api.models.PodcastPlaybackInfo
@@ -27,11 +26,11 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.guava.await
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.io.ByteArrayOutputStream
 import kotlin.time.Duration.Companion.milliseconds
 
-@Suppress("TooManyFunctions")
-@SingleIn(AppScope::class)
-@ContributesBinding(AppScope::class)
+@Suppress("TooManyFunctions", "MagicNumber")
 actual class AudioController actual constructor(
     private val context: VoyagerPlatformContext,
     private val audioUrlResolver: SupabaseAudioUrlResolver
@@ -50,6 +49,7 @@ actual class AudioController actual constructor(
 
     private var currentPodcastId: String? = null
     private var isPositionUpdateJobActive = false
+    private var artworkBitmap: Bitmap? = null
 
     private val playerListener = object : Player.Listener {
         override fun onPlaybackStateChanged(playbackState: Int) {
@@ -103,6 +103,24 @@ actual class AudioController actual constructor(
     init {
         scope.launch {
             initializeController()
+            loadArtwork()
+        }
+    }
+
+    private suspend fun loadArtwork() = withContext(Dispatchers.IO) {
+        try {
+            val res = (context as Application).resources
+            val packageName = context.packageName
+            val drawableId = res.getIdentifier("background", "drawable", packageName)
+
+            if (drawableId != 0) {
+                artworkBitmap = BitmapFactory.decodeResource(res, drawableId)
+                Logger.d { "AudioController: Artwork loaded successfully" }
+            } else {
+                Logger.w { "AudioController: Artwork resource not found" }
+            }
+        } catch (e: Exception) {
+            Logger.e(e) { "AudioController: Failed to load artwork" }
         }
     }
 
@@ -136,14 +154,14 @@ actual class AudioController actual constructor(
         title: String,
         subtitle: String,
         durationSec: Int
-    ) {
+    ) = withContext(Dispatchers.Main) {
         Logger.d { "AudioController: loadAndPlay: podcastId=$podcastId, audioFullPath=$audioFullPath" }
 
         ensureControllerInitialized()
         val controller = mediaController ?: run {
             Logger.e { "AudioController: MediaController not available" }
             updatePlaybackState(PlaybackState.ERROR)
-            return
+            return@withContext
         }
 
         stop()
@@ -166,14 +184,28 @@ actual class AudioController actual constructor(
             val audioUrl = audioUrlResolver.resolveUrl(audioFullPath)
             Logger.d { "AudioController: Resolved audio URL successfully" }
 
+            val metadataBuilder = androidx.media3.common.MediaMetadata.Builder()
+                .setTitle(title)
+                .setSubtitle(subtitle)
+                .setArtist(subtitle)
+                .setAlbumTitle("Voyager Podcasts")
+                .setMediaType(androidx.media3.common.MediaMetadata.MEDIA_TYPE_PODCAST_EPISODE)
+
+            // Add artwork if available
+            artworkBitmap?.let { bitmap ->
+                val stream = ByteArrayOutputStream()
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
+                val artworkData = stream.toByteArray()
+                metadataBuilder.setArtworkData(
+                    artworkData,
+                    androidx.media3.common.MediaMetadata.PICTURE_TYPE_FRONT_COVER
+                )
+            }
+
             val mediaItem = MediaItem.Builder()
                 .setUri(audioUrl)
-                .setMediaMetadata(
-                    androidx.media3.common.MediaMetadata.Builder()
-                        .setTitle(title)
-                        .setSubtitle(subtitle)
-                        .build()
-                )
+                .setMediaMetadata(metadataBuilder.build())
+                .setMediaId(podcastId)
                 .build()
 
             controller.setMediaItem(mediaItem)
@@ -185,25 +217,25 @@ actual class AudioController actual constructor(
         }
     }
 
-    override suspend fun play() {
+    override suspend fun play() = withContext(Dispatchers.Main) {
         ensureControllerInitialized()
-        val controller = mediaController ?: return
-        if (_playbackInfo.value == null) return
+        val controller = mediaController ?: return@withContext
+        if (_playbackInfo.value == null) return@withContext
 
         controller.play()
     }
 
-    override suspend fun pause() {
+    override suspend fun pause() = withContext(Dispatchers.Main) {
         ensureControllerInitialized()
-        val controller = mediaController ?: return
-        if (_playbackInfo.value == null) return
+        val controller = mediaController ?: return@withContext
+        if (_playbackInfo.value == null) return@withContext
 
         controller.pause()
     }
 
-    override suspend fun stop() {
+    override suspend fun stop() = withContext(Dispatchers.Main) {
         ensureControllerInitialized()
-        val controller = mediaController ?: return
+        val controller = mediaController ?: return@withContext
 
         controller.stop()
         controller.clearMediaItems()
@@ -214,10 +246,10 @@ actual class AudioController actual constructor(
         _playbackState.value = PlaybackState.IDLE
     }
 
-    override suspend fun seekTo(positionSec: Int) {
+    override suspend fun seekTo(positionSec: Int) = withContext(Dispatchers.Main) {
         ensureControllerInitialized()
-        val controller = mediaController ?: return
-        val info = _playbackInfo.value ?: return
+        val controller = mediaController ?: return@withContext
+        val info = _playbackInfo.value ?: return@withContext
 
         val positionMs = (positionSec * 1000L).coerceIn(0, info.durationSec * 1000L)
         controller.seekTo(positionMs)
@@ -281,5 +313,7 @@ actual class AudioController actual constructor(
         mediaController?.release()
         mediaController = null
         isControllerInitialized = false
+        artworkBitmap?.recycle()
+        artworkBitmap = null
     }
 }

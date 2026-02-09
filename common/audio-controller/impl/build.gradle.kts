@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.voyager.library.multiplatform)
+    alias(libs.plugins.voyager.compose.resources)
     alias(libs.plugins.metro)
 }
 
@@ -18,7 +19,7 @@ kotlin {
             implementation(libs.androidx.media3.exoplayer)
             implementation(libs.androidx.media3.session)
             implementation(libs.kotlinx.coroutines.android)
-            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-guava:1.10.2")
+            implementation(libs.kotlinx.coroutines.guava)
         }
     }
 }

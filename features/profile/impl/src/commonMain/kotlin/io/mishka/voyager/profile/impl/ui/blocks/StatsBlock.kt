@@ -48,6 +48,7 @@ internal fun StatsBlock(
         when (state) {
             is UIResult.Error -> Unit
             is UIResult.Loading -> Unit
+            is UIResult.Nothing -> Unit
             is UIResult.Success -> {
                 val defaultLocale = Locale.getDefault()
                 val exploredPercentage = if (state.data.worldExploredPercent.isWhole()) {

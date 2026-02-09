@@ -7,8 +7,7 @@ plugins {
 kotlin {
     sourceSets {
         commonMain.dependencies {
-            api(libs.jetbrains.compose.animation)
-            api(libs.jetbrains.compose.ui)
+            api(projects.core.ui.theme)
         }
     }
 }

@@ -6,6 +6,10 @@ import dev.zacsweers.metro.Provides
 import dev.zacsweers.metro.SingleIn
 import io.mishka.voyager.core.repositories.countries.api.datasource.CountryDao
 import io.mishka.voyager.core.repositories.countries.api.datasource.UserCountryDao
+import io.mishka.voyager.core.repositories.countrydetails.api.datasource.CountryAiSuggestDao
+import io.mishka.voyager.core.repositories.countrydetails.api.datasource.CountryBestTimeDao
+import io.mishka.voyager.core.repositories.countrydetails.api.datasource.CountryOverviewDao
+import io.mishka.voyager.core.repositories.countrydetails.api.datasource.CountryPodcastDao
 import io.mishka.voyager.core.repositories.userpreferences.api.datasource.PrefDao
 import io.mishka.voyager.core.repositories.userstats.api.datasource.UserStatsDao
 import io.mishka.voyager.core.repositories.vibes.api.datasource.VibeCategoryDao
@@ -51,6 +55,27 @@ interface DatabaseProviders {
     fun provideUserCountryDao(
         database: AppDatabase
     ): UserCountryDao = database.userCountryDao()
+
+    // Country Details
+    @Provides
+    fun provideCountryAiSuggestDao(
+        database: AppDatabase
+    ): CountryAiSuggestDao = database.countryAiSuggestDao()
+
+    @Provides
+    fun provideCountryBestTimeDao(
+        database: AppDatabase
+    ): CountryBestTimeDao = database.countryBestTimeDao()
+
+    @Provides
+    fun provideCountryOverviewDao(
+        database: AppDatabase
+    ): CountryOverviewDao = database.countryOverviewDao()
+
+    @Provides
+    fun provideCountryPodcastDao(
+        database: AppDatabase
+    ): CountryPodcastDao = database.countryPodcastDao()
 
     // Vibes
     @Provides

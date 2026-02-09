@@ -40,6 +40,8 @@ include(
     ":entry:app-android",
 
     // Common
+    ":common:audio-controller:api",
+    ":common:audio-controller:impl",
     ":common:orchestrator:api",
     ":common:orchestrator:impl",
 
@@ -48,6 +50,8 @@ include(
     ":core:repositories:base",
     ":core:repositories:countries:api",
     ":core:repositories:countries:impl",
+    ":core:repositories:country-details:api",
+    ":core:repositories:country-details:impl",
     ":core:repositories:paging",
     ":core:repositories:user-preferences:api",
     ":core:repositories:user-preferences:impl",
@@ -73,6 +77,8 @@ include(
     // Features
     ":features:auth:api",
     ":features:auth:impl",
+    ":features:details:api",
+    ":features:details:impl",
     ":features:home:api",
     ":features:home:impl",
     ":features:intro:api",

@@ -1,6 +1,5 @@
 package io.mishka.voyager.profile.impl.ui
 
-import co.touchlab.kermit.Logger
 import dev.zacsweers.metro.Inject
 import io.github.jan.supabase.auth.Auth
 import io.mishka.voyager.core.repositories.userstats.api.IUserStatsRepository
@@ -14,7 +13,6 @@ import io.mishkav.voyager.core.ui.uikit.resultflow.loadOrError
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 

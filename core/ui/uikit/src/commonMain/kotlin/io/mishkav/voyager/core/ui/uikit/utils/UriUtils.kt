@@ -1,4 +1,4 @@
-package io.mishka.voyager.profile.impl.ui.utils
+package io.mishkav.voyager.core.ui.uikit.utils
 
 import androidx.compose.ui.platform.UriHandler
 import co.touchlab.kermit.Logger

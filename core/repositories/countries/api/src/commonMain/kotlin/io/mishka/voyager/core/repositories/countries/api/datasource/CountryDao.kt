@@ -7,6 +7,7 @@ import androidx.room.Transaction
 import io.mishka.voyager.core.repositories.countries.api.models.local.CountryEntity
 import io.mishka.voyager.core.repositories.countries.api.models.local.CountryWithVisitedStatusRoom
 import io.mishka.voyager.core.utils.room.BaseDao
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface CountryDao : BaseDao<CountryEntity> {
@@ -37,10 +38,10 @@ interface CountryDao : BaseDao<CountryEntity> {
         WHERE c.id = :countryId
     """
     )
-    suspend fun getCountryWithVisitedStatus(
+    fun getCountryWithVisitedStatus(
         userId: String,
         countryId: String
-    ): CountryWithVisitedStatusRoom?
+    ): Flow<CountryWithVisitedStatusRoom?>
 
     @Query("DELETE FROM countries WHERE id NOT IN (:ids)")
     suspend fun deleteNotIn(ids: List<String>)

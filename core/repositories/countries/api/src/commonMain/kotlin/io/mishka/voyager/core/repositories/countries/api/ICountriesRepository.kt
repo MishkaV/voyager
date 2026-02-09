@@ -10,5 +10,5 @@ interface ICountriesRepository : Syncable {
 
     fun getCountriesWithVisitedStatus(continent: Continent?, query: String?): Flow<PagingData<CountryWithVisitedStatus>>
 
-    suspend fun getCountryWithVisitedStatus(countryId: String): CountryWithVisitedStatus?
+    fun getCountryWithVisitedStatus(countryId: String): Flow<CountryWithVisitedStatus>
 }

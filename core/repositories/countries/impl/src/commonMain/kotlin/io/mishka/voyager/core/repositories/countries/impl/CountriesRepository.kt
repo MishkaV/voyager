@@ -18,7 +18,10 @@ import io.mishka.voyager.core.repositories.countries.api.models.remote.CountryDT
 import io.mishka.voyager.core.repositories.countries.impl.mappers.toEntity
 import io.mishka.voyager.core.repositories.paging.DefaultPagingConfig
 import io.mishka.voyager.supabase.api.ISupabaseAuth
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 
 @ContributesBinding(
@@ -57,15 +60,19 @@ class CountriesRepository(
         }
     }
 
-    override suspend fun getCountryWithVisitedStatus(countryId: String): CountryWithVisitedStatus? {
+    @OptIn(ExperimentalCoroutinesApi::class)
+    override fun getCountryWithVisitedStatus(countryId: String): Flow<CountryWithVisitedStatus> {
         logger.d { "getCountryWithVisitedStatus: countryId=$countryId" }
 
-        val userId = supabaseAuth.getAsyncCurrentUser()?.id ?: ""
-
-        return countryDao.value.getCountryWithVisitedStatus(
-            userId = userId,
-            countryId = countryId
-        )?.toDomainModel()
+        return supabaseAuth.userFlow
+            .filterNotNull()
+            .flatMapLatest { userInfo ->
+                countryDao.value.getCountryWithVisitedStatus(
+                    userId = userInfo.id,
+                    countryId = countryId
+                ).map { it?.toDomainModel() }
+            }
+            .filterNotNull()
     }
 
     override suspend fun sync() {

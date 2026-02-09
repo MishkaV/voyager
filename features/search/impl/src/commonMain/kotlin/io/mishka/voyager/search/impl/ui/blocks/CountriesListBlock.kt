@@ -28,8 +28,9 @@ import androidx.paging.compose.itemKey
 import io.mishka.voyager.core.repositories.countries.api.models.local.CountryWithVisitedStatus
 import io.mishkav.voyager.core.ui.theme.VoyagerTheme
 import io.mishkav.voyager.core.ui.theme.icons.location24
-import io.mishkav.voyager.core.ui.uikit.image.VoyagerImage
+import io.mishkav.voyager.core.ui.uikit.image.VoyagerSharedImage
 import io.mishkav.voyager.core.ui.uikit.shimmer.placeholderFadeConnecting
+import io.mishkav.voyager.core.ui.uikit.transition.LocalSharedTransitionScope
 import io.mishkav.voyager.core.ui.uikit.utils.clickableUnindicated
 import io.mishkav.voyager.core.utils.supabase.voyagerAuthenticatedStorageItem
 import org.jetbrains.compose.resources.stringResource
@@ -97,21 +98,24 @@ private fun CountryBox(
     onCountryClick: (CountryWithVisitedStatus) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val sharedScope = LocalSharedTransitionScope.current
+
     Row(
         modifier = modifier
             .clickableUnindicated(onClick = { onCountryClick(country) })
             .padding(vertical = 10.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        VoyagerImage(
-            modifier = Modifier
-                .size(32.dp)
-                .clip(CircleShape),
-            data = voyagerAuthenticatedStorageItem(country.country.flagFullPatch),
-            contentDescription = null,
-            shape = CircleShape,
-            contentScale = ContentScale.Crop
-        )
+        with(sharedScope) {
+            VoyagerSharedImage(
+                modifier = Modifier.size(32.dp),
+                data = voyagerAuthenticatedStorageItem(country.country.flagFullPatch),
+                contentDescription = null,
+                shareKey = "country_${country.country.name}",
+                shape = CircleShape,
+                contentScale = ContentScale.Crop
+            )
+        }
 
         Spacer(Modifier.width(16.dp))
 

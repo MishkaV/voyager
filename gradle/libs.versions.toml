@@ -38,7 +38,7 @@ ktor = "3.4.0"
 ksp = "2.3.5"
 
 markdown = "0.39.2"
-metro = "0.10.2"
+metro = "0.10.3"
 moko-permissions = "0.20.1"
 
 room = "2.8.4"

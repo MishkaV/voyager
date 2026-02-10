@@ -31,10 +31,10 @@ import io.mishka.voyager.details.impl.ui.details.blocks.overviewBlock
 import io.mishka.voyager.details.impl.ui.details.blocks.podcastBlock
 import io.mishka.voyager.details.impl.ui.details.blocks.titleBlock
 import io.mishka.voyager.details.impl.ui.details.blocks.voyagerAIBlock
-import io.mishka.voyager.details.impl.ui.details.utils.toComposeColor
 import io.mishkav.voyager.core.ui.uikit.resultflow.UIResult
 import io.mishkav.voyager.core.ui.uikit.snackbar.core.SnackbarDuration
 import io.mishkav.voyager.core.ui.uikit.snackbar.core.SnackbarMessage
+import io.mishkav.voyager.core.ui.uikit.utils.toComposeColor
 import io.mishkav.voyager.features.navigation.api.LocalRootNavigation
 import io.mishkav.voyager.features.navigation.api.bottomsheet.SheetConfig
 import io.mishkav.voyager.features.navigation.api.snackbar.LocalBottomBottomMainSnackbarController

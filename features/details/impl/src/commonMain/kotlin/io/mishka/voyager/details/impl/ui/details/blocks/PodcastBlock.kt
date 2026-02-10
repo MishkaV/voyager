@@ -1,6 +1,5 @@
 package io.mishka.voyager.details.impl.ui.details.blocks
 
-import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
@@ -38,7 +37,6 @@ import io.mishka.voyager.common.audiocontroller.api.models.PlaybackState
 import io.mishka.voyager.common.audiocontroller.api.models.PodcastPlaybackInfo
 import io.mishka.voyager.core.repositories.countrydetails.api.models.local.CountryPodcastEntity
 import io.mishka.voyager.details.impl.ui.details.components.PlayButton
-import io.mishka.voyager.details.impl.ui.details.utils.toComposeColor
 import io.mishkav.voyager.core.ui.theme.VoyagerTheme
 import io.mishkav.voyager.core.ui.theme.icons.next24
 import io.mishkav.voyager.core.ui.theme.icons.prev24
@@ -48,6 +46,7 @@ import io.mishkav.voyager.core.ui.uikit.resultflow.isSuccess
 import io.mishkav.voyager.core.ui.uikit.resultflow.successOrNull
 import io.mishkav.voyager.core.ui.uikit.shimmer.placeholderFadeConnecting
 import io.mishkav.voyager.core.ui.uikit.utils.clickableUnindicated
+import io.mishkav.voyager.core.ui.uikit.utils.toComposeColor
 import org.jetbrains.compose.resources.stringResource
 import voyager.features.details.impl.generated.resources.Res
 import voyager.features.details.impl.generated.resources.details_podcast

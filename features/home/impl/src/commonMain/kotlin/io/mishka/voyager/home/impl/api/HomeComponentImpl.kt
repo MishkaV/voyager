@@ -1,6 +1,8 @@
 package io.mishka.voyager.home.impl.api
 
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.essenty.backhandler.BackHandlerOwner
 import dev.zacsweers.metro.AppScope
@@ -29,6 +31,7 @@ class HomeComponentImpl(
 
         HomeScreen(
             viewModel = viewModel,
+            modifier = Modifier.fillMaxSize(),
         )
     }
 

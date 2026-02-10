@@ -17,10 +17,10 @@ import dev.zacsweers.metro.Provider
 import dev.zacsweers.metro.binding
 import io.mishka.voyager.details.api.CountryAiSuggestComponent
 import io.mishka.voyager.details.api.models.CountryAiSuggestArgs
-import io.mishka.voyager.details.impl.ui.details.utils.toComposeColor
 import io.mishka.voyager.details.impl.ui.suggest.CountryAiSuggestScreen
 import io.mishka.voyager.details.impl.ui.suggest.CountryAiSuggestViewModel
 import io.mishkav.voyager.core.ui.lifecycle.viewModelWithFactory
+import io.mishkav.voyager.core.ui.uikit.utils.toComposeColor
 
 @AssistedInject
 class CountryAiSuggestComponentImpl(

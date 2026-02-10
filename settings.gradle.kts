@@ -23,9 +23,13 @@ dependencyResolutionManagement {
                 includeGroupAndSubgroups("androidx")
                 includeGroupAndSubgroups("com.android")
                 includeGroupAndSubgroups("com.google")
+                includeGroupByRegex("org.chromium.net.*")
             }
         }
         mavenCentral()
+        maven {
+            url = uri("https://api.mapbox.com/downloads/v2/releases/maven")
+        }
     }
 }
 

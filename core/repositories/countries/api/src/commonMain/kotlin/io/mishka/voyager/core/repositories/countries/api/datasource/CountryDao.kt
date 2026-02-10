@@ -43,6 +43,20 @@ interface CountryDao : BaseDao<CountryEntity> {
         countryId: String
     ): Flow<CountryWithVisitedStatusRoom?>
 
+    @Query(
+        """
+        SELECT c.*,
+               CASE WHEN cv.countryId IS NOT NULL THEN 1 ELSE 0 END as isVisited
+        FROM countries c
+        LEFT JOIN countries_visited cv ON c.id = cv.countryId AND cv.userId = :userId
+        WHERE LOWER(c.iso2) = LOWER(:countryCode)
+    """
+    )
+    fun getCountryByCode(
+        userId: String,
+        countryCode: String
+    ): Flow<CountryWithVisitedStatusRoom?>
+
     @Query("DELETE FROM countries WHERE id NOT IN (:ids)")
     suspend fun deleteNotIn(ids: List<String>)
 

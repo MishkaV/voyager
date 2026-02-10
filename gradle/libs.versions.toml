@@ -37,6 +37,8 @@ kermit = "2.0.8"
 ktor = "3.4.0"
 ksp = "2.3.5"
 
+mapbox = "11.18.1"
+mapbox-geojson = "7.5.0"
 markdown = "0.39.2"
 metro = "0.10.2"
 moko-permissions = "0.20.1"
@@ -109,6 +111,9 @@ kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.
 kotlinx-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
 kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
 
+mapbox = { module = "com.mapbox.maps:android-ndk27", version.ref = "mapbox" }
+mapbox-compose = { module = "com.mapbox.extension:maps-compose-ndk27", version.ref = "mapbox" }
+mapbox-geojson = { module = "com.mapbox.mapboxsdk:mapbox-sdk-geojson", version.ref = "mapbox-geojson" }
 markdown = { module = "com.mikepenz:multiplatform-markdown-renderer-m3", version.ref = "markdown" }
 metro-android = { module = "dev.zacsweers.metro:metrox-android", version.ref = "metro" }
 metro-viewmodel = { module = "dev.zacsweers.metro:metrox-viewmodel", version.ref = "metro" }

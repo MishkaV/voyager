@@ -23,12 +23,17 @@
 <div align="center">
   <img src="docs/screenshots/home.jpeg" width="200" alt="Home Screen"/>
   <img src="docs/screenshots/home_germany.jpeg" width="200" alt="Home Screen"/>
+</div>
+<div align="center">
   <img src="docs/screenshots/search.jpeg" width="200" alt="Search Screen"/>
   <img src="docs/screenshots/search_europe.jpeg" width="200" alt="Search Screen"/>
+</div>
+<div align="center">
   <img src="docs/screenshots/details.jpeg" width="200" alt="Country Details"/>
   <img src="docs/screenshots/profile.jpeg" width="200" alt="Profile Screen"/>
 </div>
 
+---
 
 <div align="center">
   Made with ❤️ using Kotlin Multiplatform

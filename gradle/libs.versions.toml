@@ -41,7 +41,7 @@ ksp = "2.3.5"
 mapbox = "11.18.1"
 mapbox-geojson = "7.5.0"
 markdown = "0.39.2"
-metro = "0.10.2"
+metro = "0.10.3"
 moko-permissions = "0.20.1"
 
 room = "2.8.4"

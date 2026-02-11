@@ -1,5 +1,5 @@
 [versions]
-androidx-activity = "1.12.3"
+androidx-activity = "1.12.4"
 androidx-annotaion = "1.9.1"
 androidx-compose-material3 = "1.5.0-alpha13"
 androidx-datastore = "1.2.0"

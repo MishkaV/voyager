@@ -50,7 +50,7 @@ import io.mishkav.voyager.core.ui.uikit.snackbar.core.SnackbarDuration
 import io.mishkav.voyager.core.ui.uikit.snackbar.core.SnackbarMessage
 import io.mishkav.voyager.core.ui.uikit.textfield.VoyagerTextField
 import io.mishkav.voyager.features.navigation.api.LocalRootNavigation
-import io.mishkav.voyager.features.navigation.api.snackbar.LocalBottomBottomMainSnackbarController
+import io.mishkav.voyager.features.navigation.api.snackbar.LocalBottomMainSnackbarController
 import io.mishkav.voyager.features.navigation.api.snackbar.MainSnackbarState
 import org.jetbrains.compose.resources.stringResource
 import voyager.features.search.impl.generated.resources.Res
@@ -63,7 +63,7 @@ fun SearchScreen(
     modifier: Modifier = Modifier,
 ) {
     val haptic = LocalHapticFeedback.current
-    val bottomMainSnackbar = LocalBottomBottomMainSnackbarController.current
+    val bottomMainSnackbar = LocalBottomMainSnackbarController.current
 
     val continentState = viewModel.selectedContinent.collectAsStateWithLifecycle()
     val countriesState = viewModel.countriesState.collectAsLazyPagingItems()

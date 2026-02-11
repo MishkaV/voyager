@@ -24,6 +24,7 @@ detekt-ruleset-decompose = "1.0.1"
 essenty = "2.5.0"
 
 gradle-plugin-android = "9.0.0"
+google-play-services-location = "21.3.0"
 
 jetbrains-compose = "1.10.0"
 jetbrains-compose-material3 = "1.9.0"
@@ -119,6 +120,8 @@ metro-android = { module = "dev.zacsweers.metro:metrox-android", version.ref = "
 metro-viewmodel = { module = "dev.zacsweers.metro:metrox-viewmodel", version.ref = "metro" }
 moko-permissions-location = { module = "dev.icerock.moko:permissions-location", version.ref = "moko-permissions" }
 moko-permissions-compose = { module = "dev.icerock.moko:permissions-compose", version.ref = "moko-permissions" }
+
+play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "google-play-services-location" }
 
 sqlite-bundled = { module = "androidx.sqlite:sqlite-bundled", version.ref = "sqlite" }
 settings = { module = "com.russhwolf:multiplatform-settings", version.ref = "settings" }

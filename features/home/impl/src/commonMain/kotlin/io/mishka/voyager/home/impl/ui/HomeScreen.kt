@@ -26,7 +26,7 @@ import io.mishkav.voyager.core.ui.uikit.snackbar.core.SnackbarDuration
 import io.mishkav.voyager.core.ui.uikit.snackbar.core.SnackbarMessage
 import io.mishkav.voyager.features.navigation.api.LocalRootNavigation
 import io.mishkav.voyager.features.navigation.api.model.RootConfig
-import io.mishkav.voyager.features.navigation.api.snackbar.LocalBottomBottomMainSnackbarController
+import io.mishkav.voyager.features.navigation.api.snackbar.LocalBottomMainSnackbarController
 import io.mishkav.voyager.features.navigation.api.snackbar.MainSnackbarState
 import org.jetbrains.compose.resources.stringResource
 import voyager.features.home.impl.generated.resources.Res
@@ -50,7 +50,7 @@ private fun HomeScreenContent(
 ) {
     val rootNavigation = LocalRootNavigation.current
     val haptic = LocalHapticFeedback.current
-    val bottomMainSnackbar = LocalBottomBottomMainSnackbarController.current
+    val bottomMainSnackbar = LocalBottomMainSnackbarController.current
 
     val selectedCountry = viewModel.selectedCountry.collectAsStateWithLifecycle()
     val playbackState = viewModel.playbackState.collectAsStateWithLifecycle()

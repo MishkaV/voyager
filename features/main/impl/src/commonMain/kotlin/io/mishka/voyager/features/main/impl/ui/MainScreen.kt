@@ -10,16 +10,20 @@ import com.arkivanov.decompose.extensions.compose.stack.Children
 import com.arkivanov.decompose.router.stack.ChildStack
 import io.mishka.voyager.features.main.impl.domain.model.MainBottomTab
 import io.mishka.voyager.features.main.impl.domain.model.MainConfig
+import io.mishka.voyager.features.main.impl.ui.autodetect.AutodetectListener
 import io.mishka.voyager.features.main.impl.ui.bottombar.MainBottomBar
 import io.mishkav.voyager.core.ui.decompose.DecomposeComponent
 
 @Composable
 fun MainScreen(
+    viewModel: MainViewModel,
     childStack: ChildStack<MainConfig, DecomposeComponent>,
     onTabClick: (tab: MainBottomTab) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val selectedTab = childStack.active.configuration
+
+    AutodetectListener(viewModel = viewModel)
 
     Box(modifier = modifier.fillMaxSize()) {
         Children(

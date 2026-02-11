@@ -15,25 +15,31 @@ import dev.zacsweers.metro.Assisted
 import dev.zacsweers.metro.AssistedFactory
 import dev.zacsweers.metro.AssistedInject
 import dev.zacsweers.metro.ContributesBinding
+import dev.zacsweers.metro.Provider
 import dev.zacsweers.metro.binding
 import io.mishka.voyager.features.main.api.MainComponent
 import io.mishka.voyager.features.main.impl.domain.model.MainBottomTab
 import io.mishka.voyager.features.main.impl.domain.model.MainConfig
 import io.mishka.voyager.features.main.impl.ui.MainScreen
+import io.mishka.voyager.features.main.impl.ui.MainViewModel
 import io.mishka.voyager.home.api.HomeComponent
 import io.mishka.voyager.profile.api.ProfileComponent
 import io.mishka.voyager.search.api.SearchComponent
 import io.mishkav.voyager.core.ui.decompose.DecomposeComponent
 import io.mishkav.voyager.core.ui.decompose.DecomposeOnBackParameter
 import io.mishkav.voyager.core.ui.decompose.popOr
+import io.mishkav.voyager.core.ui.lifecycle.viewModelWithFactory
+import io.mishkav.voyager.core.utils.permissions.impl.location.ILocationController
 
 @AssistedInject
 class MainComponentImpl(
     @Assisted componentContext: ComponentContext,
     @Assisted private val onBack: DecomposeOnBackParameter,
+    private val locationController: ILocationController,
     private val homeComponentFactory: HomeComponent.Factory,
     private val profileComponentFactory: ProfileComponent.Factory,
     private val searchComponentFactory: SearchComponent.Factory,
+    private val mainViewModelProvider: Provider<MainViewModel.Factory>,
 ) : MainComponent<MainConfig>(), ComponentContext by componentContext, BackHandlerOwner {
 
     private val backCallback = BackCallback {
@@ -71,7 +77,14 @@ class MainComponentImpl(
     override fun Render() {
         val childStack by stack.subscribeAsState()
 
+        val viewModel = viewModelWithFactory {
+            mainViewModelProvider().create(
+                locationController = locationController,
+            )
+        }
+
         MainScreen(
+            viewModel = viewModel,
             childStack = childStack,
             onTabClick = ::goToTab,
         )

@@ -27,6 +27,7 @@ kotlin {
             api(projects.core.storage.settings)
             api(projects.core.supabase.impl)
             api(projects.core.utils.context)
+            api(projects.core.utils.permissions)
             api(projects.core.utils.time.impl)
             api(projects.features.auth.impl)
             api(projects.features.details.impl)

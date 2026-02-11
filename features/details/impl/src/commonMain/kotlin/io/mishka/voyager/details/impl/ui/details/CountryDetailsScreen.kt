@@ -37,7 +37,7 @@ import io.mishkav.voyager.core.ui.uikit.snackbar.core.SnackbarMessage
 import io.mishkav.voyager.core.ui.uikit.utils.toComposeColor
 import io.mishkav.voyager.features.navigation.api.LocalRootNavigation
 import io.mishkav.voyager.features.navigation.api.bottomsheet.SheetConfig
-import io.mishkav.voyager.features.navigation.api.snackbar.LocalBottomBottomMainSnackbarController
+import io.mishkav.voyager.features.navigation.api.snackbar.LocalBottomMainSnackbarController
 import io.mishkav.voyager.features.navigation.api.snackbar.MainSnackbarState
 
 @Composable
@@ -47,7 +47,7 @@ fun CountryDetailsScreen(
     navigateBack: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val bottomMainSnackbar = LocalBottomBottomMainSnackbarController.current
+    val bottomMainSnackbar = LocalBottomMainSnackbarController.current
     val haptic = LocalHapticFeedback.current
     val rootNavigation = LocalRootNavigation.current
 

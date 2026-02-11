@@ -12,6 +12,8 @@ interface RootComponent : ComponentContext, RootNavigationInterface {
 
     val bottomSnackbarController: SnackbarComponent<MainSnackbarState>
 
+    val topSnackbarController: SnackbarComponent<MainSnackbarState>
+
     @Composable
     fun Render(modifier: Modifier = Modifier)
 

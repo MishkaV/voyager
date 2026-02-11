@@ -57,7 +57,7 @@ import io.mishkav.voyager.features.navigation.api.RootComponent
 import io.mishkav.voyager.features.navigation.api.bottomsheet.SheetConfig
 import io.mishkav.voyager.features.navigation.api.model.RootConfig
 import io.mishkav.voyager.features.navigation.api.model.VoyagerStartupStatus
-import io.mishkav.voyager.features.navigation.api.snackbar.BottomMainSnackbarController
+import io.mishkav.voyager.features.navigation.api.snackbar.MainSnackbarController
 
 @Suppress("LongParameterList")
 @AssistedInject
@@ -76,7 +76,9 @@ class RootComponentImpl(
 
     override val backHandler: BackHandler = externalBackHandler ?: BackDispatcher()
 
-    override val bottomSnackbarController by lazy { BottomMainSnackbarController() }
+    override val bottomSnackbarController by lazy { MainSnackbarController() }
+
+    override val topSnackbarController by lazy { MainSnackbarController() }
 
     private val navigation = StackNavigation<RootConfig>()
 

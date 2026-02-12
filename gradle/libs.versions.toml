@@ -1,7 +1,7 @@
 [versions]
 androidx-activity = "1.12.3"
 androidx-annotaion = "1.9.1"
-androidx-compose-material3 = "1.5.0-alpha13"
+androidx-compose-material3 = "1.5.0-alpha14"
 androidx-datastore = "1.2.0"
 androidx-lifecycle-compose = "2.10.0"
 androidx-paging = "3.4.0"

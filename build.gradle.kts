@@ -8,22 +8,25 @@ plugins {
     alias(libs.plugins.kotlinx.serialization) apply false
     alias(libs.plugins.ksp) apply false
     alias(libs.plugins.metro) apply false
+    alias(libs.plugins.mokkery) apply false
     alias(libs.plugins.room) apply false
     alias(libs.plugins.detekt)
 }
 
 tasks.register<Copy>("installGitHooks") {
-    val gitHooksFileNames = listOf(
-        "pre-push",
-    )
+    val gitHooksFileNames =
+        listOf(
+            "pre-push",
+        )
 
     group = "build setup"
     description = "Installs Git hooks from scripts/githooks to .git/hooks/"
-    val hooksFilesToCopy = rootProject.files(
-        gitHooksFileNames.map { fileName ->
-            file("scripts/githooks/$fileName")
-        }
-    )
+    val hooksFilesToCopy =
+        rootProject.files(
+            gitHooksFileNames.map { fileName ->
+                file("scripts/githooks/$fileName")
+            },
+        )
     from(hooksFilesToCopy)
     val gitHooksDir = rootProject.file(".git/hooks")
     into(gitHooksDir)

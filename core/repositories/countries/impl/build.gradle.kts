@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.voyager.kotlin.serialization)
     alias(libs.plugins.voyager.ktor)
     alias(libs.plugins.metro)
+    alias(libs.plugins.mokkery)
 }
 
 kotlin {
@@ -15,6 +16,11 @@ kotlin {
             implementation(projects.core.repositories.base)
             implementation(projects.core.supabase.api)
             implementation(projects.core.repositories.userStats.api)
+        }
+
+        commonTest.dependencies {
+            implementation(kotlin("test"))
+            implementation(libs.kotlinx.coroutines.test)
         }
     }
 }

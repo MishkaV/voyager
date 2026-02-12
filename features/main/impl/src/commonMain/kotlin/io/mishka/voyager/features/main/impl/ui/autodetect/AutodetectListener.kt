@@ -19,7 +19,7 @@ import io.mishkav.voyager.features.navigation.api.snackbar.LocalTopMainSnackbarC
 import io.mishkav.voyager.features.navigation.api.snackbar.MainSnackbarState
 import kotlinx.coroutines.launch
 
-private const val SNACKBAR_DURATION = 8_000
+private const val SNACKBAR_DURATION = 8_000L
 
 @Composable
 fun AutodetectListener(

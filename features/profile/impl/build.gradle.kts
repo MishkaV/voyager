@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.voyager.feature.impl)
     alias(libs.plugins.voyager.compose.resources)
     alias(libs.plugins.voyager.secrets)
+    alias(libs.plugins.mokkery)
 }
 
 kotlin {
@@ -14,6 +15,11 @@ kotlin {
             implementation(projects.core.repositories.userStats.api)
             implementation(projects.features.main.api)
             implementation(projects.features.navigation.api)
+        }
+
+        commonTest.dependencies {
+            implementation(kotlin("test"))
+            implementation(libs.kotlinx.coroutines.test)
         }
     }
 }

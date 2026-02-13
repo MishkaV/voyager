@@ -23,7 +23,7 @@ detekt-ruleset-decompose = "1.0.1"
 
 essenty = "2.5.0"
 
-gradle-plugin-android = "9.0.0"
+gradle-plugin-android = "9.0.1"
 google-play-services-location = "21.3.0"
 
 jetbrains-compose = "1.10.0"

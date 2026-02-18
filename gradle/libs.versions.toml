@@ -36,7 +36,7 @@ kotlinx-datetime = "0.7.1"
 kotlinx-serialization = "1.10.0"
 kermit = "2.0.8"
 ktor = "3.4.0"
-ksp = "2.3.5"
+ksp = "2.3.6"
 
 mapbox = "11.18.1"
 mapbox-geojson = "7.5.0"

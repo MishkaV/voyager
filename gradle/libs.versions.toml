@@ -11,7 +11,7 @@ android-secrets = "2.0.1"
 
 buildKonfig = "0.17.1"
 
-coil = "3.3.0"
+coil = "3.6.2"
 compose-placeholder = "1.0.12"
 
 decompose = "3.4.0"
